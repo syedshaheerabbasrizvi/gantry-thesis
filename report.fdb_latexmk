@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex report"] 1779049252.2189 "report.aux" "report.bbl" "report" 1779049256.1781 0
+["bibtex report"] 1779050981.19489 "report.aux" "report.bbl" "report" 1779050985.56586 0
   "./references.bib" 1778998930 12374 f0ec39ab33acbb628c1703fe860ec05f ""
-  "./report-blx.bib" 1779049256.0457 343 eecd58be191eac03682f8fda492bb690 ""
+  "./report-blx.bib" 1779050985.42608 343 eecd58be191eac03682f8fda492bb690 ""
   "/usr/share/texmf-dist/bibtex/bst/biblatex/biblatex.bst" 1775415801 65510 9a2a51799b543ff279b8ea2dd91ec499 ""
-  "report.aux" 1779049256.0417 27723 1ba0dac9ed56d90e13fd633cfac7a169 "pdflatex"
+  "report.aux" 1779050985.42202 30579 14efe7b51a15d7b6d09feb7cccb04035 "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1779049252.24165 "/home/syedsar/gantry-thesis/report.tex" "report.pdf" "report" 1779049256.1783 0
+["pdflatex"] 1779050981.21794 "/home/syedsar/gantry-thesis/report.tex" "report.pdf" "report" 1779050985.56605 0
   "/home/syedsar/gantry-thesis/report.tex" 1778998930 7281 61424e7b37aeb45f08715dc94ca4db37 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc" 1775415801 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1775415801 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -154,7 +154,7 @@
   "chapter1.tex" 1778998930 14038 9201fc8ff85b9344b6103a13af4d0a36 ""
   "chapter2.tex" 1778998930 20852 a267962b6efc0044911d241daebcdd8c ""
   "chapter3.tex" 1778998930 16419 db3021c6a5d8bb4d2f7ac6ee91beda89 ""
-  "chapter4.tex" 1778998930 1946 dee5b048239a975fb034bc71cbd9fc81 ""
+  "chapter4.tex" 1779050865.24585 11999 0840179812bff3ff7f0fde24711a3a82 ""
   "chapter5.tex" 1778998930 3153 221e31a2f72260bbcda47e4f04582ab0 ""
   "chapter6.tex" 1779049248.08179 11341 e4fc1ec7262a8df8d85b619d5d3ba240 ""
   "dedication.tex" 1778998930 409 a04a5e516ef58ed6f8994b2f8fce96b4 ""
@@ -171,6 +171,7 @@
   "figures/plant_driving.png" 1778998930 320603 e6efb2e633917ece557251eff1ef970b ""
   "figures/possibilities.png" 1778998930 89139 9446be7fa1ea55b559845295474b1ec2 ""
   "figures/process.png" 1778998930 556157 423cf68b6d4b589e2047478a8b3618de ""
+  "figures/prototype_assembled.jpg" 1779050935.46392 1795420 294c8e118d1567d71c043ff462f3d831 ""
   "figures/result_1.png" 1778998930 14818 6cbafcc14f08929b30fe8557983c424e ""
   "figures/result_2.png" 1778998930 44558 d321c3ac6794507a9bc257a426e6fbfb ""
   "figures/result_3.png" 1778998930 25132 03748f3aa31e67469c14c1886354d392 ""
@@ -187,14 +188,14 @@
   "motor_actuation.tex" 1778998930 10911 7a6a61847b104d455b001464bb1c5e2e ""
   "motor_test_bench.jpeg" 1778998930 2363714 6aca16060492da77203cc70f722e4e29 ""
   "power_electronics.tex" 1778998930 29 ea976bb9ae314a87d5a79ec7ba1b13c7 ""
-  "report.aux" 1779049256.0417 27723 1ba0dac9ed56d90e13fd633cfac7a169 "pdflatex"
-  "report.bbl" 1779049252.23875 19422 0596fd7438783b87a32515fcb7d896ba "bibtex report"
-  "report.lof" 1779049256.04844 3249 208e012a38151374e04fb62a0377c15c "pdflatex"
-  "report.lot" 1779049256.04844 1502 5316e5c2e7072664e8f0c80044e8d98b "pdflatex"
-  "report.out" 1779049256.0437 11765 04c765eb187abba71712e79ee10ab1b1 "pdflatex"
-  "report.run.xml" 1779049256.04844 2604 f0f6ff6414e51d61f651d3274fdefb16 "pdflatex"
+  "report.aux" 1779050985.42202 30579 14efe7b51a15d7b6d09feb7cccb04035 "pdflatex"
+  "report.bbl" 1779050981.21479 19422 0596fd7438783b87a32515fcb7d896ba "bibtex report"
+  "report.lof" 1779050985.42697 3420 ffba6794e1b93bf7e4ae39f83b4eb96c "pdflatex"
+  "report.lot" 1779050985.42697 1624 48bbb0ddd99fed52ab2cfbdfef6260f4 "pdflatex"
+  "report.out" 1779050985.42508 14660 ca9dddaaf8e45ba301e4010459aa6f9f "pdflatex"
+  "report.run.xml" 1779050985.42697 2604 f0f6ff6414e51d61f651d3274fdefb16 "pdflatex"
   "report.tex" 1778998930 7281 61424e7b37aeb45f08715dc94ca4db37 ""
-  "report.toc" 1779049256.04844 6571 5bc6b1038a9e7f831e1574de440f76dd "pdflatex"
+  "report.toc" 1779050985.42697 8099 a8593100fc5bba9575562920d179dd4d "pdflatex"
   "simulation.tex" 1778998930 2232 bd6851ba30a44416fd1ccb56df79d6f4 ""
   "summary.tex" 1778998930 2297 fc9c8dbcecdb31eb74f6fee2579278e4 ""
   "system_diagram.pdf" 1778998930 62374 d2f605ee130c9cf72e852f8b73217ec1 ""
