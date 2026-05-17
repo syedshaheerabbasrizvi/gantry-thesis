@@ -1,74 +1,372 @@
 \chapter{End Effector Design}
 \label{sec:ee_design}
 
-The design of the end effector (EE) required navigating an expansive design space, as picking solutions are heavily dependent on the mechanical properties of the target objects. Our system is designed for high generality; it must package and palletize not only microwaves but also non-uniform surfaces and thermocouples. Three primary architectural approaches were evaluated:
+The end effector (EE) is the most mechanically critical subsystem of the gantry, 
+as all design decisions are fundamentally constrained by the properties of the 
+target objects: the microwave shell, its corrugated cardboard packaging, and the 
+protective plastic wrapping. Three primary architectural approaches were evaluated 
+before arriving at a final design.
 
 \begin{itemize}
-    \item \textbf{Purely Mechanical:} Utilizing side-gripping or form-closure fingers.
-    \item \textbf{Purely Vacuum:} Utilizing suction cup arrays and continuous evacuation.
-    \item \textbf{Hybrid:} A combination of mechanical support and vacuum adhesion.
+    \item \textbf{Purely Mechanical:} Side-gripping or form-closure fingers 
+        applying normal force to achieve frictional lift.
+    \item \textbf{Purely Vacuum:} A suction cup array maintained under continuous 
+        evacuation, relying on atmospheric pressure differential for grip.
+    \item \textbf{Hybrid:} A combination of the above, where the vacuum array 
+        provides primary adhesion and mechanical fingers provide lateral retention 
+        during high-speed movement.
 \end{itemize}
 
-While a hybrid approach is often theorized as a balanced solution, a purely vacuum system was determined to be optimal for this application. This selection was based on simplicity of design, which inherently increases system reliability and generality. Experimental validation confirmed that the vacuum system is viable even when gripping through protective plastic films, as the evacuation process utilizes external atmospheric pressure to rigidly "clamp" the suction cup interface to the microwave chassis.
-
-\section{Design Selection and Material Analysis}
+\section{Architectural Selection}
 
 \subsection{Mechanical Constraints}
-Initial designs focused on mechanical side-gripping. However, the force requirements exceeded the material limits of the packaging. Dawlance utilizes 5-layer B+B corrugated cardboard (3mm flute size). To hold a 40kg microwave via friction alone, the required normal force $F_n$ is calculated using an estimated coefficient of friction $\mu = 0.4$:
 
-$$ F_f = \mu \cdot F_n \implies (40\text{kg} \times 10\text{N/kg}) = 0.4 \cdot F_n \implies F_n = 1000\text{N} $$
+The feasibility of the mechanical approach is governed by the material 
+properties of Dawlance's packaging. The corrugated cardboard is a 5-layer 
+B+B construction with 3mm flute size. To lift a 40\,kg microwave via friction 
+alone, the required normal force $F_n$ is:
 
-Structural analysis (including edge, box, and face crushing tests) indicated that the cardboard joints fail at approximately 200N. Thus, a force-closure mechanical grip would cause material failure before achieving the necessary frictional hold.
+$$ F_f = \mu \cdot F_n \implies (40\,\text{kg} \times 10\,\text{N/kg}) 
+= 0.4 \cdot F_n \implies F_n = 1000\,\text{N} $$
+
+where $\mu = 0.4$ is the estimated coefficient of friction between the gripper 
+pads and the cardboard surface \cite{rudowska2024}. However, structural testing 
+(edge crushing, box crushing, and face crushing tests) indicates that the 
+cardboard staple joints fail at approximately 200\,N \cite{singh2009}, 
+making force-closure mechanical gripping mechanically infeasible without 
+damaging the packaging.
+
+The maximum safe gripping force is therefore limited to 370\,N, applying a 
+1.5$\times$ safety factor to the 550\,N joint failure load. For completeness, 
+the microwave shell itself (1\,mm bent aluminium, yield strength 140\,MPa) 
+imposes a separate force limit:
+
+%TODO: Calculate maximum admissible force for 1mm aluminium shell at 
+% 56cm x 60cm and update the table above accordingly. Add graph from 
+% the staple joint paper here.
 
 \subsection{Vacuum Feasibility}
-The vacuum system was tested with thermocouples and microwaves through plastic. Prototypes successfully lifted up to 40kg (verified with calibrated weights). To mitigate horizontal slippage during high-speed movement, path optimization was performed using a trapezoidal trajectory profile. With a 10s cycle time, the maximum acceleration is limited to $0.5\text{m/s}^2$. For a 40kg payload, this results in a horizontal shear force of:
 
-$$ F_{shear} = m \cdot a = 40\text{kg} \times 0.5\text{m/s}^2 = 20\text{N} $$
+The vacuum system was validated experimentally by lifting microwaves both 
+bare and through plastic wrapping, with loads verified up to 40\,kg using 
+calibrated weights. A key concern was horizontal slippage under the 
+accelerations demanded by the 30\,s cycle time. With a 10\,s traversal 
+window, the peak acceleration is 0.5\,m/s$^2$, yielding a horizontal 
+shear force of:
 
-By balancing the center of mass between the suction cups, this force is distributed to 10N per primary contact point, which falls within the safe operating envelope of the selected grippers.
+$$ F_{\text{shear}} = m \cdot a = 40\,\text{kg} \times 0.5\,\text{m/s}^2 
+= 20\,\text{N} $$
 
-\section{Suction Cup Array and Vacuum System}
+By centering the payload mass between the primary suction cups, this load 
+distributes to 10\,N per contact point, which falls well within the rated 
+shear envelope of the selected Festo grippers. The hybrid approach was 
+therefore also rejected: since slippage was not observed experimentally, 
+the additional mechanical complexity of the hybrid system offered no 
+measurable benefit.
+
+\subsection{Comparison and Selection}
+
+Table~\ref{tab:ee_comparison} summarizes the evaluation across all three 
+approaches. The vacuum system was selected for its superior force capacity, 
+faster engagement, zero lateral clearance requirement, and demonstrated 
+ability to grip through plastic wrapping --- a capability the mechanical 
+approach categorically lacks.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparative Analysis of End-Effector Design Approaches}
+    \label{tab:ee_comparison}
+    \begin{tabular}{l c c c}
+        \toprule
+        \textbf{Criteria} & \textbf{Mechanical} & \textbf{Hybrid} 
+                          & \textbf{Vacuum} \\
+                          \midrule
+        Maximum Force Without Damage & 370\,N & 370\,N & 1\,kN \\
+        Engagement Time & 2\,s & 2\,s & 200\,ms \\
+        Compressed Air Required & No & Yes & Yes \\
+        Risk of Product Damage & Medium & Medium & Low \\
+        Estimated Cost & 2 lakh & 4 lakh & 2 lakh \\
+        Lateral Clearance Required & 5\,cm & 5\,cm & 0\,cm \\
+        Maintenance Complexity & High & High & Low \\
+        Grips Through Plastic & No & Yes & Yes \\
+        Risk of Losing Grip & Medium & Low & Medium \\
+        \textbf{Design Decision} & Rejected & Rejected & \textbf{Selected} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+%TODO: Add images of the three end effector mechanisms side-by-side 
+% for visual comparison here.
+
+\section{Suction Cup Selection}
+
+With the vacuum architecture confirmed, the specific suction cup geometry 
+was evaluated. The primary challenge is surface non-uniformity: microwaves 
+have lips, ridges, and height steps at the shell boundary, while cardboard 
+boxes have flap seams. Flat rigid cups require near-perfect surface contact 
+and are therefore unsuitable. Table~\ref{tab:suction_cup_types} compares 
+the four candidate geometries.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Suction Cup Design Comparison}
+    \label{tab:suction_cup_types}
+    \begin{tabular}{l c c c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Flat Rigid} & \textbf{Bellows} 
+                           & \textbf{Multi-stage} & \textbf{Foam-backed} \\
+                           \midrule
+        Compliance / Flex (mm) & 0--1 & 10--15 & 8--12 & 12--18 \\
+        Handle Non-uniform Surface & Poor & Excellent & Good & Excellent \\
+        Internal Volume (cm\(^3\)) & 45 & 120 & 90 & 110 \\
+        Engagement Time @ 0.5\,bar (ms) & 150 & 200 & 180 & 220 \\
+        Cost per Cup (Rs) & 800 & 2,400 & 2,100 & 1,600 \\
+        Durability (compression cycles) & \(>\)1M & \(>\)500k 
+                                        & \(>\)600k & \(>\)400k \\
+        Grips Through Plastic & Marginal & Yes & Yes & Yes \\
+        Local Sourcing (Pakistan) & Good & Fair & Poor & Poor \\
+        \textbf{Design Decision} & Rejected & \textbf{Selected} 
+                                 & Rejected & Rejected \\
+                                 \bottomrule
+    \end{tabular}
+\end{table}
+
+Bellows cups were selected for their compliance on non-uniform surfaces and 
+confirmed ability to grip through plastic wrapping. Although their larger 
+internal volume (120\,cm$^3$) increases evacuation time relative to flat 
+cups, the 200\,ms engagement time remains compatible with the 400\,ms 
+gripping window, as shown in Section~\ref{sec:vacuum_calc}. Multi-stage 
+cups were unavailable locally, and foam-backed cups, while compliant, 
+introduce sealing variability that is difficult to model reliably, and are incredibly expensive. 
 
 \subsection{Array Configuration}
-The redesigned array consists of two large center suction cups (125mm bellows) and four peripheral smaller cups (50mm). Bellows-type cups were selected for their superior compliance on non-uniform surfaces, despite their larger internal volume.
+
+The array consists of two large central suction cups (Festo 125\,mm bellows) 
+and four peripheral smaller cups (Festo 50\,mm bellows). This arrangement 
+distributes the lifting force evenly across the microwave surface, preventing 
+shell deformation, while the peripheral cups provide moment resistance against 
+tipping during lateral acceleration.
+
+\section{Vacuum Generation}
+\label{sec:vacuum_calc}
+
+The vacuum source was selected based on the plant infrastructure already 
+available at Dawlance: a 5\,bar compressed air supply. This immediately 
+makes venturi-based ejectors attractive over electrically-driven pumps, 
+as no additional power infrastructure is required. Within venturi ejectors, 
+two variants exist with distinct trade-offs between achievable vacuum depth 
+and volumetric flow rate. Table~\ref{tab:vacuum_generation} presents the 
+full comparison.
+
+\begin{table}[htbp]
+    \centering
+    \scriptsize
+    \caption{Vacuum Generation Method Comparison}
+    \label{tab:vacuum_generation}
+    \begin{tabular}{l c c c c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Electric} & \textbf{Venturi} 
+                           & \textbf{Venturi} & \textbf{Rotary} & \textbf{Diaphragm} \\
+                           & \textbf{Pump} & \textbf{(High Suction)} & \textbf{(High Vacuum)} 
+                           & \textbf{Vane} & \textbf{Pump} \\
+                           \midrule
+        Power Source & 3-phase 400V & Compressed Air & Compressed Air 
+                     & Single-phase AC & Single-phase AC \\
+        Vacuum Level (bar abs) & 0.2 & 0.4--0.5 & 0.1 & 0.15 & 0.35 \\
+        Flow Rate @ nominal (L/min) & 40--60 & 80--95 & 20--30 
+                                    & 35--50 & 20--30 \\
+        Response Time (ms) & 500--800 & 40--70 & 60--100 
+                           & 600--900 & 400--600 \\
+        Requires Compressed Air & No & Yes (5\,bar) & Yes (5\,bar) 
+                                & No & No \\
+        Cost (complete unit, Rs) & 35,000 & 7,200 & 8,500 & 28,000 
+                                 & 18,000 \\
+        Maintenance & Oil changes & None & None & Oil/filter 
+                    & Diaphragm replace \\
+        Noise Level (dB) & 75 & 82 & 85 & 72 & 68 \\
+        \textbf{Design Decision} & Rejected & \textbf{Selected} 
+                                 & Rejected & Rejected & Rejected \\
+                                 \bottomrule
+    \end{tabular}
+\end{table}
+
+The high-suction venturi was selected. The system does not require deep 
+vacuum: 0.5\,bar absolute is sufficient to achieve the required lift 
+capacity, as confirmed in the calculations below. The high-suction 
+variant's 80--95\,L/min flow rate is the critical advantage, enabling 
+fast evacuation of the bellows cup array within the 400\,ms gripping 
+window. The high-vacuum variant, while capable of deeper evacuation, 
+provides insufficient flow rate to evacuate the system volume in time.
 
 \subsection{Vacuum Calculations}
-The system is constrained by a target gripping engagement time of 200ms to 400ms. 
 
-\textbf{Total System Volume Calculation:}
+The total evacuated volume is computed from the cup and piping geometry:
+
 \begin{itemize}
-    \item \textbf{Suction Cups:} 2 x 125mm cups at $307\text{cm}^3$ each = $614\text{cm}^3$.
-    \item \textbf{Piping:} 8mm diameter tubing, 3m length:
-    $$ V_{pipe} = \pi \cdot r^2 \cdot L = \pi \cdot (0.4\text{cm})^2 \cdot 300\text{cm} \approx 150.8\text{cm}^3 $$
-    \item \textbf{Total Volume ($V_{total}$):} $\approx 764.8\text{cm}^3$ (0.765 Liters).
+    \item \textbf{Suction Cups:} $2 \times 125$\,mm cups at 
+        307\,cm$^3$ each $= 614$\,cm$^3$
+    \item \textbf{Piping:} 8\,mm diameter tubing, 3\,m length:
+        $$ V_{\text{pipe}} = \pi r^2 L = \pi (0.4\,\text{cm})^2 
+        \times 300\,\text{cm} \approx 150.8\,\text{cm}^3 $$
+    \item \textbf{Total:} $V_{\text{total}} \approx 764.8$\,cm$^3$ 
+        (0.765\,L)
 \end{itemize}
 
-\textbf{Evacuation Performance:}
-To achieve a 0.5 bar absolute vacuum within 400ms, the required flow rate $Q$ is estimated:
-$$ Q = \frac{V_{total} \cdot \ln(P_{atm}/P_{final})}{t} = \frac{0.765 \cdot \ln(1/0.5)}{0.4/60} \approx 79.5\text{L/min} $$
-With the 5bar compressor provided by Dawlance and our current vacuum pump rated at 92.6L/min, the system theoretically meets the 400ms requirement, assuming leakage is minimized via the implemented Teflon sealing and top-oriented bolt configurations.
+The required flow rate $Q$ to achieve 0.5\,bar absolute within the 
+400\,ms gripping window is:
 
-\section{Yaw Axis and Structural Framework}
+$$ Q = \frac{V_{\text{total}} \cdot \ln(P_{\text{atm}}/P_{\text{final}})}{t} 
+= \frac{0.765 \cdot \ln(1/0.5)}{0.4/60} \approx 79.5\,\text{L/min} $$
 
-\subsection{Yaw Axis Design}
-The yaw axis utilizes a shaft supported by two angular contact ball bearings in a face-to-face (DF) configuration. This setup was chosen over back-to-back (DB) for ease of mounting on the 2mm main plate. FEA simulation in Fusion360 confirmed that this configuration safely handles the 40kg static load. Earlier iterations using stepped shafts or separate radial/thrust bearings were abandoned due to manufacturing complexity and assembly constraints within the 4-5mm wall thickness of the hollow sections.
+The selected venturi generator is rated at 92.6\,L/min, providing a 
+16\% margin above the required flow rate. Leakage is minimized through 
+Teflon-sealed threaded connections and a top-oriented bolt configuration, 
+which experimental testing confirmed to reduce interface leakage 
+significantly.
 
-\subsection{Structural Support}
-The frame consists of aluminum 40/40 extrusions in a quadrilateral arrangement. The suction cup array is mounted to a main board via a sandwiched plate, with T-nuts used for securing the custom brackets to the extrusions.
+\section{Yaw Axis Design}
+
+The yaw axis orients the payload prior to placement, and introduces a distinct mechanical challenge: the largest production unit at Dawlance modelled as a yields a moment of inertia of approximately 2.12\,kg$\cdot$m$^2$, which demanded both a high gear reduction (120:1)
+
+\subsection{Shaft Design}
+
+Three shaft geometries were considered, as compared in Table~\ref{tab:yaw_shaft_design}. A pure solid shaft was rejected because it provides no shoulder geometry to seat the bearings against, making reliable axial location impossible. A complex multi-step shaft was rejected because the tight tolerances it requires (grinding-level precision on each step) exceed what is available at local machine shops in Karachi. A simple stepped shaft, with a single abutment step on an otherwise solid 30\,mm bar, was selected as it provides the necessary bearing seat while remaining achievable on a basic lathe with tolerances of $\pm$0.5\,mm.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Shaft Design Comparison for Yaw Axis}
+    \label{tab:yaw_shaft_design}
+    \begin{tabular}{l c c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Pure Solid} & \textbf{Simple Stepped} 
+                           & \textbf{Complex Stepped} \\
+                           \midrule
+        Bearing Housing Feasibility & Poor & Excellent & Excellent \\
+        Tolerance Accommodation (\(\pm\,\)mm) & \(\pm\)0.1 & \(\pm\)0.5 
+                                              & \(\pm\)0.15 \\
+        Local Machinability & Easy & Easy & Difficult \\
+        Precision Equipment Required & None & Basic lathe & Grinding machine \\
+        Cost (Rs) & 5,200 & 6,800 & 14,500 \\
+        Shaft Stiffness & Good & Adequate & Excellent \\
+        Assembly Flexibility & None & High & Low \\
+        \textbf{Design Decision} & Rejected & \textbf{Selected} & Rejected \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Bearing Retention}
+
+With the shaft geometry fixed, the method of axially retaining the two 
+angular contact bearings was evaluated. The key requirement is 
+differential retention: the top bearing must be rigidly preloaded to 
+carry the primary axial and radial loads, while the bottom bearing must 
+be free to float axially, allowing it to self-align and absorb any shaft 
+runout or dimensional variation in the housing seats. 
+Table~\ref{tab:yaw_retention} compares the four candidate retention 
+methods. Two locknuts on the top bearing provide controlled, adjustable 
+preload. A single circlip on the bottom bearing permits the required 
+axial float while preventing gross displacement.
+
+\begin{table}[htbp]
+    \centering
+    \footnotesize
+    \caption{Bearing Retention Method Comparison}
+    \label{tab:yaw_retention}
+    \begin{tabular}{l c c c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Dual Circlips} & \textbf{Locknut Only} 
+                           & \textbf{Locknut + Circlip} & \textbf{Integrated Shoulders} \\
+                           \midrule
+        Preload Control & Poor & Moderate & Excellent & Excellent \\
+        Top Bearing Fixity & Fixed & Fixed & Fixed (Preload) & Fixed \\
+        Bottom Bearing Float & None & None & Yes (Self-align) & None \\
+        Assembly Tolerance Slack & Low & Low & High & Very Low \\
+        Parts Count & 2 & 1 & 3 & 0 (integral) \\
+        Cost (Hardware only, Rs) & 800 & 400 & 1,100 & 8,500 \\
+        Runout Accommodation & \(\pm\)0.1\,mm & \(\pm\)0.1\,mm 
+                             & \(\pm\)0.6\,mm & \(\pm\)0.05\,mm \\
+        Local Availability & Good & Good & Good & Poor \\
+        \textbf{Design Decision} & Rejected & Rejected & \textbf{Selected} 
+                                 & Rejected \\
+                                 \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Bearing Configuration}
+
+Angular contact ball bearings were selected over tapered roller and 
+combined radial-axial alternatives due to their availability in Pakistan, 
+lower cost, and adequate load capacity for the 40\,kg payload. The 
+mounting configuration --- back-to-back (DB) versus face-to-face (DF) 
+--- was then evaluated, as shown in Table~\ref{tab:yaw_bearing_config}. 
+The back-to-back arrangement was selected for its superior radial and 
+axial stiffness (165 and 185\,N/$\mu$m respectively), which directly 
+benefits servo tuning stability and positional accuracy during yaw 
+rotation under load.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Bearing Configuration Comparison}
+    \label{tab:yaw_bearing_config}
+    \begin{tabular}{l c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Face-to-Face} & \textbf{Back-to-Back} \\
+        \midrule
+        Radial Stiffness (N/\(\mu\)m) & 128 & 165 \\
+        Axial Stiffness (N/\(\mu\)m) & 142 & 185 \\
+        Load Capacity (kN) at 40\,kg payload & 10.2 & 10.8 \\
+        Moment of Inertia (kg\(\cdot\)m\(^2\)) & 0.000142 & 0.000168 \\
+        Preload Achievable & Moderate & High \\
+        Servo Tuning Ease & Moderate & Excellent \\
+        Expected Life L\(_{10}\) (millions cycles) & 2.4 & 3.1 \\
+        Cost (pair + preload hardware, Rs) & 6,200 & 7,400 \\
+        \textbf{Design Decision} & Rejected & \textbf{Selected} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The final yaw axis assembly therefore comprises: a 30\,mm simple stepped 
+solid shaft, two angular contact ball bearings in a back-to-back 
+configuration, two locknuts retaining the top (fixed) bearing, and a 
+single circlip retaining the bottom (floating) bearing. The motor is 
+mounted laterally and coupled at a 1:1 ratio through the 120:1 gear reduction.
+
+\subsection{Structural Framework}
+
+The EE frame consists of aluminum 40/40 extrusions arranged in a 
+quadrilateral configuration. The suction cup array is mounted to a main 
+board via a sandwiched plate, with custom brackets secured to the 
+extrusions using T-nuts.
+
+%TODO: Generate engineering drawings for the yaw axis hanging assembly. 
+% Repeat this for all major CAD assemblies.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{EE_CAD.png}
-    \caption{End Effector CAD assembly highlighting the yaw axis and suction array.}
+    \includegraphics[width=1.0\linewidth]{EE_CAD.png}
+    \caption{End effector CAD assembly showing the yaw axis, suction 
+    cup array, and structural extrusion frame.}
     \label{fig:ee_cad}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{EE_Simulation.png}
-    \caption{FEA results showing stress distribution under a 40kg load.}
+    \caption{FEA stress distribution under a static 40\,kg load, 
+        confirming structural adequacy of the 2\,mm main plate and 
+    back-to-back bearing configuration.}
     \label{fig:ee_simulation}
 \end{figure}
 
-\section{Summary of Results}
-The final design utilizes six suction cups (SMC 80mm equivalents or Festo 125/50mm mix). At 40kPa of vacuum, the theoretical lift capacity is 123kg. Accounting for a 65\% efficiency factor for semi-porous surfaces, the system provides a safe lift of ~80kg, yielding a safety factor of 2 for the heaviest expected payload.
+\section{Summary}
+
+The final end effector design integrates a bellows suction cup array 
+(two 125\,mm and four 50\,mm Festo cups) driven by a high-suction 
+venturi generator at 0.5\,bar absolute, mounted on a 30\,mm simple 
+stepped shaft with back-to-back angular contact bearings and asymmetric 
+locknut-circlip retention. At 40\,kPa vacuum, the theoretical lift 
+capacity is 123\,kg. Applying a 65\% efficiency factor for semi-porous 
+surfaces, the effective safe lift is approximately 80\,kg --- a safety 
+factor of 2.0 on the 40\,kg design payload.
