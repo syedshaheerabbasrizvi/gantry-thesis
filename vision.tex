@@ -1,0 +1,61 @@
+
+
+
+\chapter{Computer Vision}
+\label{sec:vision_pipeline}
+
+To enable closed-loop alignment of the gantry end-effector to moving objects on the conveyor, a lightweight computer vision (CV) pipeline was developed in simulation using OpenCV. The primary goal of the pipeline is to estimate the target object's 2D pose in the image: \textit{(i)} center location in pixel coordinates $(u,v)$ and \textit{(ii)} in-plane orientation $\theta$ (yaw) using a minimum-area rectangle fit. This estimate is then used by the downstream alignment/visual servoing module.
+
+A lightweight computer vision pipeline has been developed in simulation using OpenCV, so that closed-loop alignment of the gantry end-effector to moving objects can be performed. The goal is to estimate the target's 2D pose in the image; first, the center location in pixel coordinates $(u,v)$, then the orientation $\theta$ (yaw) through a minimum-area rectangle fit. This estimate is then what is used for downstream alignment using visual servoing.
+
+Figure~\ref{fig:vision_pipeline_flow} summarizes the full image-processing pipeline. The camera mounted on the wrist obtains the input frame, which is then processed to segment the target object (such as brown cardboard or black microwaves), remove noise, and then estimate the pose.
+
+\begin{figure}[H]
+    \centering
+    % Replace with your exported Lucid image filename
+    \includegraphics[width=\linewidth]{figures/vision_pipeline.png}
+    \caption{Computer vision pipeline for segmentation and pose estimation using HSV thresholding, morphological filtering, contour extraction, and minimum-area rectangle fitting.}
+    \label{fig:vision_pipeline_flow}
+\end{figure}
+
+The captured image is converted to HSV color space. This is done so that if the camera experiences changes in lighting, the processing can stay robust. Binary masks are then generated using thresholding, where the black object mask thresholded primarily on the Value channel for dark region isolation, while the brown object mask used a constrained HSV range tuned for the brown color of cardboard boxes. This way, the pipeline could detect objects of specific colors without resorting to data-hungry deep learning techniques based on inference.
+
+However, small artifacts remain, so the binary mask is cleaned with standard morphological operations. This includes both closing to fill small gaps and opening to remove isolated noise. Then, a $5\times 5$ structuring element is used; depending on the noise, multiple iterations are run.
+
+This leads to a position where external contours can be obtained. This is done using \texttt{cv2.findContours(..., RETR\_EXTERNAL)}. The pipeline extracts the contour with the greatest area; any other contours are rejected as false detections. This selected contour is fit using \texttt{cv2.minAreaRect}, obtaining at last:
+\begin{itemize}
+    \item Center in pixels: $(u, v)$
+    \item Rectangle dimensions: $(w, h)$
+    \item Raw angle: $\theta_{\text{raw}}$
+\end{itemize}
+However, OpenCV's angle convention depends on the longer edge (width or height). Hence, the raw angle is normalized, so that the pipeline supplies a consistent orientation $\theta \in [0,180)$.
+
+Typical PID control needs world coordinates, but the coordinates just obtained are in the camera frame. Therefore, an IBVS formulation is selected, because it directly operates on pixel coordinates by minimizing the error between current image features and the desired ones. For a feature vector $s=[x\;\;y\;\;\theta]^T$ (or alternatively $[u\;\;v\;\;\theta]^T$), the control objective is to reduce:
+\[
+e = s - s^{*}
+\]
+where $s$ is measured from the current camera frame and $s^{*}$ is the desired feature. In this case, this is the target centered in the image with desired yaw.
+
+First, $(u,v)$ can be converted to normalized image coordinates:
+\[
+x = \frac{u - c_x}{f_x}, \quad y = \frac{v - c_y}{f_y}
+\]
+and then the interaction matrix maps camera velocities to feature motion:
+\[
+\dot{s} = L_s \, v
+\]
+Finally, a standard IBVS control law is used:
+\[
+v = -\lambda \, L_s^{+} \, e
+\]
+where $\lambda>0$ is a gain and $L_s^{+}$ is the pseudo-inverse of the interaction matrix. With only camera measurements and no availability of actual object pose in world coordinates, closed-loop alignment can be done.
+
+The image processing pipeline performed well on simulation, so this was dispatched on a real Dawlance microwave and its repective box. While the orientation was correctly obtained (to the nearest half degree), the position encountered minor but not negligible errors because of the flaps of the box and the sides of the microwave. Hence, while this algorithm is effective, it needs further tuning to handle these real cases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/image_processing.png}
+    \caption{Image processing performed on real data.}
+    \label{fig:placeholder}
+\end{figure}
+

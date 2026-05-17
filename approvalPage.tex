@@ -1,0 +1,108 @@
+%% Define your committee members. If you have less than 3, simply delete/comment the unused lines
+
+\newcommand{\adviserOne}{Dr. Abdul Basit Memon}
+\newcommand{\adviserOneDepartment}{Faculty of Electrical Engineering}
+\newcommand{\adviserOneAffiliation}{Habib University}
+
+% \newcommand{\adviserTwo}{Dr. Two}
+% \newcommand{\adviserTwoDepartment}{Faculty of Electrical Engineering}
+% \newcommand{\adviserTwoAffiliation}{Habib University}
+
+% \newcommand{\adviserThree}{Dr. Three}
+% \newcommand{\adviserThreeDepartment}{Faculty of Electrical Engineering}
+% \newcommand{\adviserThreeAffiliation}{Habib University}
+
+\newcommand{\approvalDay}{18}
+\newcommand{\approvalMonth}{August}
+\newcommand{\approvalYear}{2025}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do not edit these lines unless you wish to customize
+% the template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{titlepage}
+\begin{singlespacing}
+\begin{center}
+
+\textbf{\MakeUppercase{\reportTitle}}\\
+\vspace{10\baselineskip}
+
+\end{center}
+\vfill
+
+%Define minipages, depending on how many authors there are
+\ifdefined\adviserTwo
+
+This capstone design project was advised by:
+\vspace{4\baselineskip}		%adjust the number in front of "\baselineskip" for alignment
+
+\begin{minipage}[b]{0.4\textwidth}
+	\hrule
+	\vspace{.5\baselineskip}
+	\adviserOne\\
+	\adviserOneDepartment\\
+	\textit{\adviserOneAffiliation}\\
+	\vspace{2\baselineskip}		%adjust the number in front of "\baselineskip" for alignment
+
+	\ifdefined\adviserThree
+	\vspace{4\baselineskip}	
+	\hrule
+	\vspace{.5\baselineskip}
+	\adviserTwo\\
+	\adviserTwoDepartment\\
+	\textit{\adviserTwoAffiliation}\\		
+	\vspace{2\baselineskip}		%adjust the number in front of "\baselineskip" for alignment
+	\fi
+\end{minipage}
+\hspace{0.1\textwidth}
+\begin{minipage}[b]{0.4\textwidth}	
+	\ifdefined\adviserThree
+	\hrule
+	\vspace{.5\baselineskip}
+	\adviserThree\\
+	\adviserThreeDepartment\\
+	\textit{\adviserThreeAffiliation}\\
+	\vspace{10\baselineskip}	%adjust the number in front of "\baselineskip" for alignment
+	\else
+	\hrule
+	\vspace{.5\baselineskip}
+	\adviserTwo\\
+	\adviserTwoDepartment\\
+	\textit{\adviserTwoAffiliation}\\
+	\vspace{2\baselineskip}		%adjust the number in front of "\baselineskip" for alignment	
+	\fi	
+\end{minipage}
+
+Approved by the Faculty of Electrical Engineering on \approvalMonth{} \approvalDay, \approvalYear.
+\vspace{5\baselineskip}		%adjust the number in front of "\baselineskip" for alignment
+
+\else
+This capstone design project was advised by:
+\vspace{4\baselineskip}		%adjust the number in front of "\baselineskip" for alignment
+
+\begin{minipage}[b]{0.4\textwidth}
+	\hfill
+\end{minipage}
+\hspace{0.1\textwidth}
+\begin{minipage}[b]{0.4\textwidth}		
+	\hrule
+	\vspace{.5\baselineskip}
+	\adviserOne\\
+	\adviserOneDepartment\\
+	\textit{\adviserOneAffiliation}\\	
+	\vspace{2\baselineskip}		%adjust the number in front of "\baselineskip" for alignment	
+\end{minipage}
+
+Approved by the Faculty of Electrical Engineering on \approvalMonth{} \approvalDay, \approvalYear.
+\vspace{5\baselineskip}		%adjust the number in front of "\baselineskip" for alignment
+
+\fi
+
+
+
+
+
+\end{singlespacing}
+\end{titlepage}

@@ -1,0 +1,23 @@
+\clearpage
+\begin{centering}
+\textbf{EXECUTIVE SUMMARY}\\
+\vspace{\baselineskip}
+\end{centering}
+
+At Dawlance's assembly plant, the microwave line operates manually, which is problematic at the end, where the microwaves are packaged and palletized. The line workers have to lift heavy loads and twist their backs in painful angles repeatedly, which endangers both human health and product quality. Moreover, the design process yielded a NIOSH Lifting Index of 3.1; any score above 3.0 requires immediate redesign, because the process is unsafe. Hence, this project aims to solve this problem.
+
+Naturally, the technical implementation of this project brings with it several challenges, such as handling high payloads (20kg on average) on a strict cycle time of 30s. Thus, the project proposes a single large gantry under the philosophy of Industry 5.0 and Human-Robot Collaboration, where the dangerous heavy lifting is offloaded while the dexterous tasks are retained by the human workers. 
+
+The gantry contains an industrial PC running ROS2, making high-level decisions based on computer vision detecting objects on a moving conveyor. Next, the actuator commands are sent to the STM32 microcontroller, which finally forwards the motion profiles to the AC servo motors of the robot. The physical structure consists of belt-driven x-axis along the conveyor and y-axis across, a rack-and-pinion z-axis, and a compliant vacuum end-effector with pressure feedback.
+
+The validation of the project design occurred in stages. Mechanical prototypes with 3D-printed rack and pinions demonstrate the structure of the gantry, PyBullet simulations show control algorithms and path planning strategies to optimize robot operations safely, and a computer vision pipeline detects poses of objects in real-time. 
+
+The final deliverable of the final year project is to build a wooden prototype demonstrating the entire pick-and-place process at scale, with the handover also including mechanical design for Dawlance to manufacture as well as a technical manual. 
+\\
+
+\begin{flushleft}
+\textbf{KEYWORDS:} Robotics, Automation, Mechatronics, Motion Control, Computer Vision, Embedded Systems, Human-Robot Interaction, Occupational Safety
+\end{flushleft}
+
+
+%\pagenumbering{gobble}  %remove page number on summary page

@@ -1,0 +1,9 @@
+\chapter{Conclusion and Future Work}
+
+The thesis presented a prototype for a four degree of freedom gantry system for packaging and palletizing tasks. The presented system consists of a computer vision subsystem, a high level trajectory planning system, an STM32 based level control system, and a vacuum section end effector. This end effector has a custom yaw axis as well. Each system is fully functional, which means that the gantry can localize objects, it can plan trajectories, and it can exercise precise take and place operations. The design is able to handle arbitrary, rectangular, and non-uniform objects because of its suction cup design. And it is generally enough to be replicated and adopted across different environments.
+
+Our system comes into be at roughly one tenth the cost of a comparable commercial system with much more functionality. And with it demonstrates that capable industrial automation need not be prohibitively expensive, nor does it need to be imported.
+
+\section*{Future Work}
+
+So several directions merit further development. One direction could be extending the system to support broader ERP integration. Perhaps the control layer and the high level control layer as well as the low level control layer can be modified in order to support generic CNC machines and therefore compete with open PNP for generalized, they can place applications especially for things like microcontrollers or PCV fabrication. The object detection post detection system can be extended in order to handle greater scene complexity especially involving human workers who are involved with the machine. Additionally, the system can be modified in order to become compliant. So the system can become human robot collaborative. We can also extend and adapt and deploy the system at scale for Dawlance.

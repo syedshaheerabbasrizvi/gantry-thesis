@@ -1,0 +1,152 @@
+
+
+\chapter{Motor Actuation}
+
+Once the system specifications were decided, multiple motor suppliers in Pakistan were contacted to initiate procurement of AC servo motors. However, most of them could not meet project requirements, with issues such as unreasonably long lead times, inappropriate motor frames and power ratings, and exorbitant prices. Fortunately, one supplier offered Yaskawa Sigma-5 AC servo motors at reasonable rates, along with compatible drives and cabling. Considering that the Sigma-5 series is targeted toward precision motion control applications and Yaskawa's proprietary motor sizing software \textit{SigmaSelect} was available on their website, Yaskawa was selected as the motor vendor. Thus, all subsequent sizing was done using \textit{SigmaSelect.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/motors_gearboxes}
+    \caption{Procured Yaskawa Sigma-5 servo motors and drives.}
+    \label{fig:motors_gearboxes}
+\end{figure}
+
+\section{Kinematic Motion Profile}
+
+To define a common baseline for all axes, a trapezoidal motion profile with S-curve smoothing was utilized. This does not represent the final trajectory; it is developed to a point where motor selection can be confirmed, with further refinement of exact parameters not affecting sizing outcome meaningfully, as determined by experimentation within the software. The hard constraints are a \qty{3.0}{m} travel distance for the linear axes and $180\degree$ for yaw, and a total travesal time of \qty{10}{s} so that a full cycle can complete with \qty{20}{s}, leaving the remaining time for picking and placing. The remaining profile parameters were selected as a reasonable default and are subject to minor change down the line:
+
+\begin{itemize}
+    \item \textbf{Total Distance ($D$):} \qty{3.0}{m} or \qty{180}{\degree} 
+    \item \textbf{Total Time ($t_\text{tot}$):} \qty{10.0}{s}
+    \item \textbf{Acceleration Time ($t_a$):} \qty{1.0}{s}
+    \item \textbf{Deceleration Time ($t_d$):} \qty{1.0}{s}
+    \item \textbf{Jerk Time ($t_j$):} \qty{0.5}{s}
+\end{itemize}
+
+This results in a peak constant velocity of:
+
+\begin{equation}
+    V_\text{max} = \frac{D}{t_\text{tot} - \dfrac{t_a + t_d}{2}} 
+    = \frac{3.0}{10.0 - 1.0} \approx \qty{0.333}{m/s}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/motor_sizing_graphs}
+    \caption{Trapezoidal motion profile with smoothing as defined in SigmaSelect.}
+    \label{fig:motion_profile}
+\end{figure}
+
+\section{Moving Mass Estimation}
+
+For \textit{SigmaSelect} to calculate load and peak torques, the total moving mass of the gantry was estimated through a breakdown of each subsystem that moves on the robot. This means that the X-axis drive motors, which are bolted to the frame and are static, are not part of the moving mass. The breakdown is given in Table~\ref{tab:mass_budget}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{@{}llcp{4.5cm}@{}}
+        \toprule
+        \textbf{Subsystem} & \textbf{Component} & \textbf{Mass (kg)} & \textbf{Notes} \\
+        \midrule
+        \multirow{4}{*}{\shortstack[l]{\textbf{X-Axis}\\\textbf{Bridge}\\(\qty{60.0}{kg})}}
+            & Main Steel Beam       & 30.0 & $80\times80\times4$\,mm SHS, \qty{3}{m} span \\
+            & Y-Axis Linear Rails   & 16.0 & Two 20\,mm profile rails \\
+            & End Plates            & 10.0 & Two \qty{10}{mm} steel plates \\
+            & Hardware \& Fasteners &  4.0 & Bolts, T-nuts, brackets \\
+        \midrule
+        \multirow{4}{*}{\shortstack[l]{\textbf{Y-Axis}\\\textbf{Carriage}\\(\qty{10.0}{kg})}}
+            & Motor \& Gearbox      &  2.8 & 400\,W Sigma-5 + planetary gearbox \\
+            & Carriage Plate        &  5.0 & Machined steel mounting plate \\
+            & Linear Bearing Blocks &  1.2 & Four 20\,mm profile blocks \\
+            & Cable Carrier         &  1.0 & Drag chain, wiring, pneumatics \\
+        \midrule
+        \multirow{5}{*}{\shortstack[l]{\textbf{Z-Axis}\\\textbf{Assembly}\\(\qty{45.0}{kg})}}
+            & Dual Motors \& Gearboxes  &  7.2 & Two 200\,W Sigma-5 + gearboxes \\
+            & Stationary Drive / Shafts & 10.0 & Cross-shafts + mounting plates \\
+            & Vertical Cuboid Structure & 11.5 & \qty{2.5}{m} steel chassis \\
+            & 2.5\,m Racks \& Rails     & 11.7 & Mod.\,2 racks + 20\,mm profile rails \\
+            & Yaw Drive \& End Effector &  4.6 & 200\,W servo + suction head \\
+        \midrule
+        \textbf{Payload}
+            & Microwave Unit & 40.0 & Dawlance spec., with safety factor \\
+        \midrule
+        \textbf{Total ($M_\text{moving}$)} & & \textbf{155.0} & Sum of all dynamic components \\
+        \bottomrule
+    \end{tabular}
+    \caption{Moving mass budget.}
+    \label{tab:mass_budget}
+\end{table}
+
+These figures were obtained from recording weights in catalogs of these items in stores online. Several of these estimates are conservative, where values were rounded up in case of uncertainty. On top of that, a 10\% safety factor was applied to yield $M_{total} = \qty{170}{kg}$ for all sizing. This safety factor accounts for variation in the real world (asymmetric loading, belt tensioning, and future payload changes, to name some examples) and reflects prioritizing safety over cost, as expressed by Dawlance.
+
+\section{Load Parameters}
+
+The X-axis is driven by two synchronized motors, one on each side. If the bridge is assumed to be rigid and symmetric, then the moving mass can be divided equally to be \qty{85}{kg}. Then, after subtracting the masses of the X-axis bridge of \qty{60}{kg} and the Y-axis carriage (not driven by the Y-axis motor) of \qty{10}{kg}, the mass driven by the Y-axis motor turns out to be \qty{100}{kg}. Furthermore, after excluding the Z-axis motors, the cross-shafts, and the mounting plates, the suspended mass is found to be \qty{70}{kg}, which is divided between two Z-axis motors. And finally, the yaw axis motor only experiences the mass of the payload: the microwave.
+
+\section{Transmission Parameters}
+
+All three linear axes use a 20:1 planetary gearbox, which was found through iterative trials in \textit{SigmaSelect}; this was also the lowest gearbox ratio available through the motor vendor that satisfied the tuning envelope of the drives, with reduction of the load inertia reflected to the motor shaft by a factor of $G^2=400$. However, the yaw axis uses a 120:1 gearbox, because of the exceptionally large rotational inertia of the microwave; this is discussed further later.
+
+The X and Y axes use an HTD 8M synchronous belt with \qty{8}{mm} pitch. This is readily available and is used frequently in industrial linear drive applications. Moreover, since the minimum recommended tooth count for a pulley is 17 and exceeding 20 teeth increases the effective pitch diameter -- which, in turn, worsens the inertia ratio -- a 20-tooth drive pulley was selected. With these parameters, the pitch diameter is $\frac{P \cdot Z}{\pi} = \frac{8 \times 20}{\pi} \approx \qty{50.9}{mm}$. Furthermore, a conservative mechanism efficiency of $\eta_{mech}=0.90$ (HTD drives normally achieve 0.95-0.98) and a friction coefficient of $\mu=0.01$ (linear guides with recirculating linear guides normally achieve 0.005) complete the parameter selection for the X and Y axes.
+
+As for the Z-axis -- which uses a rack-and-pinion drive -- the widely used parameters of Module 2 and 20 teeth were utilized, as the former has adequate tooth strength for industrial loads, while the latter follows similar logic as previously demonstrated. The yaw axis is directly coupled with the payload, and requires no such parameter selection for transmission.
+
+\section{X and Y Axes Sizing Results}
+
+\textit{SigmaSelect} evaluated the \qty{400}{W} Yaskawa Sigma-5 motor on both the axes. In both cases, the software confirmed that the motor selection indeed satisfied the motion profile with significant margin. The inertia ratio was below 10:1 with headroom, so that servo drive can be tuned for stable positioning -- critical for industrial robotics application. Peak and continuous torque demands are well within the motor's rated limits, as well as the operating and maximum speeds.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/x_sigma}
+    \caption{SigmaSelect sizing results for the X-axis 400\,W Yaskawa Sigma-5 motor.}
+    \label{fig:x_sigma}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/y_sigma}
+    \caption{SigmaSelect sizing results for the Y-axis 400\,W Yaskawa Sigma-5 motor.}
+    \label{fig:y_sigma}
+\end{figure}
+
+\section{Z-Axis Sizing Results}
+
+Despite the reduced load, the Z-axis is the most demanding linear axis because the motors need to support the load against gravity continuously. Two \qty{200}{W} Sigma-5 motors are used, one for each rack, with a $90\degree$ inclination angle; with the aforementioned gearbox, \textit{SigmaSelect} confirmed that the motor can satisfy the trajectory with torque and speed within rated limits and the inertia ratio below 10:1.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/z_sigma}
+    \caption{SigmaSelect sizing results for the Z-axis 200\,W Yaskawa Sigma-5 motor.}
+    \label{fig:z_sigma}
+\end{figure}
+
+\section{Yaw Axis Sizing}
+
+This axis rotates the end effector to orient the microwave, which presents a unique problem: modeling the Dawlance 162-HZP (their largest unit) as a rotating table with its physical dimensions yields a moment of inertia of $\approx\qty{2.12}{\kg\m^2}$, which is large enough to warrant an extremely high gear reduction. Through trial-and-error as well as consultation with the supplier, a 120:1 harmonic drive reducer was selected with a \qty{200}{W} Sigma-5 motor.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/yaw_sigma}
+    \caption{SigmaSelect sizing results for the yaw-axis 200\,W Yaskawa Sigma-5 motor with 120:1 harmonic drive reducer.}
+    \label{fig:yaw_sigma}
+\end{figure}
+
+\section{Motor Selection Summary}
+
+The final motor selection for all axes is summarized in Table~\ref{tab:motor_summary}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Axis} & \textbf{Motor} & \textbf{Quantity} 
+        & \textbf{Gear Ratio} & \textbf{Drive Mechanism} \\
+        \midrule
+        X & 400\,W Sigma-5 & 2 (synchronized) & 20:1 planetary & HTD 8M belt \\
+        Y & 400\,W Sigma-5 & 1               & 20:1 planetary & HTD 8M belt \\
+        Z & 200\,W Sigma-5 & 2 (synchronized) & 20:1 planetary & Mod.\,2 rack \& pinion \\
+        Yaw & 200\,W Sigma-5 & 1             & 120:1 harmonic drive & Direct output shaft \\
+        \bottomrule
+    \end{tabular}
+    \caption{Final motor and transmission selection across all gantry axes.}
+    \label{tab:motor_summary}
+\end{table}

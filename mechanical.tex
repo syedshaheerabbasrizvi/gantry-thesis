@@ -1,0 +1,168 @@
+\chapter{Mechanical Structure}
+      
+Mechanical design serves as the backbone of any machine that is to be deployed in the industry. The mechanical design has two fundamental objectives: to support the pay load with itself, and to allow smooth movement in the desired direction by carrying desired loads safely. At the end of the day, the plan is to assist the worker in carrying heavy weights.
+
+Firstly, trajectory planning is the fundamental step in the mechanical design process. To validate the design, MATLAB was utilized to visualize the intended path of the end-effector in 3D space. This confirms that the gantry can navigate from the ``Home" position, descend to grip the microwave, and clear the box flaps to place the object safely witin. By plotting the kinematic path virtually, the via points and dwell times can be adjusted, and operation can be made smoother. 
+
+Assumptions taken were:
+\begin{itemize}
+    \item Static environment: the position of the pick-up zone and the packing box are fixed and known relative to the gantry’s origin (0, 0, 0).
+    \item The expanded polystyrene (EPS) is estimated to be 0.025m in height; however, since this is soft, height before placing the payload may differ from height after impact of payload.
+\item For trajectory visualization, the end effector and payload are treated as a concentrated point mass to focus on kinematic validity rather than complex dynamics.
+\item The motors can achieve the calculated quintic polynomial for smooth curves and trapezoidal for linear escape velocity profiles without saturation.
+
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/result_1.png}
+    \caption{Linear movements from the side.}
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/result_2.png}
+    \caption{Velocity profiles.}
+    \label{fig:placeholdertry T}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/result_3.png}
+    \caption{The 3D spatial trajectory.}
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/result_4.png}
+    \caption{Velocity profiles, now with dwell buffers.}
+    \label{fig:placeholder}
+\end{figure}
+
+There are several dependencies within this. Firstly, the vertical actuator stroke is directly dependent on clearance height, which is 2.6m, required to navigate over the bin walls. Hence, the Z-axis mechanism needs to be able to reach this apex from the pick point, taken as 1.25m. Secondly, the actual value of the drop coordinate depends on the packaging configuration, particularly how thick the EPS padding within the box is. If there is variation, this drop height needs to be adjusted accordingly so that impact damage may not occur. And finally, the structural frame height is found by using the safety height of 2.0m, so that the end effector can easily return vertically and avoid workspace obstacles.
+
+Now, the design shows that kinematic timing and dynamic load have a direct relation. Peak acceleration values are found by the segment durations, thus affecting the required motor torque and belt tension. Also, to size the structural envelope correctly without collections at stopping, the spatial relation between via points (in software) and actual physical frame dimensions is used.
+
+Initially, the simplest control architecture was to completely decouple X and Z axes, thus decreasing cross-coupling errors and increases positional accuracy. This is not without a price: the total cycle time increases. Simultaneous linear motion may decrease the duration, but then the gantry faces greater dynamic loads and vibrations.
+
+Moving on to the main frame itself. I-beams (Universal Beams) were first selected because of their superior second moment of area, and that they resist bending. This was validated when visiting Moin Metal Works and Safiee Metal in Saddar; the industry standard for multi-ton gantries is indeed I-beams. However, vendors suggested C-section channels as a viable alternative. As both options are mechanically safe, the decision needs to be made based on cost and local availability.
+
+As for the driving mechanism, a frictionless interface was aimed for by creating a custom setup with castor wheels inside aluminum extrusions, running on a rail beneath the frame. This approach had a fatal flaw, though: these castor wheels were not rigid, with significant play and vibration. Hence, this design was rejected.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/plant_driving.png}
+    \caption{Existing machinery at the plant.}
+    \label{fig:placeholder}
+\end{figure}
+
+Hence, for inspiration, the Dawlance plant was visited to see how other machines drove themselves. One point that stood out immediately was that linear guides were used ubiquitously for precisely bearing loads. With real-world evidence, the X and Y axes are now confirmed to use such linear bearings.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/possibilities.png}
+    \caption{The configuration with four blocks.}
+    \label{fig:placeholder}
+\end{figure}
+
+The above figure shows the selected configuration for primary axes in the final assembly. The reason for not using a single/double block setup is because they could topple with unusual loads. In this design, a wide stance is introduced, so the rolling and pitching moments are effectively mitigates; furthermore, the Y-axis assembly is centered within the X-rails, so that weight is distributed evenly and cantilever effects are also eliminated.
+
+What is important to the design is also how long it lasts. A cumulative dynamic load of 200kg was defined, worst-case; this was found by assuming a 40kg payload multiplied by a dynamic application factor of 2.5, yielding 100kg added to a structural weight of 55kg and a safety margin of 15kg. This gives 170kg static load, so for inclusion of peak dynamic forces, this is rounded up to 200kg.
+
+This was input into the life cycle analyis methodologies given in Bosch Rexroth and THK Linear Motion handbooks, and showed that a 2-block configuration gives 24 years. A 4-block system approximately halves this value, because of the failures that the series systems introduces. And with a worst-case offset payload (a single block bears 200kg), a minimum service life of 8 years was given. So even with uneven stress, the system is durable enough.
+
+A summary of the parameters (both locked and pending) is given in the following table.
+
+
+\begin{table}[H]
+    \centering
+    \caption{System Design Parameters and Status}
+    \label{tab:design_parameters}
+    \small % Slightly smaller text to fit data comfortably
+    \renewcommand{\arraystretch}{1.2} % Adds breathing room between rows
+    
+    % Column spec: l=left, c=center, X=auto-wrap paragraph
+    \begin{tabularx}{\textwidth}{@{} l l c l X @{}}
+        \toprule
+        \textbf{Category} & \textbf{Parameter} & \textbf{Status} & \textbf{Value} & \textbf{Notes} \\
+        \midrule
+        
+        Load Capacity & Max Load & \textbf{LOCKED} & 200 kg & 
+        Includes 40kg payload, structure, safety factor, and dynamic multiplier ($2.5\times$). \\
+        \addlinespace
+        
+        Kinematics & Trajectory & PENDING & Quintic Poly. & 
+        A smooth path with defined dwell times is not the only option. Need to explore others. \\
+        \addlinespace
+        
+        Workspace & Vert. Escape & \textbf{LOCKED} & 2.0 m & 
+        Safety height required to clear workspace obstacles. \\
+        \addlinespace
+        
+        Structure & Frame Profile & \textbf{LOCKED} & I-Beam & 
+        Universal Beam preferred for stiffness, while C-Channel is the cost-dependent backup. \\
+        \addlinespace
+        
+        Linear Motion & Bearing Type & \textbf{LOCKED} & Linear Guides & 
+        Chosen for high precision and load capacity over castor wheels. \\
+        \addlinespace
+        
+        Linear Motion & Carriage & \textbf{LOCKED} & 4-Block & 
+        Car-like layout to neutralize rolling/pitching moments and distribute load. \\
+        \addlinespace
+        
+        Durability & Life ($L_{10}$) & \textbf{LOCKED} & $\sim$7 Years & 
+        Based on worst-case offset loading analysis. \\
+        \addlinespace
+        
+        Drive System & Actuator (X/Y) & PENDING & Timing Belt & 
+        Selected for speed and travel length. Prototype required. \\
+        \addlinespace
+        
+        Drive System & Actuator (Z) & PENDING & Ball Screw & 
+        Selected for anti-backdrive safety and vertical precision. Prototype required. \\
+        \addlinespace
+        
+        Drive System & Motor Specs & PENDING & TBD & 
+        Requires final inertia calculation based on selected beam weight. \\
+        \addlinespace
+        
+        Drive System & Belt Sizing & PENDING & Width/Pitch & 
+        Dependent on final motor torque selection. \\
+        \addlinespace
+        
+        Control & Gains & PENDING & PID Values & 
+        To be determined during physical calibration/tuning. \\
+        
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Structural Prototype Platform}
+To evaluate the mechanical configurations and validate the axis designs, a 1x1x1 structural frame was constructed. This frame served as the platfrom where we can design different mechanical layouts before moving towards a final industial structure
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figures/gantry_image.jpeg}
+    \caption{Basic prototype with X axis,Y axis, Z axis, and End Effector}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsubsection{X-Axis Structural Design}
+The X-axis forms the primary the primary load-bearing axis of the gantry, supporting the Y-axis carriage, Z-axis Assembly, and the End Effector lifting mechanism.
+
+Two parallel X-bars were installed to act as the main rails of the gantry bridge. To improve structural integrity and reduce deflection over the span. the two bars were mechanically coupled using cross members. These coupling ensured that the guides remain aligned during operation and distribute loads more evenly across the structure.
+
+
+
+\subsubsection{Y-Axis Structural Design}
+
+The Y-axis is mounted on the moving X-axis carriage and is responsible for translating the z-axis, and  the end-effector across the gantry span.
+
+Linear guides were installed perpendicular to the X-axis rails to support the Y-axis motion. The Y-bars were positioned and coupled to ensure  rigidity while maintaining alignment with the X-axis structure.
+
+This design configuration allows the Y-axis to maintain a stable moving platform for the Z-axis lifting mechanism.
+
+
