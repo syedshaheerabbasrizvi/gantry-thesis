@@ -1,9 +1,113 @@
 \chapter{Conclusion and Future Work}
 
-The thesis presented a prototype for a four degree of freedom gantry system for packaging and palletizing tasks. The presented system consists of a computer vision subsystem, a high level trajectory planning system, an STM32 based level control system, and a vacuum section end effector. This end effector has a custom yaw axis as well. Each system is fully functional, which means that the gantry can localize objects, it can plan trajectories, and it can exercise precise take and place operations. The design is able to handle arbitrary, rectangular, and non-uniform objects because of its suction cup design. And it is generally enough to be replicated and adopted across different environments.
+\section{Summary of Work}
 
-Our system comes into be at roughly one tenth the cost of a comparable commercial system with much more functionality. And with it demonstrates that capable industrial automation need not be prohibitively expensive, nor does it need to be imported.
+In this thesis, the risks of manual packaging and palletizing of microwaves at Dawlance’s assembly plan was addressed; particularly, the immediate process redesign required by the calculated NIOSH Lifting Index of 3.1. The solution, which is a four degree of freedom gantry robot operating under human-robot collaboration, performs the heavy lifting, while workers retain the dexterous lightweight tasks.
 
-\section*{Future Work}
+Each subsystem has been designed, sized, and validated according to the constraints of the task: the mechanical frame, linear motion system, drive mechanisms, motor actuation and sizing, vacuum end effector, STM32-based control, motion profiling, and computer vision for pose estimation. The final deliverable is a full-scale $4 \times 4 \times 2$\,m wooden prototype demonstrating pick-and-place on the translational axes with suction. Dawlance will receive mechanical design documentation and construct the final steel frame with the same components and architecture under supervisory guidance from the project team. 
 
-So several directions merit further development. One direction could be extending the system to support broader ERP integration. Perhaps the control layer and the high level control layer as well as the low level control layer can be modified in order to support generic CNC machines and therefore compete with open PNP for generalized, they can place applications especially for things like microcontrollers or PCV fabrication. The object detection post detection system can be extended in order to handle greater scene complexity especially involving human workers who are involved with the machine. Additionally, the system can be modified in order to become compliant. So the system can become human robot collaborative. We can also extend and adapt and deploy the system at scale for Dawlance.
+\section{Evaluation Against Objectives}
+
+The five secondary objectives defined in Section~1.3 are evaluated against the metrics established in Section~2.5.
+
+\subsection{Improve Ergonomics}
+
+\begin{itemize}
+    \item \textbf{Metric:} NIOSH Lifting Index (LI).
+    \item \textbf{Target:} $\leq 1.0$, reduced from the current value of 3.1.
+\end{itemize}
+
+Since all lifting operations are offloaded to the gantry robot in this solution, the tasks the workers perform involve objects that weigh well under 2\,kg – examples include inserting EPS blocks, sealing box flaps with tape, and wrapping the microwave in plastic – without significant asymmetry or vertical displacement. With these factors effectively eliminated, the new Lifting Index is expected to fall well below 1.0; however, a formal reassessment is required for quantitative verification after the final solution is deployed at the plant.
+
+\subsection{Maintain Product Quality}
+
+\begin{itemize}
+    \item \textbf{Metric:} Product damage rate.
+    \item \textbf{Target:} 0\% verified damage across operational trials.
+\end{itemize}
+
+The vacuum end-effector distributes the lifting force across six suction cups, so that the microwave may not be deformed at a single point. Moreover, the S-curve motion profiles used by the system ensure continuous acceleration and finite jerk, so that the mechanical vibration can  be suppressed during regular operation. And the computer vision pipeline aligns the poses of the objects before placement, so that the edges or the flaps may not collide inadvertently.
+
+During testing, the vacuum gripper successfully lifted a plastic wrapped Dawlance microwave shell without visible damage, and at the project showcase, the system continuously picked and moved the shell in the X and Y axes for over an hour with no grip failure. However, formal trials as defined in Section~2.5 remain to be performed, as they require the final steel structure and packaging materials. This is recommended to be part of the commissioning process.
+
+\subsection{Meet Production Speed}
+
+\begin{itemize}
+    \item \textbf{Metric:} System cycle time.
+    \item \textbf{Target:} $\leq 30$\,s, with an optimization target of 25\,s.
+\end{itemize}
+
+The motor sizing performed was against a motion profile requiring 3.0\,m of linear travel in 10\,s per axis, so that the remaining time of the 30\,s window could be utilized for miscellaneous asks. SigmaSelect confirmed that all selected motors satisfy this profile with safety margin on torque, speed, and inertia ratio.
+
+However, to avoid producing resonant vibrations on the wooden prototype, the axis movement was intentionally kept to low speeds, which means that the measured cycle times are not representative of production performance. While the trajectory planning and motor sizing in previous chapters theoretically confirm the achievement of the target, real-world validation under production conditions is also deferred to the commissioning phase once the final steel system is fabricated.
+
+\subsection{Be Affordable}
+
+\begin{itemize}
+    \item \textbf{Metric:} Final Bill of Materials cost.
+    \item \textbf{Target:} $\leq$ Rs\,1.8\,million, with an optimisation target of Rs\,1.5\,million.
+\end{itemize}
+
+The estimated Bill of Materials – detailed in Appendix~B, amounts to be approximately just under Rs\,1.8 million, including a 25\% allocation for contingency purposes. While individual components evolved during designing and prototyping, the total remained within this approved budget. Moreover, this system is significantly less expensive than commercial solutions for similar tasks, as shown in Table~\ref{tab:cost_comparison}.
+
+\begin{table}[h]
+\centering
+\caption{Cost comparison with commercial palletizing systems.}
+\label{tab:cost_comparison}
+\begin{tabular}{llrrl}
+\toprule
+\textbf{System} & \textbf{Type} & \textbf{Est.\ Cost} & \textbf{Payload} & \textbf{Kinematics} \\
+\midrule
+ABB IRB 460      & 6-axis arm        & \textasciitilde\$80,000   & 60\,kg  & Inverse kinematics \\
+KUKA KR PAL      & 5-axis palletizer & \textasciitilde\$120,000  & 300\,kg & Proprietary        \\
+FANUC M-410iC    & 4-axis palletizer & \textasciitilde\$100,000  & 700\,kg & Inverse kinematics \\
+Epson T3         & 4-axis SCARA      & \textasciitilde\$15,000   & 3\,kg   & Inverse kinematics \\
+\textbf{This Work} & \textbf{4-axis Cartesian} & \textbf{\textasciitilde\$6,000} & \textbf{40\,kg} & \textbf{Cartesian} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+There are three primary reasons for this difference in cost. Firstly, the fabrication material of structural steel and aluminium extrusions is significantly less expensive than adopting proprietary robot frames. Secondly, open-source control stacks such as the STM32 framework and OpenCV mean that no software is bought. Thirdly, the gantry architecture means that standard linear motion components can be used for each axis instead of more precise revolute joints and harmonic drives required at every axis of an articulated arm so that it could also support its own weight.
+\subsection{Be Flexible and Reliable}
+
+\begin{itemize}
+    \item \textbf{Metric:} Gripper pick rate and place rate over 100 consecutive trials.
+    \item \textbf{Target:} $\geq 99$ successful operations with zero product damage.
+\end{itemize}
+
+To accommodate Dawlance’s entire range of microwave models, the bellows-type suction cups can conform to surface height variations, while the computer vision pipeline can estimate pose without requiring model dimensions. However, for formal trials, the steel phase must be completed, so this is also a commissioning milestone. Moreover, the yaw axis was not integrated in the wooden prototype because of the lack of rigidity to support the heavy harmonic drive under load. However, the functionality of yaw has been validated with a hobby servomotor, and integration is planned for the steel structure. 
+
+
+\section{Limitations}
+
+The following limitations were identified during the course of the project, beyond those anticipated in Section~2.4.2.
+
+The wooden prototype, although full-scale in dimensions, could not replicate the stiffness of the intended steel frame because timber introduces resonances at the required traversal speeds. Due to this, cycle time and dynamic performance data cannot be directly extrapolated at this stage.
+
+The Grounding DINO and SAM2 variant of the computer vision pipeline achieves a position error of approximately 5\% relative to the object's distance from the camera origin. At working distances of 1--2\,m, this leads to errors of 5--10\,cm, which exceeds the $<1$\,cm positional accuracy specified in Table~2.2. This is believed to be attributable to camera calibration and poor lighting rather than a fundamental limitation of the detection and segmentation pipeline, and is expected to improve with more rigorous calibration. Additionally, the pipeline has not yet been tested with the full range of Dawlance microwave models, some of which have different surface finishes and colours, nor under the variable lighting conditions of the factory floor.
+
+Vacuum leakage at pneumatic interfaces is a practical challenge. While the suction cups themselves seal reliably on microwave surfaces, the threaded connections between cups, T-connectors, and tubing were observed to produce minor leaks that reduce the effective vacuum level. Production deployment will need professional pneumatic fitting with proper sealing at all joints.
+
+The yaw axis was not integrated into the prototype. While the mechanical design and motor sizing have been validated through CAD analysis and SigmaSelect, physical integration and testing remain pending.
+
+The interface is currently a command-line tool suitable for development and testing. A graphical operator interface would be necessary for deployment on the factory floor, where line operators are not expected to interact with a terminal. Moreover, the high-level control architecture is yet to be developed, which requires the integration of the vision data with the application.
+
+
+\section{Future Work}
+
+\subsection{Near-Term: Deployment Path}
+
+Currently, the immediate priority is to fabricate the steel structure using the mechanical design documentation provided as part of the project handover with Dawlance’s support. This includes I-beam framing, precision-machined mounting plates for the linear guide rails, and motor housings. Following fabrication, the electrical and control subsystems (which have been validated on the wooden prototype) can be transferred directly to the steel frame.
+
+Once the steel structure is assembled, the following commissioning steps are recommended: integration and testing of the yaw axis; execution of the 100-cycle pick/place trials and 40-hour operational trial defined in Section~2.5; a formal NIOSH Lifting Index reassessment of the redesigned manual task and development of an operator HMI to replace the command-line interface. 
+
+\subsection{Longer-Term: Extensions}
+
+Several directions merit further development beyond the initial deployment.
+
+The computer vision pipeline can be extended to detect human workers within the gantry workspace, enabling active safety monitoring in compliance with ISO/TS~15066 speed and separation monitoring requirements. This would strengthen the human--robot collaboration capabilities of the system.
+
+The open-source control stack is not specific to microwave packaging. The same architecture could be adapted for other packaging lines at Dawlance (e.g., washing machines, refrigerators) or at other Pakistani manufacturers, providing a replicable blueprint for affordable industrial automation. More broadly, the modular software architecture could be generalized for other pick-and-place applications, similar to open-source platforms such as OpenPnP, but scaled for heavy industrial payloads.
+
+Finally, the end-effector control can be enhanced by fusing vacuum pressure sensor data with motor current feedback to implement compliant placement, allowing gentler insertion of the microwave into its box and reducing the risk of edge strikes. This would build on industrial literature where compliant manipulation typically relies on expensive six-axis force-torque sensors.
+
