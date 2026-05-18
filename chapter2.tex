@@ -1,6 +1,6 @@
 \chapter{Design Process}
 
-This section translates the qualitative needs and objectives identified into a set of quantitative, objective, and testable design specifications. It formally defines the project's technical scope, constraints, and novel contributions.
+This chapter translates the qualitative needs and objectives identified into a set of quantitative, objective, and testable design specifications. It formally defines the project's technical scope, constraints, and novel contributions.
 
 \section{Stakeholder Analysis}
 
@@ -41,15 +41,14 @@ The system will consist of a gantry (Cartesian) robot for packaging and palletiz
 
 \begin{itemize}
     \item The solution will be able to detect the pose of objects on the conveyor, namely the microwave and the box (both with flaps closed, and fully packaged) using computer vision.
-    \item The solution will be able to synchronize the end-effector’s x velocity with that of the conveyor, including minor variations.
+    \item The solution will be able to synchronize the end-effector's x velocity with that of the conveyor, including minor variations.
     \item The solution will be able to securely grasp and lift microwaves and boxes, with negligible risk of dropping or damage.
     \item The solution will be able to insert the microwave snugly into its open box without striking the edges or the flaps.
     \item The solution will be able to stack packages onto the pallet with interlocking pinwheel patterns for high structural integrity.
-    \item The solution will be able to adapt to specified variations in dimensions and orientations of the objects, so that it can be functional across Dawlance’s entire set of microwave models.
+    \item The solution will be able to adapt to specified variations in dimensions and orientations of the objects, so that it can be functional across Dawlance's entire set of microwave models.
 \end{itemize}
 
-The specifications for core performance of the system were decided after a comprehensive requirements analysis with Dawlance management, and are detailed in Table~\ref{tab:specs}. The workspace dimensions were established via a spatial survey of the line, so that the gantry could fit within the available footprint while covering the packaging or palletizing zones. The payload capacity was selected as a factor of the heaviest production unit: the MWO DW-162-HZP, which weighs 22 kg. Allowing dynamic loading and end-effector weight, a final value of 40kg was determined, giving a safety margin of approximately 1.8x. The cycle time is a factory constraint, so that the system remains synchronized with the throughput of the upstream conveyor. Finally, positional and rotational tolerances were defined by Dawlance for stable pallet stacking, and verified physically with the project team’s experiments.
-
+The specifications for core performance of the system were decided after a comprehensive requirements analysis with Dawlance management, and are detailed in Table~\ref{tab:specs}. The workspace dimensions were established via a spatial survey of the line, so that the gantry could fit within the available footprint while covering the packaging or palletizing zones. The vertical dimension of \qty{2.0}{m} refers to the usable stroke of the Z-axis; the physical frame is taller to accommodate the drive mechanism and end-effector above the workspace. The payload capacity was selected as a factor of the heaviest production unit: the MWO DW-162-HZP, which weighs \qty{22}{kg}. Allowing dynamic loading and end-effector weight, a final value of \qty{40}{kg} was determined, giving a safety margin of approximately 1.8x. The cycle time is a factory constraint, so that the system remains synchronized with the throughput of the upstream conveyor. Finally, positional and rotational tolerances were defined by Dawlance for stable pallet stacking, and verified physically with the project team's experiments.
 
 % --- Table 2: Design Specifications ---
 \begin{table}[H]
@@ -60,7 +59,7 @@ The specifications for core performance of the system were decided after a compr
     \toprule
     \textbf{Parameter} & \textbf{Specification} \\
     \midrule
-    \textbf{Workspace} & 4.0 m (X) x 4.0 m (Y) x 3.0 m (Z) \\
+    \textbf{Workspace} & 4.0 m (X) $\times$ 4.0 m (Y) $\times$ 2.0 m (Z stroke) \\
     \addlinespace
     \textbf{Maximum Payload} & 40 kg  \\
     \addlinespace
@@ -68,59 +67,56 @@ The specifications for core performance of the system were decided after a compr
     \addlinespace
     \textbf{Positional Accuracy} & \textless 1.0 cm \\
     \addlinespace
-    \textbf{Positional Repeatability} & \(\pm\) 0.5 cm \\
+    \textbf{Positional Repeatability} & $\pm$ 0.5 cm \\
     \addlinespace
-    \textbf{Orientation Accuracy} & \(\pm\) 1.0 degree (Z-axis rotation) \\
+    \textbf{Orientation Accuracy} & $\pm$ 1.0 degree (Z-axis rotation) \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 \section{PESTEL Analysis}
 
-\subsection{Economic} Appliance manufacturing margins in Pakistan are under
-pressure from import competition and input cost inflation. For the financial case, there are two main points.
+\subsection{Political}
 
-First, MSD injury costs: international research benchmarks the direct cost of a single
-MSD case at USD~15,000--85,000 in compensation, medical expenses, and legal exposure;
-indirect costs --- absenteeism, retraining, and lost productivity --- can multiply this figure by
-four to five times~\cite{ergocenter,osha_costs}. Moreover, each injured worker requires replacement coverage,
-medical support, and retraining, with the ILO identifying poor occupational health as a
-leading contributor to productivity deficits in Pakistani manufacturing~\cite{pakistan_ohs}.
+Pakistan's industrial policy framework has increasingly emphasised technology adoption and local manufacturing capability. The government's strategic trade policy encourages import substitution, creating an environment favourable to domestically developed automation solutions. At the provincial level, the Sindh Factories Rules under the Factories Act 1934 place occupational safety obligations on employers~\cite{factories_act}, which provides regulatory incentive for the ergonomic improvements targeted by this project.
 
-Secondly, product damage costs: Dawlance microwaves retail between Rs.~12,000 and
-Rs.~40,000~\cite{megapk}. Assuming an excellent magnetron defect rate of 0.5\% of units, with a total average production of about 500,000 units annually, at an average value of 25000, this yields a total of 6.25 million loss. Even a conservative fraction of this figure substantially strengthens the business case.
+\subsection{Economic}
 
-In comparison, the proposed system carries a one-time capital cost of
-Rs.~1.8~million. At a 10-year operational lifespan, this amounts to Rs.~180,000 per year, which is small compared to the costs of damage and absenteeism. Hence, even under conservative assumptions, the project offers a compelling return on investment.
+Appliance manufacturing margins in Pakistan are under pressure from import competition and input cost inflation. For the financial case, there are two main points.
 
-\subsection{Social} Both globally and locally, governments are developing stricter rules and regulations for occupational health and safety. According to the International Labour Organization (ILO), musculoskeletal disorders are one of the most common occupational injuries in industries where labour is used. This is especially prevalent in those involving repetitive manual handling~\cite{ilo_safety}. For a major consumer brand like Dawlance, investment in worker safety can significantly affect reputation (both positively and negatively), as it portrays responsible corporate practice. This means that Dawlance will be pursuing the United Nation's SDG~3 (Good Health and Well-Being) through reduced worker injury and SDG~8 (Decent Work and Economic Growth) through improved workplace safety and productivity.
+First, MSD injury costs: international research benchmarks the direct cost of a single MSD case at USD~15,000--85,000 in compensation, medical expenses, and legal exposure; indirect costs --- absenteeism, retraining, and lost productivity --- can multiply this figure by four to five times~\cite{ergocenter,osha_costs}. While Pakistani compensation structures differ significantly from these international benchmarks, the indirect costs of absenteeism, retraining, and lost productivity remain substantial in the local context, with the ILO identifying poor occupational health as a leading contributor to productivity deficits in Pakistani manufacturing~\cite{pakistan_ohs}.
 
-Additionally, developing this machine with University students will help improve Dawlance's Corporate Social Responsibility (CSR) reporting, because of the improved Industry-Academia connection. As a consequence of this effort, Dawlance can report to the Securities and Exchange Commission of Pakistan (SECP) that this targets both SDG 8 (Decent Work and Economic Growth), due to the R\&D aspect, and SDG 4 (Quality Education), due to investment in the new workforce. Since this will become mandatory by 2029, by incorporating this now, Dawlance can lay the foundation for its competitive advantage in the future \cite{secp_esg}. This can later be leveraged for better loans within Pakistan and foreign investment from European investors, through their parent company, Arçelik. 
+Secondly, product damage costs: Dawlance microwaves retail between Rs.~12,000 and Rs.~40,000~\cite{megapk}. Assuming a magnetron defect rate of 0.5\% of units, with a total average production of approximately 350,000 units annually (derived from a throughput of 2 units per minute over an 8-hour shift across approximately 250 working days), at an average retail value of Rs.~25,000, this yields a potential annual loss of:
+\[
+350{,}000 \times 0.005 \times 25{,}000 = \text{Rs.~43.75~million}
+\]
+Even if only a small fraction of this loss is attributable to manual handling errors, it substantially strengthens the business case for automation.
 
+In comparison, the proposed system carries a one-time capital cost of Rs.~1.8~million. At a 10-year operational lifespan, this amounts to Rs.~180,000 per year, which is small compared to the costs of damage and absenteeism. Hence, even under conservative assumptions, the project offers a compelling return on investment.
 
-\subsection{Technological} Robot density in Pakistani manufacturing remains far below regional
-and global averages~\cite{ifr2025}. By developing a gantry locally, this project can create a blueprint that other Pakistani manufacturers can adapt, which means that this project produces greater value than just a simple deployment. Naturally, this gantry system would be a major local technological accomplishment, both for the academic institution and the collaborating industry.
+\subsection{Social}
 
+Both globally and locally, governments are developing stricter rules and regulations for occupational health and safety. According to the International Labour Organization (ILO), musculoskeletal disorders are one of the most common occupational injuries in industries where labour is used. This is especially prevalent in those involving repetitive manual handling~\cite{ilo_safety}. For a major consumer brand like Dawlance, investment in worker safety can significantly affect reputation (both positively and negatively), as it portrays responsible corporate practice. This means that Dawlance will be pursuing the United Nation's SDG~3 (Good Health and Well-Being) through reduced worker injury and SDG~8 (Decent Work and Economic Growth) through improved workplace safety and productivity.
 
-Additionally, while automated gantry systems have existed from the 60s in First World, they have yet to make an appearance in Pakistan's industrial sector. Being an early adopter of this already-proven technology provides Dawlance significant competitive advantage in the local sector. By building their systems in-house, they can save on expensive maintenance costs as opposed to if they were to sub-contract European companies.  
+Additionally, developing this machine with University students will help improve Dawlance's Corporate Social Responsibility (CSR) reporting, because of the improved Industry-Academia connection. As a consequence of this effort, Dawlance can report to the Securities and Exchange Commission of Pakistan (SECP) that this targets both SDG 8 (Decent Work and Economic Growth), due to the R\&D aspect, and SDG 4 (Quality Education), due to investment in the new workforce. Since this will become mandatory by 2029, by incorporating this now, Dawlance can lay the foundation for its competitive advantage in the future \cite{secp_esg}. This can later be leveraged for better loans within Pakistan and foreign investment from European investors, through their parent company, Arçelik.
 
-\subsection{Environmental} Automation directly reduces packaging waste due to handling errors from fatigue. This may include wasted corrugated cardboard, EPS foam, or even an entire appliance, all of which contain a material and energy cost. With Dawlance's estimated production scale of approximately 350,000 microwave units annually -- assuming an 8 hour shift everyday that produces 2  microwaves in minute -- significant material savings can be achieved even by small reductions in waste. 
+\subsection{Technological}
 
-However, automation could also introduce more environmental trade offs. For example, gantry robots could increase demand for unclean energy; solutions can be optimizing the gantry's trajectories for power, or a solar system can be installed to power the gantry \cite{vysocky2020}. Another concern is that the raw materials themselves might also contribute their own carbon footprint which can be covered by incorporating recycled structural components or repurposed mechanical assemblies from existing Dawlance infrastructure. The above discussion means that this project directly targets SDG~9 (Industry, Innovation, and 
-Infrastructure) using locally developed manufacturing technology, and SDG~12 
-(Responsible Consumption and Production) through reduced material waste~\cite{undp_sdg}.
+Robot density in Pakistani manufacturing remains far below regional and global averages~\cite{ifr2025}. By developing a gantry locally, this project can create a blueprint that other Pakistani manufacturers can adapt, which means that this project produces greater value than just a simple deployment. Naturally, this gantry system would be a major local technological accomplishment, both for the academic institution and the collaborating industry.
 
-\subsection{Legal} A documented LI of 3.1 is evidence of ergonomic risk
-exceeding safe thresholds~\cite{niosh2024}. Under Pakistan's Factories Act of 1934, employers are legally obligated to maintain safe working conditions and prevent 
-foreseeable occupational injury~\cite{factories_act}. However with the project implemented, in any unforeseen circumstance, the company will be observed as a compliant organization with such hazards. 
+Additionally, while automated gantry systems have existed since the 1960s in industrialised economies, they have yet to make an appearance in Pakistan's industrial sector. Being an early adopter of this already-proven technology provides Dawlance significant competitive advantage in the local sector. By building their systems in-house, they can save on expensive maintenance costs as opposed to if they were to sub-contract European companies.
 
-Beyond domestic law, the proposed system will comply
-with ISO~10218 (Industrial Robot Safety) and ISO/TS~15066 (Collaborative
-Robots)~\cite{iso10218,iso15066}, such that no foreign machinery at Dawlance is considered as non-verifiable and the company is legally assured. 
-Since Dawlance operates under the parent company Arçelik, by adhering these standards Dawlance is also reviewable under European regulatory environment~\cite{arcelik}.
+\subsection{Environmental}
 
+Automation directly reduces packaging waste due to handling errors from fatigue. This may include wasted corrugated cardboard, EPS foam, or even an entire appliance, all of which contain a material and energy cost. With Dawlance's estimated production scale of approximately 350,000 microwave units annually, significant material savings can be achieved even by small reductions in waste.
 
+However, automation could also introduce environmental trade-offs. For example, gantry robots could increase demand for energy; solutions include optimising the gantry's trajectories for power consumption, or installing a solar system to offset the gantry's energy usage \cite{vysocky2020}. Another concern is that the raw materials themselves contribute their own carbon footprint, which can be mitigated by incorporating recycled structural components or repurposed mechanical assemblies from existing Dawlance infrastructure. The above discussion means that this project directly targets SDG~9 (Industry, Innovation, and Infrastructure) using locally developed manufacturing technology, and SDG~12 (Responsible Consumption and Production) through reduced material waste~\cite{undp_sdg}.
 
+\subsection{Legal}
+
+A documented LI of 3.1 is evidence of ergonomic risk exceeding safe thresholds~\cite{niosh2024}. Under Pakistan's Factories Act of 1934, employers are legally obligated to maintain safe working conditions and prevent foreseeable occupational injury~\cite{factories_act}. With the project implemented, in any unforeseen circumstance, the company will be observed as a compliant organisation that has proactively addressed such hazards.
+
+Beyond domestic law, the proposed system will comply with ISO~10218 (Industrial Robot Safety) and ISO/TS~15066 (Collaborative Robots)~\cite{iso10218,iso15066}, such that no foreign machinery at Dawlance is considered as non-verifiable and the company is legally assured. Since Dawlance operates under the parent company Arçelik, by adhering to these standards Dawlance is also reviewable under the European regulatory environment~\cite{arcelik}.
 
 \section{Constraints and Limitations}
 
@@ -129,23 +125,24 @@ All design decisions are under the following constraints, as defined by the clie
 \subsection{Design Constraints}
 \begin{itemize}
     \item The financial limit of Rs 1.8 million should be respected for actuators, computing hardware, fabrication, and miscellaneous costs.
-    \item The workspace should be lesser than 5m x 5m in terms of floor area, and 3.5m for vertical height, due to space limitations at the installation place.
+    \item The workspace should be lesser than 5m $\times$ 5m in terms of floor area, and 3.5m for vertical height, due to space limitations at the installation place.
     \item The system will operate from a three-phase supply of 400 V AC at 50 Hz, which is standard in Pakistan; moreover, internal regulation should ensure supply tolerances of voltage fluctuations of $\pm10\%$ from the nominal value.
     \item The robot should remain operational within an ambient temperature range of $0\degree$ C to $45\degree$ and relative humidity up to 95\% (non-condensing). Moreover, each component should adhere to IP54 ingress protection standards or higher.
     \item The robot should be safe as defined by ISO 10218-1 standards. In particular, the end-effector must hold in place in case of power failure, while an emergency stop separate from the software controller must be in place and operational.
 \end{itemize}
 
 \subsection{System Limitations}
-While the project design accommodates anticipated variances in operations, it remains under the following functional constraints:\begin{itemize}
+While the project design accommodates anticipated variances in operations, it remains under the following functional constraints:
+\begin{itemize}
     \item The computer vision pipeline will be tuned for the matte finish of cardboard boxes and the surfaces of current microwave models. Significant changes, such as highly reflective surfaces of a new model, may not perform as well.
     \item The gantry robot is designed to package and palletize products of high quality. Any significant damage, such as crushed boxes, torn plastic wrapping, or deformed pallets, would require human intervention for resolution.
-    \item The end-effectors will be optimized for the dimensions of the current biggest and smallest models offered by Dawlance. New models introduced that are significantly different – either in terms of weight or size – would need redesigning of the end-effectors for the robot to perform well.
+    \item The end-effectors will be optimized for the dimensions of the current biggest and smallest models offered by Dawlance. New models introduced that are significantly different -- either in terms of weight or size -- would need redesigning of the end-effectors for the robot to perform well.
     \item The microwaves and the boxes must be placed within the conveyor, which is part of regular operations. If part of the object lies outside the conveyor itself, grasp failure is likely.
 \end{itemize}
 
 \section{Metrics for Objectives}
 
-The objectives defined in Section 1.3 are mapped to the following specific, measurable, and testable metrics.
+The six objectives defined in Section~1.3 are mapped to the following specific, measurable, and testable metrics.
 
 \begin{itemize}
 
@@ -177,25 +174,35 @@ The objectives defined in Section 1.3 are mapped to the following specific, meas
         \item \textbf{Success Criteria:} Minimizing cycle time to beat the factory Takt time; aiming for 25s, subject to a hard constraint of $\le$ 30s.
     \end{itemize}
 
-    \item \textbf{Be Flexible and Reliable:}
-        \textbf{Pick Operation:}
-        \begin{itemize}
-            \item \textbf{Metric:} Gripper Task Pick Rate.
-            \item \textbf{Test:} Perform 100 consecutive picking trials.
-            \item \textbf{Success Criteria:} Maximizing reliability, aiming for $\ge$ 99 successful picks with zero visually identified product damage.
-        \end{itemize}
+    \item \textbf{Be Flexible:}
+    \begin{itemize}
+        \item \textbf{Metric:} Number of Dawlance microwave models successfully handled without mechanical changeover.
+        \item \textbf{Test:} Perform pick-and-place trials with at least three different microwave models spanning the dimensional and weight range.
+        \item \textbf{Success Criteria:} Successful handling of all tested models with zero product damage.
+    \end{itemize}
+
+    \item \textbf{Be Reliable:}
+    
+    \textbf{Pick Operation:}
+    \begin{itemize}
+        \item \textbf{Metric:} Gripper Task Pick Rate.
+        \item \textbf{Test:} Perform 100 consecutive picking trials.
+        \item \textbf{Success Criteria:} Maximizing reliability, aiming for $\ge$ 99 successful picks with zero visually identified product damage.
+    \end{itemize}
         
-        \textbf{Place Operation:}
-        \begin{itemize}
-            \item \textbf{Metric:} Gripper Task Place Rate.
-            \item \textbf{Test:} Perform 100 consecutive placing trials.
-            \item \textbf{Success Criteria:} Maximizing reliability, aiming for $\ge$ 99 successful places with zero visually identified product damage.
-        \end{itemize}
+    \textbf{Place Operation:}
+    \begin{itemize}
+        \item \textbf{Metric:} Gripper Task Place Rate.
+        \item \textbf{Test:} Perform 100 consecutive placing trials.
+        \item \textbf{Success Criteria:} Maximizing reliability, aiming for $\ge$ 99 successful places with zero visually identified product damage.
+    \end{itemize}
 
 \end{itemize}
+
 \section{Intellectual Contribution}
 
-In short, the intellectual contribution of this project is to develop a resource efficient industrial automation framework. To substitute for expensive hardware redundancy, the project utilizes computer vision for dynamic pose estimation -- eliminating the need for precise mechanical fixtures -- and implements robust control algorithms to compensate for the backlash and compliance inherent in mechanical structures. Hence, this approach makes the system more affordable for industry markets in developing economies hoping to integrate Industry 5.0. This framework is expanded into four key areas.
+In short, the intellectual contribution of this project is to develop a resource-efficient industrial automation framework. To substitute for expensive hardware redundancy, the project utilizes computer vision for dynamic pose estimation -- eliminating the need for precise mechanical fixtures -- and implements robust control algorithms to compensate for the backlash and compliance inherent in mechanical structures. Hence, this approach makes the system more affordable for industry markets in developing economies hoping to integrate Industry 5.0. This framework is expanded into four key areas.
+
 \begin{itemize}
     \item In literature, the dominant method for compliant manipulation is the incorporation of 6-axis force-torque sensors with their own controllers, which are highly expensive. Instead, this project will achieve gripping by fusing data from pressure sensors and motor current feedback to adjust force dynamically while staying true to the budget \cite{arxiv2025guarding, liu2021sensorless}. 
     
@@ -203,7 +210,6 @@ In short, the intellectual contribution of this project is to develop a resource
     
     \item One of the hidden costs of industrial robots is the enormous energy usage. The gantry robot, to remain sustainable, will incorporate trajectory optimization methods; an example is the inclusion of S-curve motor profiles to respect acceleration and jerk limits of the motors, hence reducing wear and tear. Moreover, if the project uses belt-drive systems, a method to combat the inherent vibration is input shaping, where the control commands are convolved with an impulse train of the same frequency as the belt-drive system, thus destructively interfering the vibrations. \cite{mahdavian2015optimal, soori2023optimization}. 
 
-    \item Even with the reduced scope, there is ample room for innovation in end-effector design, since it must reliably deal with misalignments, inherently slippery surfaces of microwaves, and variations in built. The end-effector needs to deal with high-payload and low-form applications while remaining inexpensive. Moreover, since the packaging and palletizing have little room for error in placement, the end-effector may rely on a controlled friction-based descent; this is difficult to model and is not addressed sufficiently by existing control strategies, offering room for intellectual contribution.
+    \item Even with the reduced scope, there is ample room for innovation in end-effector design, since it must reliably deal with misalignments, inherently slippery surfaces of microwaves, and variations in build. The end-effector needs to deal with high-payload and low-form applications while remaining inexpensive. Moreover, since the packaging and palletizing have little room for error in placement, the end-effector may rely on a controlled friction-based descent; this is difficult to model and is not addressed sufficiently by existing control strategies, offering room for intellectual contribution.
     
 \end{itemize}
-

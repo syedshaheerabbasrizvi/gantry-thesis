@@ -2,126 +2,49 @@
 
 \label{sec:design_details}
 
-This section details the technical approach to solving the design problem. This includes the system architecture, the alternatives considered, the results from proof-of-concept experimentation, and a deeper dive into the core subsystems.
+This chapter details the technical approach to solving the design problem, presenting the system architecture and its decomposition into subsystems, each of which is elaborated in the subsequent chapters.
 
 \section{Solution Statement}
 
-The solution is a single 4-axis gantry robot operating under Industry 5.0 philosophy, which handles the heavy lifting of the process, while offloading the dexterous tasks to line workers. Its X and Y is belt-driven, Z-axis is rack-and-pinion driven, and yaw axis is directly driven, all by AC servo motors. The end-effector is purely vacuum based, with suction cups and pressure feedback, and tracking of microwaves and boxes is through computer vision. This system is fully locally manufactured and maintainable without foreign expertise, with all components procured locally to eliminate dependence on foreign supply chains.
-
-The solution is informed by the constraints, as discussed in the literature review. Maintaining a fully manual process was not feasible because of the NIOSH Lifting Index being 3.1, which requires immediate redesign. Due to the conservative cycle time, full automation was rejected, particularly for dexterous tasks. Out of the two options (owing to the heavy payload), articulated robots were rejected due to concerns of budget and maintainability, leaving gantry robots as the only sensible option. Lighter alternatives were disqualified by the 40 kg payload requirement. Integrating the arguments together, the project is left to be a gantry robot under human-robot collaboration, as that is the only architecture satisfying the major constraints simultaneously.
+The solution is a single 4-axis gantry robot operating under the human--robot collaboration paradigm established in Section~\ref{sec:operational_paradigm}, which handles the heavy lifting of the process while workers retain the dexterous tasks. The X and Y axes are belt-driven, the Z-axis is rack-and-pinion driven, and the yaw axis is directly driven, all by AC servo motors. The end-effector is purely vacuum-based, with suction cups and pressure feedback, and tracking of microwaves and boxes is through computer vision. All components are procured through local suppliers, with the control architecture built on open-source software to eliminate dependence on foreign proprietary expertise for programming and maintenance.
 
 The primary ethical driver of the project is to address occupational safety in the factory; however, to retain the employment of line workers, the approach adopts human-robot collaboration. To promote sustainability, the project utilizes motors with the minimum sufficient power ratings and S-curve motion profiles to minimize energy usage. The automated handling of microwaves also targets waste reduction, as fewer microwaves are discarded due to manual lifting errors stemming from fatigue.
 
 \section{Solution Overview}
 
-The overview of the solution is demonstrated in the following block diagram:
+Figure~\ref{fig:system_diagram} presents the overall system block diagram showing the flow of data, power, and mechanical motion across the system.
 
+% TODO (Fix 3.4): Redraw this diagram with the following changes:
+%   1. Make UART/USB arrow bidirectional
+%   2. Group gearboxes with motors into single boxes
+%   3. Label arrows with data types (e.g., "position commands", 
+%      "sensor feedback") rather than protocols/voltages.
+%      Put protocols in the chapter text, not the diagram.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{system_diagram.pdf}
     \caption{Overall system block diagram.}
-    \label{fig:placeholder}
+    \label{fig:system_diagram}
 \end{figure}
 
-The figure demonstrates how the hardware integrates throughout the solution. An industrial PC takes in data from the camera on the gantry robot, and develops motion sequencing algorithms based on computer vision, while presenting a command-line interface (CLI) in Python for users. It also acts as a supervisory state machine to transition between the logic states using ROS2.
+The system is structured as a hierarchy of control layers. An industrial PC performs computer vision and trajectory planning, forwarding position commands to an STM32F303 microcontroller over UART. The microcontroller generates S-curve motion profiles and issues pulse/direction signals to Yaskawa Sigma-5 servo drives, which perform closed-loop position control of the AC servo motors. The motors drive the mechanical axes through belt-and-pulley (X, Y), rack-and-pinion (Z), and harmonic drive (yaw) transmissions. A vacuum-based end-effector with solenoid-controlled switching handles the payload, while a sensing system comprising a global shutter camera, limit switches, external encoders, and a pressure sensor closes the feedback loop. The power electronics panel distributes factory 400V three-phase AC to the drives and generates the 24V DC and logic-level rails required by the remaining subsystems. Each of these subsystems is detailed in Chapters~4 through~11.
 
-This forwards position data to the STM32F303 Discovery Kit, which acts as a low-level controller. It parses commands, sequences motion, and generates S-curve profiles to conserve energy while ensuring that acceleration and jerk are continuous to suppress vibration in the motors. Moreover, it incorporates homing and safety logic through wiring with the drives, so that in case of an alarm, it can act as an emergency stop in software alongside a physical button on the gantry robot.
-
-These forward the trajectory to the AC servo drives, which perform position control for each respective motor. Since the motors come with their own encoders and cabling, the drives internally perform PID control to minimize errors. 
-
-Then, the X and Y motors transmit their torque onto belt-and-pulley systems, while the Z motor transmits to a rack-and-pinion system. Meanwhile, the yaw motor is directly driving the end effector, which consists of suction cups with a vacuum generator connected as well as a solenoid valve for pneumatic switching.
-
-To power all the hardware, the system has a power electronics panel, which takes in 400V 3-phase AC power from the factory, and incorporates safety measures, such as a circuit-breaker, and powers the drives and motors. It also produces a single-phase 230V AC supply for the drive's control hardware, as well as a 24V DC rail for the electromagnetic brakes on the brakes, the pressure sensor, the external encoders, and the solenoid for the end-effector. Finally, it also produces logic rails of 5V and 3.3V for powering the STM32 and its logic circuitry simultaneously. 
-
-Finally, the loop is completed using a sensing system. The main component is the global shutter camera, which provides an image stream to the high-level controller using a USB connection. The output shafts have external encoders for confirmation of axes movement, while the axes themselves have limits for homing and detecting corners. And the vacuum system on the end-effector has a pressure sensor so that the grip on the object is sufficient.
 
 \section{System Details}
 
-While the block diagram demonstrates how the hardware is set up -- particularly how data, power, and mechanical translation flows across the system -- the logical subsystems manifest slightly differently. For example, the domain of the camera dwarfs that of the remaining sensors, and warrants an entire chapter. The mechanical structure is what multiple parts of the robot rely on, but are passive in terms of data flow, and cannot be represented easily in the diagram. 
+While the block diagram demonstrates how the hardware is set up --- particularly how data, power, and mechanical translation flow across the system --- the logical subsystems manifest slightly differently. For example, the domain of the camera dwarfs that of the remaining sensors, and warrants an entire chapter. The mechanical structure is what multiple parts of the robot rely on, but is passive in terms of data flow, and cannot be represented easily in the diagram.
 
 Hence, the project is partitioned into the following subsystems.
 
 \begin{itemize}
-    \item \textbf{Mechanical Structure:} This supports the entire robot. The frame contains two parallel X-axis beams, a Y-axis bridge spanning between them, a Z-axis mast hanging from the carriage, and an assembly incorporate both the yaw and the end-effector at the bottom. Linear bearings and guides are also incorporated to bear the weight without significant friction of the axes. 
-    \item \textbf{Drive Mechanisms:} The X and Y-axes employ belt \& pulley systems driven by the AC servo motors, while the Z-axis is driven by a spur rack \& pinion mechanism. Meanwhile, the yaw axis is directly driven through a high-ratio gearbox.
-    \item \textbf{Motor Actuation:} The system utilizes Yaskawa Sigma-5 AC Servos for closed-loop position control. Each of these are operated with their own drive and are paired with gearboxes to prioritize handling the high weight and inertia of the payload while balancing speed requirements.
-    \item \textbf{Power Electronics:} The electrical subsystem utilizes a 400V 3-phase AC input from the factory, and partitions power into multiple stages: a 400V 3-phase line for drive and motor power, a single-phase AC line for the logic controllers of the drives, a 24V DC rail for electromagnetic brakes and pneumatic solenoids, and 5V/3.3V DC rails for powering the STM32 and its logic circuitry. 
-    \item \textbf{End-Effector:} The end-effector uses a vacuum-based lifting mechanism for lifting microwave shells and boxes, even if coated with a plastic bag. This includes a suction cup, a vacuum pump, and solenoid-controlled switching, though the final deployment will expand to six cups (two large, four small) for distributing lifting force. The yaw mechanism also interacts directly with this assembly, consisting of an upside-down motor coupled via a shaft and angular bearings for full rotational motion. 
-    \item \textbf{Low-Level Control:} The STM32F303 Discovery Kit contains the firmware to interface with the Yaskawa drives with a pulse/direction protocol implemented using differential line to mitigate electromagnetic interference. The STM32 also implements S-curve motion profiles to minimize mechanical jerk, and contains a homing routine utilize limit switches on the XYZ-axes for calibration purposes.
-    \item \textbf{Computer Vision:} The vision subsystem uses an AR0234 Global Shutter camera mounted at an angle on the gantry frame, with a pipeline hinging on classical Open CV -- particularly contour detection and thresholding -- to identify 2D bounding boxes of the objects on the line. This provides the X and Y coordinates needed for alignment.
-    \item \textbf{High-Level Control:} This supervisory layer runs on industrial PC -- or a laptop for the prototype -- which communicates with the STM32 via UART over USB. It acts as a command-line interface for teleoperation, distance conversion, and tuning parameters as required. 
+    \item \textbf{Mechanical Structure (Chapter~4):} The frame contains two parallel X-axis beams, a Y-axis bridge spanning between them, a Z-axis mast hanging from the carriage, and an assembly incorporating both the yaw and the end-effector at the bottom. Linear bearings and guides bear the weight of the moving axes.
+    \item \textbf{Drive Mechanisms (Chapter~5):} The X and Y-axes employ belt \& pulley systems, while the Z-axis is driven by a spur rack \& pinion mechanism. The yaw axis is directly driven through a high-ratio gearbox.
+    \item \textbf{Motor Actuation (Chapter~6):} Yaskawa Sigma-5 AC servos provide closed-loop position control, each paired with planetary gearboxes sized to handle the payload inertia while meeting speed requirements.
+    \item \textbf{Power Electronics (Chapter~7):} The electrical subsystem partitions the factory 400V three-phase supply into drive power, single-phase logic supply, 24V DC for brakes and solenoids, and 5V/3.3V logic rails.
+    \item \textbf{End-Effector (Chapter~8):} A vacuum-based lifting mechanism using six suction cups (two large, four small) with a yaw axis consisting of a motor coupled via a shaft and angular contact bearings.
+    \item \textbf{Low-Level Control (Chapter~9):} The STM32F303 interfaces with the Yaskawa drives via a differential pulse/direction protocol, generates S-curve motion profiles, and implements homing routines using limit switches.
+    \item \textbf{Computer Vision (Chapter~10):} An AR0234 global shutter camera feeds a detection and pose estimation pipeline to provide the X, Y, and yaw coordinates needed for alignment.
+    \item \textbf{High-Level Control (Chapter~11):} A supervisory layer on the industrial PC communicates with the STM32 via UART over USB, providing teleoperation, trajectory planning, and state machine logic.
 \end{itemize}
 
 Each of the subsystems is explained in the following chapters.
-
-
-% \section{Overall Design}
-
-% The overall solution is a dual gantry system working in conjunction with human workers and a dedicated mechanical taping area. These gantries are two 4-axis Cartesian robots -- meaning that they utilize three prismatic joints (X, Y, Z) for spatial positioning and one revolute joint ($\theta$) about the vertical axis for payload orientation -- equipped with specialized end-effectors for gripping and placing microwaves and boxes. As described before, the selection of this design was explicitly due to the initial analysis proving that one robot could not meet the 30 second takt time, even after reduction of scope.
-
-
-
-% \begin{figure}[H]
-%   \centering
-%   % --- ACTION: Replace 'system_architecture.png' with your file ---
-%   \includegraphics[width=0.7\textwidth]{figures/func_cont_arch.drawio(1).png}
-%   \caption{Overall system architecture.}
-%   \label{fig:sys_arch}
-% \end{figure}
-
-% The architecture of the system is summarized in Figure~\ref{fig:sys_arch}. During development, the system has a development station where the simulation and visualization of the process is done. This also involves deployment of code and communication of ROS 2 topics with the computer onboard the gantries. This would run the high-level control and planning algorithms in real-time on ROS 2, and commands pose and gripper instructions to the STM32s through USB/CAN. The latter incorporates a feedback control loop (PID) for each of the axes, which it sends to the motor drivers, who then move the motors accordingly.
-
-% For sensing, the architecture has encoders, limit switches, and pressure sensors to regulate the kinematics and dynamics of the system. The information collected by these sensors are provided to the STM32s, which update their feedback control loops accordingly and relay the information to the Jetson Orin. Furthermore, there is a camera observing the gantries, and sending object detection and poses back to the Jetson Orin, for vision processing. The hardware architecture is summarized in Fig. \ref{fig:hard_arch}.
-
-% % --- Figure 3.1: System Architecture Diagram (from Slide 13) ---
-
-% \begin{figure}[H]
-%   \centering
-%   % --- ACTION: Replace 'system_architecture.png' with your file ---
-%   \includegraphics[width=0.8\textwidth]{figures/phy_hard_arch.drawio.png}
-%   \caption{Physical hardware architecture.}
-%   \label{fig:hard_arch}
-% \end{figure}
-
-% \section{Design Alternatives}
-
-% The final design was selected after analyzing several key alternatives.
-
-% \subsection{Motion Drive Mechanism}
-% The 3-meter X-axis, which must move a heavy load at high speed, was the most critical mechanical choice.
-% \begin{itemize}
-%     \item \textbf{Alternative 1: Belt \& Pulley.} These are fast and relatively light. However, they are likely to stretch under the heavy loads over the long spans, which makes them less rigid and prone to positional errors due to hysteresis. While these are viable, they are a secondary option at the moment.
-%     \item \textbf{Alternative 2: Lead Screws.} This was rejected due to critical speed limitations calculated. To cover 3 meters within the cycle time, the screw would have to rotate at tens of thousands of RPM; this comfortably exceeds its critical speed, causing it to whip and leading to catastrophic failure. Thus, this cannot be considered for fulfilling the high speed and distance requirements.
-%     \item \textbf{Alternative 3: Rack and Pinion.} This is highly rigid, fast, and durable. Steel racks (procured from Dawlance) are currently used for implementing the X and Y axes; however, their weight means that frame requirements are made more difficult. This choice is also back-drivable, which can be mitigated by placing an EM-brake on the Z axis (the only place where back-drivability is a problem).
-% \end{itemize}
-
-% \subsection{Low-Level Control Software}
-% \begin{itemize}
-%     \item \textbf{Alternative 1: Zephyr RTOS.}
-%     Initially, the software considered was Zephyr RTOS, as it offers granular control and cross-platform benefits, instead of locking into a specific ecosystem. Unfortunately, even after significant integration effort, interfacing even simple encoders proved to be highly time consuming and impeding project development.
-%     \item \textbf{Selected: STM32CubeIDE (Bare-metal/HAL).} This approach was chosen for its proven viability. A closed-loop basic motor control system was successfully implemented using the STM32 HAL and hardware interrupts. While this prevents usage of non-STM32 boards, there are none to be used in the project, so matters are simplified.
-% \end{itemize}
-
-
-% \section{Proof of Concept}
-% Several scaled-down prototypes and simulations have been completed to validate the project:
-% \begin{enumerate}
-%     \item \textbf{Action Diagrams:} InnoSlate action diagrams were constructed for a single robot performing the entire original scope, showing that the required time was 42.5s for a single cycle. This was unacceptable, so the scope was divided between two robots, but that only dropped to 32.5s cycle time. With this proof of concept, the final design with a human in the loop was validated (less than 10s for packaging and palletizing each) and made viable.
-%     \item \textbf{Mechanical Validation:} Prototypes of the rack and pinion mechanism were 3D-printed, and upon testing, minimal backlash and smooth operation were observed. This was a PoC that instilled confidence in the mechanism; however, upon procurement of a steel rack and pinion mechanism, the weight was noticed to be high. While this is still viable, this meant that the frame needed fortification. In comparison, belts and pulleys were calculated to be also viable – owing to being fast and relatively lightweight -- but naturally contain stretching and vibrations, which requires advanced control strategies for mitigation. Thus, while the main plan is to rely on rack and pinions for the X, Y, and Z axes, if the complications due to the weight are too risky, the design will switch over to the backup belt and pulley design, and modify accordingly.
-%     \item \textbf{Low-Level Control and Electronics:} For low-level control, closed-loop PID was tested on a NEMA 17 motor with a quadrature encoder using hardware interrupts on an STM32F746G-DISCO board (which is an option being considered for the final design). While originally the programming framework selected was Zephyr RTOS, this was discarded down the line because of the immense time investment required to master it. Thus, the software selected for the final design is STM32CubeIDE; while this can only used on its own devices, it is straightforward and user-friendly while fulfilling the constraints imposed on the STM32 controllers. With success observed, this architecture can be implemented on the larger motors and encoders through tweaking of gains and ports.
-%     \item \textbf{Control:} Initially, control and simulation of the gantry system was performed on Gazebo with MoveIt. However, due to slow progress and overcomplication, this was left in favor of PyBullet, which yielded the same results at much lesser time. Currently, the simulation demonstrates Image Based Visual Servoing (since vision is being developed simultaneously, the simulation directly grabs object data temporarily), along with S-curve motion planning for preventing infinite jerk, applied on the packaging process successfully. 
-%     \item \textbf{Vision:} Initial work-in-progress demonstrates a viable computer vision pipeline for 3D bounding box detection and pose estimation from a single 2D image, forming the basis for the RealSense implementation.
-    
-% \end{enumerate}
-
-% % --- NEW FIGURE 3.3: PoC Results (from Slides 15, 19, 42) ---
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=\textwidth]{figures/PoC_mechanical.png}
-    
-%   \caption{3D-printed rack and pinion validation.}
-%   \label{fig:poc_all}
-% \end{figure}
-
-
-

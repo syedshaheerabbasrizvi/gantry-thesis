@@ -1,9 +1,9 @@
-\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces A flowchart demonstrating the process at the plant.}}{1}{figure.1.1}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces (a) An articulated (serial) robot with revolute joints. (b) A gantry (Cartesian) robot with prismatic axes.}}{3}{figure.1.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Overall system block diagram.}}{20}{figure.3.1}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Overall system block diagram.}}{21}{figure.3.1}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Linear movements from the side.}}{25}{figure.4.1}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Velocity profiles.}}{25}{figure.4.2}%
@@ -16,29 +16,24 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Procured Yaskawa Sigma-5 servo motors and drives.}}{35}{figure.6.1}%
 \contentsline {figure}{\numberline {6.2}{\ignorespaces Trapezoidal motion profile with smoothing as defined in SigmaSelect.}}{37}{figure.6.2}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces SigmaSelect sizing results for the X-axis 400\tmspace +\thinmuskip {.1667em}W Yaskawa Sigma-5 motor.}}{40}{figure.6.3}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces SigmaSelect sizing results for the Y-axis 400\tmspace +\thinmuskip {.1667em}W Yaskawa Sigma-5 motor.}}{41}{figure.6.4}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces SigmaSelect sizing results for the Z-axis 200\tmspace +\thinmuskip {.1667em}W Yaskawa Sigma-5 motor.}}{42}{figure.6.5}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces SigmaSelect sizing results for the yaw-axis 200\tmspace +\thinmuskip {.1667em}W Yaskawa Sigma-5 motor with 120:1 harmonic drive reducer.}}{43}{figure.6.6}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces SigmaSelect sizing results for the X-axis 400\,W Yaskawa Sigma-5 motor.}}{40}{figure.6.3}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces SigmaSelect sizing results for the Y-axis 400\,W Yaskawa Sigma-5 motor.}}{41}{figure.6.4}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces SigmaSelect sizing results for the Z-axis 200\,W Yaskawa Sigma-5 motor.}}{42}{figure.6.5}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces SigmaSelect sizing results for the yaw-axis 200\,W Yaskawa Sigma-5 motor with 120:1 harmonic drive reducer.}}{43}{figure.6.6}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {8.1}{\ignorespaces End effector CAD assembly showing the yaw axis, suction cup array, and structural extrusion frame.}}{52}{figure.8.1}%
-\contentsline {figure}{\numberline {8.2}{\ignorespaces FEA stress distribution under a static 40\tmspace +\thinmuskip {.1667em}kg load, confirming structural adequacy of the 2\tmspace +\thinmuskip {.1667em}mm main plate and back-to-back bearing configuration.}}{53}{figure.8.2}%
+\contentsline {figure}{\numberline {8.2}{\ignorespaces FEA stress distribution under a static 40\,kg load, confirming structural adequacy of the 2\,mm main plate and back-to-back bearing configuration.}}{53}{figure.8.2}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {9.1}{\ignorespaces Motor test bench using the Arduino Uno.}}{60}{figure.9.1}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {10.1}{\ignorespaces Computer vision pipeline for segmentation and pose estimation using HSV thresholding, morphological filtering, contour extraction, and minimum-area rectangle fitting.}}{62}{figure.10.1}%
 \contentsline {figure}{\numberline {10.2}{\ignorespaces Image processing performed on real data.}}{64}{figure.10.2}%
-\contentsline {figure}{\numberline {10.3}{\ignorespaces Revised vision pipeline using YOLOv26n-pose for joint detection and keypoint regression, followed by PnP-based 6DoF pose estimation.}}{66}{figure.10.3}%
-\contentsline {figure}{\numberline {10.4}{\ignorespaces Keypoint convention for both object classes. TFL, TFR, TBL, and TBR denote the four corners of the top face as seen from the overhead camera.}}{67}{figure.10.4}%
-\contentsline {figure}{\numberline {10.5}{\ignorespaces Dataset curation pipeline. Three annotation sources are converted to a unified YOLO pose format with 2 classes and 4 keypoints per instance.}}{69}{figure.10.5}%
-\contentsline {figure}{\numberline {10.6}{\ignorespaces Training and validation loss curves over 150 epochs.}}{70}{figure.10.6}%
-\contentsline {figure}{\numberline {10.7}{\ignorespaces PnP pose visualization on a validation image. Coloured dots are detected keypoints, white dots are reprojections, and RGB arrows indicate the recovered object-frame axes (X = red, Y = green, Z = blue).}}{74}{figure.10.7}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {11.1}{\ignorespaces IBVS in simulation.}}{76}{figure.11.1}%
+\contentsline {figure}{\numberline {11.1}{\ignorespaces IBVS in simulation.}}{66}{figure.11.1}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {12.1}{\ignorespaces Full-scale wooden prototype with servo motors, linear guide rails, and end-effector assembled.}}{78}{figure.12.1}%
+\contentsline {figure}{\numberline {12.1}{\ignorespaces Full-scale wooden prototype with servo motors, linear guide rails, and end-effector assembled.}}{68}{figure.12.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Project management timeline.}}{91}{figure.1.A.1}%
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Project management timeline.}}{81}{figure.1.A.1}%
 \addvspace {10\p@ }
