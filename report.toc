@@ -1,5 +1,6 @@
-\contentsline {chapter}{List of Tables}{xi}{chapter*.2}%
-\contentsline {chapter}{List of Figures}{xiii}{chapter*.3}%
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\contentsline {chapter}{List of Tables}{xii}{chapter*.2}%
+\contentsline {chapter}{List of Figures}{xiv}{chapter*.3}%
 \contentsline {chapter}{\numberline {1}Introduction and Background}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Introduction}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Literature Review of Solutions}{3}{section.1.2}%
@@ -43,56 +44,71 @@
 \contentsline {section}{\numberline {6.8}Motor Selection Summary}{43}{section.6.8}%
 \contentsline {chapter}{\numberline {7}Power Electronics}{44}{chapter.7}%
 \contentsline {chapter}{\numberline {8}End Effector Design}{45}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Design Selection and Material Analysis}{45}{section.8.1}%
+\contentsline {section}{\numberline {8.1}Architectural Selection}{45}{section.8.1}%
 \contentsline {subsection}{\numberline {8.1.1}Mechanical Constraints}{45}{subsection.8.1.1}%
 \contentsline {subsection}{\numberline {8.1.2}Vacuum Feasibility}{46}{subsection.8.1.2}%
-\contentsline {section}{\numberline {8.2}Suction Cup Array and Vacuum System}{46}{section.8.2}%
-\contentsline {subsection}{\numberline {8.2.1}Array Configuration}{46}{subsection.8.2.1}%
-\contentsline {subsection}{\numberline {8.2.2}Vacuum Calculations}{46}{subsection.8.2.2}%
-\contentsline {section}{\numberline {8.3}Yaw Axis and Structural Framework}{47}{section.8.3}%
-\contentsline {subsection}{\numberline {8.3.1}Yaw Axis Design}{47}{subsection.8.3.1}%
-\contentsline {subsection}{\numberline {8.3.2}Structural Support}{47}{subsection.8.3.2}%
-\contentsline {section}{\numberline {8.4}Summary of Results}{49}{section.8.4}%
-\contentsline {chapter}{\numberline {9}Low-Level Control}{50}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Control Architecture}{50}{section.9.1}%
-\contentsline {section}{\numberline {9.2}Drive Interfacing}{51}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Command Trajectory}{54}{section.9.3}%
-\contentsline {chapter}{\numberline {10}Computer Vision}{57}{chapter.10}%
-\contentsline {chapter}{\numberline {11}High Level Control}{61}{chapter.11}%
-\contentsline {chapter}{\numberline {12}Simulation}{64}{chapter.12}%
-\contentsline {chapter}{\numberline {13}Prototyping and Testing}{66}{chapter.13}%
-\contentsline {section}{\numberline {13.1}Prototyping Strategy}{66}{section.13.1}%
-\contentsline {section}{\numberline {13.2}Structural Assembly}{66}{section.13.2}%
-\contentsline {section}{\numberline {13.3}Motor and Drive Validation}{67}{section.13.3}%
-\contentsline {subsection}{\numberline {13.3.1}Bench Testing}{67}{subsection.13.3.1}%
-\contentsline {subsection}{\numberline {13.3.2}Motion Profile Validation}{67}{subsection.13.3.2}%
-\contentsline {section}{\numberline {13.4}End-Effector Validation}{68}{section.13.4}%
-\contentsline {subsection}{\numberline {13.4.1}Static Lift Test}{68}{subsection.13.4.1}%
-\contentsline {subsection}{\numberline {13.4.2}Integrated Pick-and-Move Test}{68}{subsection.13.4.2}%
-\contentsline {section}{\numberline {13.5}Computer Vision Validation}{69}{section.13.5}%
-\contentsline {subsection}{\numberline {13.5.1}Classical Pipeline}{69}{subsection.13.5.1}%
-\contentsline {subsection}{\numberline {13.5.2}YOLO-Based Pipeline}{69}{subsection.13.5.2}%
-\contentsline {subsection}{\numberline {13.5.3}GDino + SAM2 Pipeline}{70}{subsection.13.5.3}%
-\contentsline {section}{\numberline {13.6}Control System Validation}{70}{section.13.6}%
-\contentsline {subsection}{\numberline {13.6.1}Homing Routine}{70}{subsection.13.6.1}%
-\contentsline {subsection}{\numberline {13.6.2}Teleoperation Interface}{71}{subsection.13.6.2}%
-\contentsline {subsection}{\numberline {13.6.3}Simulation}{71}{subsection.13.6.3}%
-\contentsline {section}{\numberline {13.7}Summary of Validation Status}{71}{section.13.7}%
-\contentsline {chapter}{\numberline {14}Conclusion and Future Work}{73}{chapter.14}%
-\contentsline {section}{\numberline {14.1}Summary of Work}{73}{section.14.1}%
-\contentsline {section}{\numberline {14.2}Evaluation Against Objectives}{73}{section.14.2}%
-\contentsline {subsection}{\numberline {14.2.1}Improve Ergonomics}{73}{subsection.14.2.1}%
-\contentsline {subsection}{\numberline {14.2.2}Maintain Product Quality}{74}{subsection.14.2.2}%
-\contentsline {subsection}{\numberline {14.2.3}Meet Production Speed}{74}{subsection.14.2.3}%
-\contentsline {subsection}{\numberline {14.2.4}Be Affordable}{75}{subsection.14.2.4}%
-\contentsline {subsection}{\numberline {14.2.5}Be Flexible and Reliable}{76}{subsection.14.2.5}%
-\contentsline {section}{\numberline {14.3}Limitations}{76}{section.14.3}%
-\contentsline {section}{\numberline {14.4}Future Work}{77}{section.14.4}%
-\contentsline {subsection}{\numberline {14.4.1}Near-Term: Deployment Path}{77}{subsection.14.4.1}%
-\contentsline {subsection}{\numberline {14.4.2}Longer-Term: Extensions}{78}{subsection.14.4.2}%
+\contentsline {subsection}{\numberline {8.1.3}Comparison and Selection}{46}{subsection.8.1.3}%
+\contentsline {section}{\numberline {8.2}Suction Cup Selection}{47}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Array Configuration}{48}{subsection.8.2.1}%
+\contentsline {section}{\numberline {8.3}Vacuum Generation}{48}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}Vacuum Calculations}{48}{subsection.8.3.1}%
+\contentsline {section}{\numberline {8.4}Yaw Axis Design}{49}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}Shaft Design}{49}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}Bearing Retention}{50}{subsection.8.4.2}%
+\contentsline {subsection}{\numberline {8.4.3}Bearing Configuration}{51}{subsection.8.4.3}%
+\contentsline {subsection}{\numberline {8.4.4}Structural Framework}{51}{subsection.8.4.4}%
+\contentsline {section}{\numberline {8.5}Summary}{53}{section.8.5}%
+\contentsline {chapter}{\numberline {9}Low-Level Control}{54}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Control Architecture}{54}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Drive Interfacing}{55}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Command Trajectory}{58}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Computer Vision}{61}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Limitations of Classical Pipeline}{64}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Deep Learning--Based Pose Estimation Pipeline}{65}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Keypoint Definition}{67}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Dataset Preparation}{68}{section.10.4}%
+\contentsline {section}{\numberline {10.5}Model Architecture and Training}{69}{section.10.5}%
+\contentsline {subsection}{\numberline {10.5.1}Training Results}{70}{subsection.10.5.1}%
+\contentsline {section}{\numberline {10.6}Camera Calibration}{71}{section.10.6}%
+\contentsline {section}{\numberline {10.7}PnP-Based 6DoF Pose Recovery}{71}{section.10.7}%
+\contentsline {subsection}{\numberline {10.7.1}3D Object Model}{72}{subsection.10.7.1}%
+\contentsline {subsection}{\numberline {10.7.2}Solver Configuration}{72}{subsection.10.7.2}%
+\contentsline {subsection}{\numberline {10.7.3}Pose Interpretation}{72}{subsection.10.7.3}%
+\contentsline {subsection}{\numberline {10.7.4}Reprojection Error}{73}{subsection.10.7.4}%
+\contentsline {chapter}{\numberline {11}Simulation}{75}{chapter.11}%
+\contentsline {chapter}{\numberline {12}Prototyping and Testing}{77}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Prototyping Strategy}{77}{section.12.1}%
+\contentsline {section}{\numberline {12.2}Structural Assembly}{77}{section.12.2}%
+\contentsline {section}{\numberline {12.3}Motor and Drive Validation}{78}{section.12.3}%
+\contentsline {subsection}{\numberline {12.3.1}Bench Testing}{78}{subsection.12.3.1}%
+\contentsline {subsection}{\numberline {12.3.2}Motion Profile Validation}{78}{subsection.12.3.2}%
+\contentsline {section}{\numberline {12.4}End-Effector Validation}{79}{section.12.4}%
+\contentsline {subsection}{\numberline {12.4.1}Static Lift Test}{79}{subsection.12.4.1}%
+\contentsline {subsection}{\numberline {12.4.2}Integrated Pick-and-Move Test}{79}{subsection.12.4.2}%
+\contentsline {section}{\numberline {12.5}Computer Vision Validation}{80}{section.12.5}%
+\contentsline {subsection}{\numberline {12.5.1}Classical Pipeline}{80}{subsection.12.5.1}%
+\contentsline {subsection}{\numberline {12.5.2}YOLO-Based Pipeline}{80}{subsection.12.5.2}%
+\contentsline {subsection}{\numberline {12.5.3}GDino + SAM2 Pipeline}{81}{subsection.12.5.3}%
+\contentsline {section}{\numberline {12.6}Control System Validation}{81}{section.12.6}%
+\contentsline {subsection}{\numberline {12.6.1}Homing Routine}{81}{subsection.12.6.1}%
+\contentsline {subsection}{\numberline {12.6.2}Teleoperation Interface}{82}{subsection.12.6.2}%
+\contentsline {subsection}{\numberline {12.6.3}Simulation}{82}{subsection.12.6.3}%
+\contentsline {section}{\numberline {12.7}Summary of Validation Status}{82}{section.12.7}%
+\contentsline {chapter}{\numberline {13}Conclusion and Future Work}{84}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Summary of Work}{84}{section.13.1}%
+\contentsline {section}{\numberline {13.2}Evaluation Against Objectives}{84}{section.13.2}%
+\contentsline {subsection}{\numberline {13.2.1}Improve Ergonomics}{84}{subsection.13.2.1}%
+\contentsline {subsection}{\numberline {13.2.2}Maintain Product Quality}{85}{subsection.13.2.2}%
+\contentsline {subsection}{\numberline {13.2.3}Meet Production Speed}{85}{subsection.13.2.3}%
+\contentsline {subsection}{\numberline {13.2.4}Be Affordable}{86}{subsection.13.2.4}%
+\contentsline {subsection}{\numberline {13.2.5}Be Flexible and Reliable}{87}{subsection.13.2.5}%
+\contentsline {section}{\numberline {13.3}Limitations}{87}{section.13.3}%
+\contentsline {section}{\numberline {13.4}Future Work}{88}{section.13.4}%
+\contentsline {subsection}{\numberline {13.4.1}Near-Term: Deployment Path}{88}{subsection.13.4.1}%
+\contentsline {subsection}{\numberline {13.4.2}Longer-Term: Extensions}{89}{subsection.13.4.2}%
 \renewcommand {\cftchappresnum }{Appendix }
 \renewcommand {\cftchapnumwidth }{6em}
-\contentsline {chapter}{\numberline {A}Timeline with Milestones}{80}{appendix.1.A}%
-\contentsline {chapter}{\numberline {B}Estimated Budget and Bill of Materials}{81}{appendix.1.B}%
-\contentsline {chapter}{References}{83}{appendix*.9}%
-\contentsline {chapter}{Vita}{84}{appendix*.10}%
+\contentsline {chapter}{\numberline {A}Timeline with Milestones}{91}{appendix.1.A}%
+\contentsline {chapter}{\numberline {B}Estimated Budget and Bill of Materials}{92}{appendix.1.B}%
+\contentsline {chapter}{References}{95}{appendix*.9}%
+\contentsline {chapter}{Vita}{96}{appendix*.10}%

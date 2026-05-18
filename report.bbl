@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.3 $
+% $ biblatex bbl format version 3.1 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -16,8 +16,8 @@
   {}
 \endgroup
 
-\datalist[entry]{none/global//global/global/global}
-  \entry{niosh_rnle}{misc}{}{}
+\datalist[entry]{none/global//global/global}
+  \entry{niosh_rnle}{misc}{}
     \name{author}{1}{}{%
       {{hash=N}{%
          family={{National Institute for Occupational Safety and Health}},
@@ -37,7 +37,7 @@
     \field{year}{2024}
   \endentry
 
-  \entry{gallagher2015effects}{article}{}{}
+  \entry{gallagher2015effects}{article}{}
     \name{author}{2}{}{%
       {{hash=GS}{%
          family={Gallagher},
@@ -57,13 +57,14 @@
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{pages}{84\bibrangedash 92}
-    \field{title}{The Effects of Operator Position, Pallet Orientation, and Palletizing Condition on Low Back Loads in Manual Bag Palletizing Operations}
+    \field{title}{The Effects of Operator Position, Pallet Orientation, and
+  Palletizing Condition on Low Back Loads in Manual Bag Palletizing Operations}
     \field{volume}{47}
     \field{journaltitle}{International Journal of Industrial Ergonomics}
     \field{year}{2015}
   \endentry
 
-  \entry{yildirim2014identifying}{article}{}{}
+  \entry{yildirim2014identifying}{article}{}
     \name{author}{3}{}{%
       {{hash=YY}{%
          family={Yildirim},
@@ -84,19 +85,20 @@
          giveni={D\bibinitperiod},
       }}%
     }
-    \strng{namehash}{YY+1}
+    \strng{namehash}{YYGSKD1}
     \strng{fullhash}{YYGSKD1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{number}{1}
     \field{pages}{25\bibrangedash 32}
-    \field{title}{Identifying Factors Associated with Low Back Pain Among Employees Working at a Package Producing Industry}
+    \field{title}{Identifying Factors Associated with Low Back Pain Among
+  Employees Working at a Package Producing Industry}
     \field{volume}{27}
     \field{journaltitle}{Journal of Back and Musculoskeletal Rehabilitation}
     \field{year}{2014}
   \endentry
 
-  \entry{standardbots2025costs}{misc}{}{}
+  \entry{standardbots2025costs}{misc}{}
     \name{author}{1}{}{%
       {{hash=S}{%
          family={{Standard Bots}},
@@ -107,13 +109,13 @@
     \strng{fullhash}{S2}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{howpublished}{\url{https://standardbots.com/blog/how-much-do-robots-cost}}
+  \field{howpublished}{\url{https://standardbots.com/blog/how-much-do-robots-cost}}
     \field{note}{Industry Report}
     \field{title}{How much do robots cost? 2025 Price Breakdown}
     \field{year}{2025}
   \endentry
 
-  \entry{gminsights2024}{misc}{}{}
+  \entry{gminsights2024}{misc}{}
     \name{author}{1}{}{%
       {{hash=G}{%
          family={{Global Market Insights}},
@@ -125,11 +127,12 @@
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{note}{Market Research Report}
-    \field{title}{Industrial Robotics Market Size \& Share Analysis Report, 2024-2032}
+    \field{title}{Industrial Robotics Market Size \& Share Analysis Report,
+  2024-2032}
     \field{year}{2024}
   \endentry
 
-  \entry{siciliano2016robotics}{book}{}{}
+  \entry{siciliano2016robotics}{book}{}
     \name{author}{2}{}{%
       {{hash=SB}{%
          family={Siciliano},
@@ -155,7 +158,7 @@
     \field{year}{2016}
   \endentry
 
-  \entry{woolfrey2024optimal}{article}{}{}
+  \entry{woolfrey2024optimal}{article}{}
     \true{moreauthor}
     \true{morelabelname}
     \name{author}{1}{}{%
@@ -174,13 +177,14 @@
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{number}{5}
-    \field{title}{Optimal configurations for stiffness and compliance in human and robot arms}
+    \field{title}{Optimal configurations for stiffness and compliance in human
+  and robot arms}
     \field{volume}{19}
     \field{journaltitle}{PLOS ONE}
     \field{year}{2024}
   \endentry
 
-  \entry{groover2016automation}{book}{}{}
+  \entry{groover2016automation}{book}{}
     \name{author}{1}{}{%
       {{hash=GMP}{%
          family={Groover},
@@ -196,11 +200,12 @@
     \strng{fullhash}{GMP1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Automation, Production Systems, and Computer-Integrated Manufacturing}
+    \field{title}{Automation, Production Systems, and Computer-Integrated
+  Manufacturing}
     \field{year}{2016}
   \endentry
 
-  \entry{bostelman2016survey}{article}{}{}
+  \entry{bostelman2016survey}{article}{}
     \name{author}{3}{}{%
       {{hash=BR}{%
          family={Bostelman},
@@ -225,7 +230,7 @@
       {National Institute of Standards}%
       {Technology}%
     }
-    \strng{namehash}{BR+1}
+    \strng{namehash}{BRHTMJ1}
     \strng{fullhash}{BRHTMJ1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
@@ -233,13 +238,15 @@
     \verb 10.6028/jres.121.015
     \endverb
     \field{pages}{341\bibrangedash 366}
-    \field{title}{Survey of Research for Performance Measurement of Mobile Manipulators}
+    \field{title}{Survey of Research for Performance Measurement of Mobile
+  Manipulators}
     \field{volume}{121}
-    \field{journaltitle}{Journal of Research of the National Institute of Standards and Technology}
+    \field{journaltitle}{Journal of Research of the National Institute of
+  Standards and Technology}
     \field{year}{2016}
   \endentry
 
-  \entry{urrea2024advances}{article}{}{}
+  \entry{urrea2024advances}{article}{}
     \true{moreauthor}
     \true{morelabelname}
     \name{author}{1}{}{%
@@ -257,13 +264,14 @@
     \strng{fullhash}{UC+1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Recent Advances and Challenges in Industrial Robotics: A Systematic Review}
+    \field{title}{Recent Advances and Challenges in Industrial Robotics: A
+  Systematic Review}
     \field{volume}{12}
     \field{journaltitle}{Processes}
     \field{year}{2024}
   \endentry
 
-  \entry{breque2021industry5}{report}{}{}
+  \entry{breque2021industry5}{report}{}
     \name{author}{3}{}{%
       {{hash=BM}{%
          family={Breque},
@@ -284,11 +292,12 @@
          giveni={A\bibinitperiod},
       }}%
     }
-    \strng{namehash}{BM+1}
+    \strng{namehash}{BMDNLPA1}
     \strng{fullhash}{BMDNLPA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Industry 5.0: Towards a sustainable, human-centric and resilient European industry}
+    \field{title}{Industry 5.0: Towards a sustainable, human-centric and
+  resilient European industry}
     \list{institution}{2}{%
       {European Commission, Directorate-General for Research}%
       {Innovation}%
@@ -297,16 +306,17 @@
     \field{year}{2021}
   \endentry
 
-  \entry{iso15066}{standard}{}{}
+  \entry{iso15066}{standard}{}
     \list{organization}{1}{%
       {International Organization for Standardization}%
     }
     \field{labeltitlesource}{title}
-    \field{title}{ISO/TS 15066:2016 Robots and robotic devices -- Collaborative robots}
+    \field{title}{ISO/TS 15066:2016 Robots and robotic devices -- Collaborative
+  robots}
     \field{year}{2016}
   \endentry
 
-  \entry{ergocenter}{misc}{}{}
+  \entry{ergocenter}{misc}{}
     \name{author}{1}{}{%
       {{hash=T}{%
          family={{The Ergonomics Center, NC State University}},
@@ -321,7 +331,7 @@
     \field{year}{2021}
   \endentry
 
-  \entry{osha_costs}{report}{}{}
+  \entry{osha_costs}{report}{}
     \name{author}{1}{}{%
       {{hash=O}{%
          family={{OSHA}},
@@ -340,7 +350,7 @@
     \field{year}{2024}
   \endentry
 
-  \entry{pakistan_ohs}{article}{}{}
+  \entry{pakistan_ohs}{article}{}
     \true{moreauthor}
     \true{morelabelname}
     \name{author}{1}{}{%
@@ -360,7 +370,7 @@
     \field{year}{2021}
   \endentry
 
-  \entry{megapk}{misc}{}{}
+  \entry{megapk}{misc}{}
     \name{author}{1}{}{%
       {{hash=M}{%
          family={{Mega.pk}},
@@ -376,7 +386,7 @@
     \warn{\item Invalid format of field 'month'}
   \endentry
 
-  \entry{ilo_safety}{book}{}{}
+  \entry{ilo_safety}{book}{}
     \name{author}{1}{}{%
       {{hash=I}{%
          family={{International Labour Organization}},
@@ -387,14 +397,15 @@
     \strng{fullhash}{I2}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Safety and Health at Work: A Vision for Sustainable Prevention}
+    \field{title}{Safety and Health at Work: A Vision for Sustainable
+  Prevention}
     \list{location}{1}{%
       {Geneva, Switzerland}%
     }
     \field{year}{2022}
   \endentry
 
-  \entry{secp_esg}{misc}{}{}
+  \entry{secp_esg}{misc}{}
     \name{author}{1}{}{%
       {{hash=S}{%
          family={{Securities and Exchange Commission of Pakistan}},
@@ -409,7 +420,8 @@
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{note}{Accessed: Mar. 1, 2026}
-    \field{title}{Additions to ESG Voluntary Disclosure Guidelines for Listed Companies}
+    \field{title}{Additions to ESG Voluntary Disclosure Guidelines for Listed
+  Companies}
     \verb{url}
     \verb https://www.secp.gov.pk/wp-content/uploads/2025/09/Additions-to-ESG-G
     \verb uidelines-Reviewed-29-sept.pdf
@@ -417,7 +429,7 @@
     \field{year}{2025}
   \endentry
 
-  \entry{ifr2025}{report}{}{}
+  \entry{ifr2025}{report}{}
     \name{author}{1}{}{%
       {{hash=I}{%
          family={{IFR}},
@@ -433,7 +445,7 @@
     \field{year}{2025}
   \endentry
 
-  \entry{vysocky2020}{article}{}{}
+  \entry{vysocky2020}{article}{}
     \name{author}{7}{}{%
       {{hash=VA}{%
          family={Vysock√Ω},
@@ -478,7 +490,7 @@
          giveni={V\bibinitperiod},
       }}%
     }
-    \strng{namehash}{VA+1}
+    \strng{namehash}{VAPR≈JKTBZNPSV1}
     \strng{fullhash}{VAPR≈JKTBZNPSV1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
@@ -487,13 +499,14 @@
     \endverb
     \field{number}{22}
     \field{pages}{8241}
-    \field{title}{Reduction in robotic arm energy consumption by particle swarm optimization}
+    \field{title}{Reduction in robotic arm energy consumption by particle swarm
+  optimization}
     \field{volume}{10}
     \field{journaltitle}{Applied Sciences}
     \field{year}{2020}
   \endentry
 
-  \entry{undp_sdg}{misc}{}{}
+  \entry{undp_sdg}{misc}{}
     \name{author}{1}{}{%
       {{hash=U}{%
          family={{United Nations Development Programme}},
@@ -515,7 +528,7 @@
     \field{year}{2025}
   \endentry
 
-  \entry{niosh2024}{report}{}{}
+  \entry{niosh2024}{report}{}
     \name{author}{1}{}{%
       {{hash=C}{%
          family={{CDC/NIOSH}},
@@ -532,7 +545,7 @@
     \warn{\item Invalid format of field 'month'}
   \endentry
 
-  \entry{factories_act}{misc}{}{}
+  \entry{factories_act}{misc}{}
     \name{author}{1}{}{%
       {{hash=G}{%
          family={{Government of Pakistan}},
@@ -551,7 +564,7 @@
     \field{year}{1934}
   \endentry
 
-  \entry{iso10218}{manual}{}{}
+  \entry{iso10218}{manual}{}
     \name{author}{1}{}{%
       {{hash=I}{%
          family={{ISO}},
@@ -562,11 +575,12 @@
     \strng{fullhash}{I3}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{ISO 10218-1:2025 --- Safety requirements for industrial robots}
+    \field{title}{ISO 10218-1:2025 --- Safety requirements for industrial
+  robots}
     \field{year}{2025}
   \endentry
 
-  \entry{arcelik}{misc}{}{}
+  \entry{arcelik}{misc}{}
     \name{author}{1}{}{%
       {{hash=A}{%
          family={{Ar√ßelik A.≈û.}},
@@ -589,7 +603,7 @@
     \field{year}{2024}
   \endentry
 
-  \entry{arxiv2025guarding}{online}{}{}
+  \entry{arxiv2025guarding}{online}{}
     \true{moreauthor}
     \true{morelabelname}
     \name{author}{1}{}{%
@@ -611,7 +625,7 @@
     \field{year}{2024}
   \endentry
 
-  \entry{liu2021sensorless}{article}{}{}
+  \entry{liu2021sensorless}{article}{}
     \name{author}{2}{}{%
       {{hash=LS}{%
          family={Liu},
@@ -635,7 +649,7 @@
     \field{year}{2021}
   \endentry
 
-  \entry{weigand2020flatness}{article}{}{}
+  \entry{weigand2020flatness}{article}{}
     \true{moreauthor}
     \true{morelabelname}
     \name{author}{1}{}{%
@@ -650,12 +664,13 @@
     \strng{fullhash}{WJ+1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Flatness Based Control of an Industrial Robot Joint Using Secondary Encoders}
+    \field{title}{Flatness Based Control of an Industrial Robot Joint Using
+  Secondary Encoders}
     \field{journaltitle}{Robotics and Computer-Integrated Manufacturing}
     \field{year}{2020}
   \endentry
 
-  \entry{mahdavian2015optimal}{inproceedings}{}{}
+  \entry{mahdavian2015optimal}{inproceedings}{}
     \true{moreauthor}
     \true{morelabelname}
     \name{author}{1}{}{%
@@ -670,12 +685,14 @@
     \strng{fullhash}{MM+1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{booktitle}{2015 3rd RSI International Conference on Robotics and Mechatronics}
-    \field{title}{Optimal Trajectory Generation for Energy Consumption Minimization}
+    \field{booktitle}{2015 3rd RSI International Conference on Robotics and
+  Mechatronics}
+    \field{title}{Optimal Trajectory Generation for Energy Consumption
+  Minimization}
     \field{year}{2015}
   \endentry
 
-  \entry{soori2023optimization}{article}{}{}
+  \entry{soori2023optimization}{article}{}
     \name{author}{3}{}{%
       {{hash=SM}{%
          family={Soori},
@@ -696,13 +713,54 @@
          giveni={R\bibinitperiod},
       }}%
     }
-    \strng{namehash}{SM+1}
+    \strng{namehash}{SMABDR1}
     \strng{fullhash}{SMABDR1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Optimization of Energy Consumption in Industrial Robots, a Review}
+    \field{title}{Optimization of Energy Consumption in Industrial Robots, a
+  Review}
     \field{journaltitle}{Cognitive Robotics}
     \field{year}{2023}
+  \endentry
+
+  \entry{singh2009}{article}{}
+    \name{author}{4}{}{%
+      {{hash=SJ}{%
+         family={Singh},
+         familyi={S\bibinitperiod},
+         given={Jay},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=AAE}{%
+         family={Attema},
+         familyi={A\bibinitperiod},
+         given={Arthur\bibnamedelima E.},
+         giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=OE}{%
+         family={Olsen},
+         familyi={O\bibinitperiod},
+         given={Eric},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=VKL}{%
+         family={Vorst},
+         familyi={V\bibinitperiod},
+         given={Keith\bibnamedelima L.},
+         giveni={K\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SJAAEOEVKL1}
+    \strng{fullhash}{SJAAEOEVKL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{4}
+    \field{pages}{233\bibrangedash 247}
+    \field{title}{Effect of {Manufacturer's} Joint Fastening Techniques on
+  Compression Strength of Corrugated Fiberboard Boxes}
+    \field{volume}{3}
+    \field{journaltitle}{Journal of Applied Packaging Research}
+    \field{year}{2009}
   \endentry
 \enddatalist
 \endinput
