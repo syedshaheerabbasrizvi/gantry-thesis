@@ -12,7 +12,7 @@ The project contains a variety of stakeholders, with the primary ones being Dawl
   \caption{Stakeholder Analysis}
   \label{tab:stakeholders}
   \renewcommand{\arraystretch}{1.3}
-  \begin{tabular}{@{}l p{5.5cm} p{6cm}@{}}
+  \begin{tabular}{@{}l p{5cm} p{5cm}@{}}
     \toprule
     \textbf{Stakeholder} & \textbf{Description} & \textbf{Primary Benefits} \\
     \midrule
@@ -31,9 +31,9 @@ The project contains a variety of stakeholders, with the primary ones being Dawl
 
 For validation of client requirements and deeper understanding of the context of the project application, primary research was conducted with facilitation from the Takhleeq Office at Habib University. A mixed-method approach using semi-structured interviews and an observational study of the line was utilized. Interviews were performed with four individuals, of which two were members of plant management and two were line workers performing the end-of-line packaging and palletizing tasks.
 
-Meetings with management revealed that the primary objectives of the project were addressing ergonomics and product quality, whereas financial return was a lower priority. While financial viability is a standard criterion for engineering, Mr. Tasawar Iqbal (Plant Manager) stated, \textit{``Aap ROI ki fiqar na karen, filhaal sab say zaroori hai team member ki safety aur product safety!''} (Do not worry about ROI; right now, the most important priority is the safety of team members and products). Moreover, Mr. Asad Khan (Plant Supervisor) mentioned the risks of manual handling: \textit{``Microwave package karte waqt magnetron damage ho sakta hai''} (The magnetron can get damaged while packaging the microwave). Conversations with line team members, on the other hand, focused on their daily operations. In particular, the lifting tasks were pointed out to be the most menial and physically demanding ones of their job, which corroborated with the safety concerns presented by plant management.
+Meetings with management revealed that the primary objectives of the project were addressing ergonomics and product quality, whereas financial return was a lower priority. While financial viability is a standard criterion for engineering, Mr. Tasawar Iqbal (Plant Manager) stated, \textit{``Aap ROI ki fiqar na karen, filhaal sab say zaroori hai team member ki safety aur product safety!''}\footnote{Urdu quotations are transliterated using a simplified Roman Urdu convention to reflect informal spoken usage as recorded in interviews. English translations are provided in parentheses immediately after each quotation.} (Do not worry about ROI; right now, the most important priority is the safety of team members and products). Moreover, Mr. Asad Khan (Plant Supervisor) mentioned the risks of manual handling: \textit{``Microwave package karte waqt magnetron damage ho sakta hai''} (The magnetron can get damaged while packaging the microwave). Conversations with line team members, on the other hand, focused on their daily operations. In particular, the lifting tasks were pointed out to be the most menial and physically demanding ones of their job, which corroborated with the safety concerns presented by plant management.
 
-Alongside the interviews, an observational study of the assembly line when active was performed. While team members displayed high dexterity in tasks such as inserting EPS blocks and wrapping the microwave, they demonstrated clear difficulties in the heavy lifting operations. The members needed to twist their backs significantly while lifting microwaves and packaged boxes every cycle. Furthermore, because of the pressure of the low cycle time of 30s, their movements occasionally caused minor handling errors, which could risk damage to both the product and themselves.
+Alongside the interviews, an observational study of the assembly line when active was performed. While team members displayed high dexterity in tasks such as inserting EPS blocks and wrapping the microwave, they demonstrated clear difficulties in the heavy lifting operations. The members needed to twist their backs significantly while lifting microwaves and packaged boxes every cycle. Furthermore, because of the pressure of the low cycle time of 30\,s, their movements occasionally caused minor handling errors, which could risk damage to both the product and themselves.
 
 \section{Design Specifications}
 
@@ -86,13 +86,13 @@ Appliance manufacturing margins in Pakistan are under pressure from import compe
 
 First, MSD injury costs: international research benchmarks the direct cost of a single MSD case at USD~15,000--85,000 in compensation, medical expenses, and legal exposure; indirect costs --- absenteeism, retraining, and lost productivity --- can multiply this figure by four to five times~\cite{ergocenter,osha_costs}. While Pakistani compensation structures differ significantly from these international benchmarks, the indirect costs of absenteeism, retraining, and lost productivity remain substantial in the local context, with the ILO identifying poor occupational health as a leading contributor to productivity deficits in Pakistani manufacturing~\cite{pakistan_ohs}.
 
-Secondly, product damage costs: Dawlance microwaves retail between Rs.~12,000 and Rs.~40,000~\cite{megapk}. Assuming a magnetron defect rate of 0.5\% of units, with a total average production of approximately 350,000 units annually (derived from a throughput of 2 units per minute over an 8-hour shift across approximately 250 working days), at an average retail value of Rs.~25,000, this yields a potential annual loss of:
+Secondly, product damage costs: Dawlance microwaves retail between Rs~12,000 and Rs~40,000~\cite{megapk}. Assuming a conservative magnetron defect rate of 0.5\% of units, with a total average production of approximately 350,000 units annually (derived from a throughput of 2 units per minute over an 8-hour shift across approximately 250 working days), at an average retail value of Rs~25,000, this yields a potential annual loss of:
 \[
-350{,}000 \times 0.005 \times 25{,}000 = \text{Rs.~43.75~million}
+350{,}000 \times 0.005 \times 25{,}000 = \text{Rs~43.75~million}
 \]
 Even if only a small fraction of this loss is attributable to manual handling errors, it substantially strengthens the business case for automation.
 
-In comparison, the proposed system carries a one-time capital cost of Rs.~1.8~million. At a 10-year operational lifespan, this amounts to Rs.~180,000 per year, which is small compared to the costs of damage and absenteeism. Hence, even under conservative assumptions, the project offers a compelling return on investment.
+In comparison, the proposed system carries a one-time capital cost of Rs~1.8~million. At a 10-year operational lifespan, this amounts to Rs~180,000 per year, which is small compared to the costs of damage and absenteeism. Hence, even under conservative assumptions, the project offers a compelling return on investment.
 
 \subsection{Social}
 
@@ -114,7 +114,7 @@ However, automation could also introduce environmental trade-offs. For example, 
 
 \subsection{Legal}
 
-A documented LI of 3.1 is evidence of ergonomic risk exceeding safe thresholds~\cite{niosh2024}. Under Pakistan's Factories Act of 1934, employers are legally obligated to maintain safe working conditions and prevent foreseeable occupational injury~\cite{factories_act}. With the project implemented, in any unforeseen circumstance, the company will be observed as a compliant organisation that has proactively addressed such hazards.
+A documented LI of 3.3 is evidence of ergonomic risk exceeding safe thresholds~\cite{niosh2024}. Under Pakistan's Factories Act of 1934, employers are legally obligated to maintain safe working conditions and prevent foreseeable occupational injury~\cite{factories_act}. With the project implemented, in any unforeseen circumstance, the company will be observed as a compliant organisation that has proactively addressed such hazards.
 
 Beyond domestic law, the proposed system will comply with ISO~10218 (Industrial Robot Safety) and ISO/TS~15066 (Collaborative Robots)~\cite{iso10218,iso15066}, such that no foreign machinery at Dawlance is considered as non-verifiable and the company is legally assured. Since Dawlance operates under the parent company Arçelik, by adhering to these standards Dawlance is also reviewable under the European regulatory environment~\cite{arcelik}.
 
@@ -125,9 +125,9 @@ All design decisions are under the following constraints, as defined by the clie
 \subsection{Design Constraints}
 \begin{itemize}
     \item The financial limit of Rs 1.8 million should be respected for actuators, computing hardware, fabrication, and miscellaneous costs.
-    \item The workspace should be lesser than 5m $\times$ 5m in terms of floor area, and 3.5m for vertical height, due to space limitations at the installation place.
+    \item The workspace should be less than 5m $\times$ 5m in terms of floor area, and 3.5m for vertical height, due to space limitations at the installation place.
     \item The system will operate from a three-phase supply of 400 V AC at 50 Hz, which is standard in Pakistan; moreover, internal regulation should ensure supply tolerances of voltage fluctuations of $\pm10\%$ from the nominal value.
-    \item The robot should remain operational within an ambient temperature range of $0\degree$ C to $45\degree$ and relative humidity up to 95\% (non-condensing). Moreover, each component should adhere to IP54 ingress protection standards or higher.
+    \item The robot should remain operational within an ambient temperature range of $0\degree$ C to $45\degree C$ and relative humidity up to 95\% (non-condensing). Moreover, each component should adhere to IP54 ingress protection standards or higher.
     \item The robot should be safe as defined by ISO 10218-1 standards. In particular, the end-effector must hold in place in case of power failure, while an emergency stop separate from the software controller must be in place and operational.
 \end{itemize}
 
@@ -142,7 +142,7 @@ While the project design accommodates anticipated variances in operations, it re
 
 \section{Metrics for Objectives}
 
-The six objectives defined in Section~1.3 are mapped to the following specific, measurable, and testable metrics.
+The six objectives defined in Section~1.3 are mapped to the following specific, measurable, and testable metrics. These are specifically for the final system, not the prototype.
 
 \begin{itemize}
 
@@ -150,7 +150,7 @@ The six objectives defined in Section~1.3 are mapped to the following specific, 
     \begin{itemize}
         \item \textbf{Metric:} NIOSH Lifting Index (LI), a measure of physical stress for manual tasks.
         \item \textbf{Test:} A final ergonomic analysis of the end of the assembly line.
-        \item \textbf{Success Criteria:} Minimizing the LI score, specifically aiming for $\le 1.0$ (safe zone) from the current 3.1.
+        \item \textbf{Success Criteria:} Minimizing the LI score, specifically aiming for $\le 1.0$ (safe zone) from the current 3.3.
     \end{itemize}
 
     \item \textbf{Maintain Product Quality:}
@@ -171,7 +171,7 @@ The six objectives defined in Section~1.3 are mapped to the following specific, 
     \begin{itemize}
         \item \textbf{Metric:} System Cycle Time vs. Factory Takt Time.
         \item \textbf{Test:} Maximum time per unit measured over a 100-cycle trial.
-        \item \textbf{Success Criteria:} Minimizing cycle time to beat the factory Takt time; aiming for 25s, subject to a hard constraint of $\le$ 30s.
+        \item \textbf{Success Criteria:} Minimizing cycle time to beat the factory Takt time; aiming for 25\,s, subject to a hard constraint of $\le$ 30\,s.
     \end{itemize}
 
     \item \textbf{Be Flexible:}

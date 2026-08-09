@@ -1,39 +1,46 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces A flowchart demonstrating the process at the plant.}}{1}{figure.1.1}%
-\contentsline {figure}{\numberline {1.2}{\ignorespaces (a) An articulated (serial) robot with revolute joints. (b) A gantry (Cartesian) robot with prismatic axes.}}{3}{figure.1.2}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces (a) An articulated (serial) robot with revolute joints. (b) A gantry (Cartesian) robot with prismatic axes.}}{4}{figure.1.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Overall system block diagram.}}{21}{figure.3.1}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Overall system block diagram.}}{22}{figure.3.1}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Linear movements from the side.}}{25}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Velocity profiles.}}{25}{figure.4.2}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces The 3D spatial trajectory.}}{26}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Velocity profiles, now with dwell buffers.}}{26}{figure.4.4}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Existing machinery at the plant.}}{28}{figure.4.5}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces The configuration with four blocks.}}{28}{figure.4.6}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Basic prototype with X axis,Y axis, Z axis, and End Effector}}{31}{figure.4.7}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Procured Yaskawa Sigma-5 servo motors and drives.}}{35}{figure.6.1}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Trapezoidal motion profile with smoothing as defined in SigmaSelect.}}{37}{figure.6.2}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces SigmaSelect sizing results for the X-axis 400\,W Yaskawa Sigma-5 motor.}}{40}{figure.6.3}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces SigmaSelect sizing results for the Y-axis 400\,W Yaskawa Sigma-5 motor.}}{41}{figure.6.4}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces SigmaSelect sizing results for the Z-axis 200\,W Yaskawa Sigma-5 motor.}}{42}{figure.6.5}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces SigmaSelect sizing results for the yaw-axis 200\,W Yaskawa Sigma-5 motor with 120:1 harmonic drive reducer.}}{43}{figure.6.6}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Side view of the linear trajectory segments showing pick, transfer, and place positions.}}{26}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces X and Z velocity profiles for the trajectory.}}{26}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces The 3D spatial trajectory of the end-effector through the pick-and-place cycle.}}{27}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Velocity profiles with dwell buffers included for gripping and releasing operations.}}{27}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Linear guide rails on existing machinery at the Dawlance plant.}}{29}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Four-block carriage configuration for the primary axes~\blx@tocontentsinit {0}\cite {bosch_rexroth_linear}.}}{30}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Wooden prototype with X-axis, Y-axis, Z-axis, and end-effector installed.}}{33}{figure.4.7}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {8.1}{\ignorespaces End effector CAD assembly showing the yaw axis, suction cup array, and structural extrusion frame.}}{52}{figure.8.1}%
-\contentsline {figure}{\numberline {8.2}{\ignorespaces FEA stress distribution under a static 40\,kg load, confirming structural adequacy of the 2\,mm main plate and back-to-back bearing configuration.}}{53}{figure.8.2}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {9.1}{\ignorespaces Motor test bench using the Arduino Uno.}}{60}{figure.9.1}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {10.1}{\ignorespaces Computer vision pipeline for segmentation and pose estimation using HSV thresholding, morphological filtering, contour extraction, and minimum-area rectangle fitting.}}{62}{figure.10.1}%
-\contentsline {figure}{\numberline {10.2}{\ignorespaces Image processing performed on real data.}}{64}{figure.10.2}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {11.1}{\ignorespaces IBVS in simulation.}}{66}{figure.11.1}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {12.1}{\ignorespaces Full-scale wooden prototype with servo motors, linear guide rails, and end-effector assembled.}}{68}{figure.12.1}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Procured Yaskawa Sigma-5 servo motors and drives.}}{38}{figure.6.1}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Trapezoidal motion profile with smoothing as defined in SigmaSelect.}}{40}{figure.6.2}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces SigmaSelect sizing results for the X-axis 400\,W Yaskawa Sigma-5 motor.}}{44}{figure.6.3}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces SigmaSelect sizing results for the Y-axis 400\,W Yaskawa Sigma-5 motor.}}{45}{figure.6.4}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces SigmaSelect sizing results for the Z-axis 200\,W Yaskawa Sigma-5 motor.}}{46}{figure.6.5}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces SigmaSelect sizing results for the yaw-axis 200\,W Yaskawa Sigma-5 motor with 160:1 planetary drive reducer.}}{47}{figure.6.6}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Project management timeline.}}{81}{figure.1.A.1}%
+\contentsline {figure}{\numberline {8.1}{\ignorespaces End effector CAD assembly showing the yaw axis, suction cup array, and structural extrusion frame.}}{63}{figure.8.1}%
+\contentsline {figure}{\numberline {8.2}{\ignorespaces FEA stress distribution under a static 40\,kg load, confirming structural adequacy of the 2\,mm main plate and back-to-back bearing configuration.}}{64}{figure.8.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {9.1}{\ignorespaces Motor test bench using the Arduino Uno for initial S-curve profile validation.}}{71}{figure.9.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {10.1}{\ignorespaces Classical vision pipeline for segmentation and pose estimation using HSV thresholding, morphological filtering, contour extraction, and minimum-area rectangle fitting.}}{74}{figure.10.1}%
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Classical pipeline results on real data: detected bounding rectangles and orientation lines for the microwave (black) and box (brown).}}{76}{figure.10.2}%
+\contentsline {figure}{\numberline {10.3}{\ignorespaces Revised vision pipeline using YOLOv26n-pose for joint detection and keypoint regression, followed by PnP-based 6-DoF pose estimation.}}{78}{figure.10.3}%
+\contentsline {figure}{\numberline {10.4}{\ignorespaces Keypoint convention for both object classes. TFL, TFR, TBL, and TBR denote the four corners of the top face as seen from the overhead camera.}}{79}{figure.10.4}%
+\contentsline {figure}{\numberline {10.5}{\ignorespaces Dataset curation pipeline. Three annotation sources are converted to a unified YOLO pose format with 2 classes and 4 keypoints per instance.}}{81}{figure.10.5}%
+\contentsline {figure}{\numberline {10.6}{\ignorespaces Training and validation loss curves over 150 epochs.}}{83}{figure.10.6}%
+\contentsline {figure}{\numberline {10.7}{\ignorespaces PnP pose visualisation on a validation image. Coloured dots are detected keypoints, white dots are reprojections, and RGB arrows indicate the recovered object-frame axes (X~=~red, Y~=~green, Z~=~blue).}}{86}{figure.10.7}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {11.1}{\ignorespaces The gantry CLI showing a pin remapping command and the STM32's state echo.}}{89}{figure.11.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {12.1}{\ignorespaces IBVS in simulation. The inset shows the virtual camera view with the detected target; the main view shows the gantry converging on the box.}}{92}{figure.12.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {13.1}{\ignorespaces Full-scale wooden prototype with servo motors, linear guide rails, and end-effector assembled.}}{94}{figure.13.1}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Project management timeline.}}{108}{figure.1.A.1}%
 \addvspace {10\p@ }

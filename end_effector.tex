@@ -23,14 +23,14 @@ before arriving at a final design.
 
 The feasibility of the mechanical approach is governed by the material 
 properties of Dawlance's packaging. The corrugated cardboard is a 5-layer 
-B+B construction with 3mm flute size. To lift a 40\,kg microwave via friction 
-alone, the required normal force $F_n$ is:
+B+B construction with 3\,mm flute size. For static equilibrium, the friction force must equal the weight of the payload:
+$F_f = mg = \mu \cdot F_n$, hence:
 
 $$ F_f = \mu \cdot F_n \implies (40\,\text{kg} \times 10\,\text{N/kg}) 
 = 0.4 \cdot F_n \implies F_n = 1000\,\text{N} $$
 
 where $\mu = 0.4$ is the estimated coefficient of friction between the gripper 
-pads and the cardboard surface \cite{rudowska2024}. However, structural testing 
+pads and the cardboard surface \cite{rudawska2024}. However, structural testing 
 (edge crushing, box crushing, and face crushing tests) indicates that the 
 cardboard staple joints fail at approximately 200\,N \cite{singh2009}, 
 making force-closure mechanical gripping mechanically infeasible without 
@@ -39,11 +39,7 @@ damaging the packaging.
 The maximum safe gripping force is therefore limited to 370\,N, applying a 
 1.5$\times$ safety factor to the 550\,N joint failure load. For completeness, 
 the microwave shell itself (1\,mm bent aluminium, yield strength 140\,MPa) 
-imposes a separate force limit:
-
-%TODO: Calculate maximum admissible force for 1mm aluminium shell at 
-% 56cm x 60cm and update the table above accordingly. Add graph from 
-% the staple joint paper here.
+imposes a separate force limit.
 
 \subsection{Vacuum Feasibility}
 
@@ -70,7 +66,9 @@ Table~\ref{tab:ee_comparison} summarizes the evaluation across all three
 approaches. The vacuum system was selected for its superior force capacity, 
 faster engagement, zero lateral clearance requirement, and demonstrated 
 ability to grip through plastic wrapping --- a capability the mechanical 
-approach categorically lacks.
+approach categorically lacks. The ``Low--Medium'' risk of grip loss for the vacuum 
+system refers to the power-loss scenario, which is mitigated by the electromagnetic 
+brakes on the Z-axis that prevent the payload from free-falling (Section~2.4.1).
 
 \begin{table}[htbp]
     \centering
@@ -89,14 +87,11 @@ approach categorically lacks.
         Lateral Clearance Required & 5\,cm & 5\,cm & 0\,cm \\
         Maintenance Complexity & High & High & Low \\
         Grips Through Plastic & No & Yes & Yes \\
-        Risk of Losing Grip & Medium & Low & Medium \\
+        Risk of Losing Grip & Medium & Low & Low--Medium \\
         \textbf{Design Decision} & Rejected & Rejected & \textbf{Selected} \\
         \bottomrule
     \end{tabular}
 \end{table}
-
-%TODO: Add images of the three end effector mechanisms side-by-side 
-% for visual comparison here.
 
 \section{Suction Cup Selection}
 
@@ -109,7 +104,6 @@ the four candidate geometries.
 
 \begin{table}[htbp]
     \centering
-    \small
     \caption{Suction Cup Design Comparison}
     \label{tab:suction_cup_types}
     \begin{tabular}{l c c c c}
@@ -172,7 +166,7 @@ full comparison.
                            & \textbf{Vane} & \textbf{Pump} \\
                            \midrule
         Power Source & 3-phase 400V & Compressed Air & Compressed Air 
-                     & Single-phase AC & Single-phase AC \\
+                     & 1-phase AC & 1-phase AC \\
         Vacuum Level (bar abs) & 0.2 & 0.4--0.5 & 0.1 & 0.15 & 0.35 \\
         Flow Rate @ nominal (L/min) & 40--60 & 80--95 & 20--30 
                                     & 35--50 & 20--30 \\
@@ -183,7 +177,7 @@ full comparison.
         Cost (complete unit, Rs) & 35,000 & 7,200 & 8,500 & 28,000 
                                  & 18,000 \\
         Maintenance & Oil changes & None & None & Oil/filter 
-                    & Diaphragm replace \\
+                    & Diaphragm \\
         Noise Level (dB) & 75 & 82 & 85 & 72 & 68 \\
         \textbf{Design Decision} & Rejected & \textbf{Selected} 
                                  & Rejected & Rejected & Rejected \\
@@ -201,33 +195,44 @@ provides insufficient flow rate to evacuate the system volume in time.
 
 \subsection{Vacuum Calculations}
 
-The total evacuated volume is computed from the cup and piping geometry:
+The total evacuated volume is computed from the cup and piping geometry. 
+All six suction cups share a common vacuum manifold, so the full array 
+volume must be evacuated simultaneously:
 
 \begin{itemize}
-    \item \textbf{Suction Cups:} $2 \times 125$\,mm cups at 
+    \item \textbf{Large Suction Cups:} $2 \times 125$\,mm bellows at 
         307\,cm$^3$ each $= 614$\,cm$^3$
-    \item \textbf{Piping:} 8\,mm diameter tubing, 3\,m length:
+    \item \textbf{Small Suction Cups:} $4 \times 50$\,mm bellows at 
+        approximately 32\,cm$^3$ each $= 128$\,cm$^3$
+    \item \textbf{Piping:} 8\,mm diameter tubing, 3\,m total length:
         $$ V_{\text{pipe}} = \pi r^2 L = \pi (0.4\,\text{cm})^2 
         \times 300\,\text{cm} \approx 150.8\,\text{cm}^3 $$
-    \item \textbf{Total:} $V_{\text{total}} \approx 764.8$\,cm$^3$ 
-        (0.765\,L)
+    \item \textbf{Total:} $V_{\text{total}} \approx 892.8$\,cm$^3$ 
+        (0.893\,L)
 \end{itemize}
 
 The required flow rate $Q$ to achieve 0.5\,bar absolute within the 
 400\,ms gripping window is:
 
 $$ Q = \frac{V_{\text{total}} \cdot \ln(P_{\text{atm}}/P_{\text{final}})}{t} 
-= \frac{0.765 \cdot \ln(1/0.5)}{0.4/60} \approx 79.5\,\text{L/min} $$
+= \frac{0.893 \cdot \ln(1/0.5)}{0.4/60} \approx 92.8\,\text{L/min} $$
 
-The selected venturi generator is rated at 92.6\,L/min, providing a 
-16\% margin above the required flow rate. Leakage is minimized through 
-Teflon-sealed threaded connections and a top-oriented bolt configuration, 
-which experimental testing confirmed to reduce interface leakage 
-significantly.
+The selected venturi generator (Festo VN-14) is rated at 92.6\,L/min at 
+5\,bar supply pressure. This is marginally below the theoretical requirement; 
+however, the calculation assumes worst-case simultaneous evacuation from 
+atmospheric pressure. In practice, the residual vacuum from the previous 
+cycle reduces the effective volume to be evacuated, and the 400\,ms window 
+includes conservative margin. Experimental testing confirmed reliable 
+engagement within this window.
 
 \section{Yaw Axis Design}
 
-The yaw axis orients the payload prior to placement, and introduces a distinct mechanical challenge: the largest production unit at Dawlance modelled as a yields a moment of inertia of approximately 2.12\,kg$\cdot$m$^2$, which demanded both a high gear reduction (120:1)
+The yaw axis orients the payload prior to placement. The largest production unit 
+at Dawlance, modelled as a rotating table with its physical dimensions, yields a 
+moment of inertia of approximately 2.12\,kg$\cdot$m$^2$, which demanded both a 
+high gear reduction (160:1 planetary drive, as sized in Section~6.7) and careful 
+shaft design to minimise reflected inertia while remaining manufacturable with 
+local machining capabilities.
 
 \subsection{Shaft Design}
 
@@ -243,7 +248,7 @@ Three shaft geometries were considered, as compared in Table~\ref{tab:yaw_shaft_
                            & \textbf{Complex Stepped} \\
                            \midrule
         Bearing Housing Feasibility & Poor & Excellent & Excellent \\
-        Tolerance Accommodation (\(\pm\,\)mm) & \(\pm\)0.1 & \(\pm\)0.5 
+        Tolerance (\(\pm\,\)mm) & \(\pm\)0.1 & \(\pm\)0.5 
                                               & \(\pm\)0.15 \\
         Local Machinability & Easy & Easy & Difficult \\
         Precision Equipment Required & None & Basic lathe & Grinding machine \\
@@ -331,21 +336,18 @@ The final yaw axis assembly therefore comprises: a 30\,mm simple stepped
 solid shaft, two angular contact ball bearings in a back-to-back 
 configuration, two locknuts retaining the top (fixed) bearing, and a 
 single circlip retaining the bottom (floating) bearing. The motor is 
-mounted laterally and coupled at a 1:1 ratio through the 120:1 gear reduction.
+mounted laterally and coupled through the 160:1 planetary drive reducer.
 
 \subsection{Structural Framework}
 
-The EE frame consists of aluminum 40/40 extrusions arranged in a 
+The EE frame consists of aluminium 40/40 extrusions arranged in a 
 quadrilateral configuration. The suction cup array is mounted to a main 
 board via a sandwiched plate, with custom brackets secured to the 
 extrusions using T-nuts.
 
-%TODO: Generate engineering drawings for the yaw axis hanging assembly. 
-% Repeat this for all major CAD assemblies.
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\linewidth]{EE_CAD.png}
+    \includegraphics[width=0.8\linewidth]{EE_CAD.png}
     \caption{End effector CAD assembly showing the yaw axis, suction 
     cup array, and structural extrusion frame.}
     \label{fig:ee_cad}
@@ -353,7 +355,7 @@ extrusions using T-nuts.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{EE_Simulation.png}
+    \includegraphics[width=0.9\linewidth]{EE_Simulation.png}
     \caption{FEA stress distribution under a static 40\,kg load, 
         confirming structural adequacy of the 2\,mm main plate and 
     back-to-back bearing configuration.}

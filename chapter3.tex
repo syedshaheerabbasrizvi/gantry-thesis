@@ -8,7 +8,7 @@ This chapter details the technical approach to solving the design problem, prese
 
 The solution is a single 4-axis gantry robot operating under the human--robot collaboration paradigm established in Section~\ref{sec:operational_paradigm}, which handles the heavy lifting of the process while workers retain the dexterous tasks. The X and Y axes are belt-driven, the Z-axis is rack-and-pinion driven, and the yaw axis is directly driven, all by AC servo motors. The end-effector is purely vacuum-based, with suction cups and pressure feedback, and tracking of microwaves and boxes is through computer vision. All components are procured through local suppliers, with the control architecture built on open-source software to eliminate dependence on foreign proprietary expertise for programming and maintenance.
 
-The primary ethical driver of the project is to address occupational safety in the factory; however, to retain the employment of line workers, the approach adopts human-robot collaboration. To promote sustainability, the project utilizes motors with the minimum sufficient power ratings and S-curve motion profiles to minimize energy usage. The automated handling of microwaves also targets waste reduction, as fewer microwaves are discarded due to manual lifting errors stemming from fatigue.
+The primary ethical driver of the project is to address occupational safety in the factory; however, to retain the employment of line workers, the approach adopts human-robot collaboration. The automated handling of microwaves also targets waste reduction, as fewer microwaves are discarded due to manual lifting errors stemming from fatigue.
 
 \section{Solution Overview}
 
@@ -27,7 +27,7 @@ Figure~\ref{fig:system_diagram} presents the overall system block diagram showin
     \label{fig:system_diagram}
 \end{figure}
 
-The system is structured as a hierarchy of control layers. An industrial PC performs computer vision and trajectory planning, forwarding position commands to an STM32F303 microcontroller over UART. The microcontroller generates S-curve motion profiles and issues pulse/direction signals to Yaskawa Sigma-5 servo drives, which perform closed-loop position control of the AC servo motors. The motors drive the mechanical axes through belt-and-pulley (X, Y), rack-and-pinion (Z), and harmonic drive (yaw) transmissions. A vacuum-based end-effector with solenoid-controlled switching handles the payload, while a sensing system comprising a global shutter camera, limit switches, external encoders, and a pressure sensor closes the feedback loop. The power electronics panel distributes factory 400V three-phase AC to the drives and generates the 24V DC and logic-level rails required by the remaining subsystems. Each of these subsystems is detailed in Chapters~4 through~11.
+The system is structured as a hierarchy of control layers. An industrial PC performs computer vision and trajectory planning, forwarding position commands to an STM32F303 microcontroller over UART. The microcontroller generates S-curve motion profiles and issues pulse/direction signals to Yaskawa Sigma-5 servo drives, which perform closed-loop position control of the AC servo motors. The motors drive the mechanical axes through belt-and-pulley (X, Y), rack-and-pinion (Z), and planetary drive (yaw) transmissions. A vacuum-based end-effector with solenoid-controlled switching handles the payload, while a sensing system comprising a global shutter camera, limit switches, external encoders, and a pressure sensor closes the feedback loop. The power electronics panel distributes factory 400V three-phase AC to the drives and generates the 24V DC and logic-level rails required by the remaining subsystems. Each of these subsystems is detailed in Chapters~4 through~11.
 
 
 \section{System Details}
@@ -44,7 +44,7 @@ Hence, the project is partitioned into the following subsystems.
     \item \textbf{End-Effector (Chapter~8):} A vacuum-based lifting mechanism using six suction cups (two large, four small) with a yaw axis consisting of a motor coupled via a shaft and angular contact bearings.
     \item \textbf{Low-Level Control (Chapter~9):} The STM32F303 interfaces with the Yaskawa drives via a differential pulse/direction protocol, generates S-curve motion profiles, and implements homing routines using limit switches.
     \item \textbf{Computer Vision (Chapter~10):} An AR0234 global shutter camera feeds a detection and pose estimation pipeline to provide the X, Y, and yaw coordinates needed for alignment.
-    \item \textbf{High-Level Control (Chapter~11):} A supervisory layer on the industrial PC communicates with the STM32 via UART over USB, providing teleoperation, trajectory planning, and state machine logic.
+    \item \textbf{High-Level Control (Chapter~\ref{ch:interface}):} A supervisory layer on the industrial PC communicates with the STM32 via UART over USB, providing teleoperation, trajectory planning, and state machine logic.
 \end{itemize}
 
 Each of the subsystems is explained in the following chapters.

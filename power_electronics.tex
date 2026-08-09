@@ -1,2 +1,198 @@
-\chapter{Power Electronics}
+\chapter{Power System}
+\label{ch:power}
 
+\section{Overview}
+
+The selection of AC servo motors was made to ensure compatibility with the three-phase supply available at the Dawlance assembly line. This decision, while optimising motor performance and torque characteristics, necessitated the design and implementation of a dedicated power distribution system. Since the control logic of this system is driven by embedded microcontrollers rather than Programmable Logic Controllers (PLCs), both AC and DC load requirements must be addressed independently within the power architecture.
+
+This chapter documents the complete power system design: load identification and classification, input current analysis from manufacturer datasheets, protective device sizing in accordance with IEC standards, and the selection of supply hardware appropriate for the industrial environment in which the system operates.
+
+\section{Load Identification and Classification}
+
+Prior to designing any protective or distribution equipment, a complete load survey was conducted. Loads were classified by supply type as follows.
+
+\textbf{AC Loads (Single-Phase):}
+\begin{itemize}
+    \item Yaskawa Sigma-5 SGDV-2R8A SERVOPACK with 400\,W three-phase servo motor ($\times 3$)
+    \item Yaskawa Sigma-5 SGDV-1R6A SERVOPACK with 200\,W three-phase servo motor ($\times 3$)
+    \item Industrial PC --- single-phase, 65\,W OEM power adapter
+    \item Utility switches for industrial PC and vacuum pump ($\times 2$)
+\end{itemize}
+
+\textbf{DC Loads (24\,VDC and 5\,V):}
+\begin{itemize}
+    \item STM32F3 Discovery microcontroller --- 5\,VDC via buck converter from 24\,V rail
+    \item Sigma-5 SERVOPACK control circuits (L1C/L2C) --- single-phase, 0.2\,A each
+    \item Electromagnetic holding brakes on all servo motors --- 24\,VDC
+    \item Solenoid valve for vacuum end-effector --- 24\,VDC
+\end{itemize}
+
+\section{AC Load Analysis}
+
+\subsection{Servo Drive Architecture and Input Requirements}
+
+The Yaskawa Sigma-5 SERVOPACK is a pulse-width modulation (PWM) based AC servo drive that accepts an AC input and delivers a variable-voltage, variable-frequency (VVVF) output to the servo motor. The drive's internal power stage consists of a diode rectifier bridge, a DC link capacitor bank, and a three-phase IGBT inverter bridge~\cite{yaskawa_manual}. The rectifier converts the incoming AC to a high-voltage DC bus (approximately 320\,VDC for a 230\,V input), which is then switched by the IGBT inverter at high frequency to synthesise a three-phase output of controlled voltage and frequency. This decouples the input supply frequency from the motor excitation frequency entirely, enabling precise speed and torque control independent of grid conditions.
+
+PWM servo drives of this type introduce a non-linear load on the supply network due to the pulsed current drawn by the rectifier. However, at the power levels of this system (total demand below 2\,kVA), harmonic effects on the distribution network are negligible and do not require active power factor correction.
+
+The rated input specifications as stated on the SERVOPACK nameplates are summarised in Table~\ref{tab:servopack_specs}.
+
+\begin{table}[H]
+    \centering
+    \caption{Yaskawa Sigma-5 SERVOPACK input/output specifications~\cite{yaskawa_manual}.}
+    \label{tab:servopack_specs}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}lccl@{}}
+        \toprule
+        \textbf{Parameter} & \textbf{SGDV-2R8A (400\,W)} & \textbf{SGDV-1R6A (200\,W)} & \textbf{Unit} \\
+        \midrule
+        Input Voltage & 200--230 & 200--230 & V\,AC \\
+        Input Frequency & 50/60 & 50/60 & Hz \\
+        Rated Input Current & 2 & 1 & A \\
+        Control Circuit (L1C/L2C) & 1-Ph, 200--230\,V, 0.2\,A & 1-Ph, 200--230\,V, 0.2\,A & --- \\
+        Continuous Output Current & 2.8 & 1.6 & A \\
+        Output Voltage Range & 0--230 & 0--230 & V\,AC \\
+        Output Frequency Range & 0--400 & 0--400 & Hz \\
+        Insulation Class & Class B (130$\degree$C) & Class B (130$\degree$C) & --- \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Single-Phase Configuration}
+
+The Sigma-5 SERVOPACKs are rated for a 200--230\,V three-phase input. However, the factory supply is 400\,V three-phase, which exceeds the drive's input voltage range. To resolve this, the drives are configured for single-phase operation by setting parameter Pn00B.1, as specified in the Yaskawa operating manual~\cite{yaskawa_manual}. In this mode, each drive is supplied with single-phase 230\,V derived from the factory's line-to-neutral voltage. This configuration was confirmed as acceptable by the motor vendor and does not affect the drive's output capability, as the internal DC bus voltage is regulated by the capacitor bank regardless of input topology.
+
+\subsection{Control Circuit Supply (L1C / L2C)}
+
+Each SERVOPACK contains two independent power circuits: the main power circuit supplying the motor drive stage, and a control power circuit supplying the digital signal processor, encoder interface, and I/O logic. The control circuit input terminals (L1C, L2C) require a separate single-phase 200--230\,V supply at 0.2\,A rated current. This separation is an intentional design feature: it allows the control circuit to remain energised even when main power is removed, enabling the drive to maintain encoder position data and communicate fault status without full motor power.
+
+As per the operating manual, the control circuit supply must be isolated from the CN1 I/O signal supply to prevent signal interference~\cite{yaskawa_manual}.
+
+\subsection{Industrial PC}
+
+The industrial PC is supplied with a proprietary 65\,W AC/DC power adapter (input: single-phase 100--240\,V, 50/60\,Hz). Since the adapter handles all internal voltage conversion, the distribution panel only provides a fused single-phase socket. The maximum supply current drawn from the panel is:
+\[
+I = \frac{P}{V} = \frac{130\,\text{W (max load)}}{220\,\text{V}} \approx 0.59\,\text{A}
+\]
+A utility switch with a 1\,A fuse is installed in the panel for this load.
+
+\section{DC Load Analysis}
+
+\subsection{Electromagnetic Holding Brakes}
+
+Each servo motor is equipped with a de-energisation type electromagnetic holding brake. In this topology --- standard for safety-critical servo applications --- the brake is released when 24\,VDC is applied to the brake coil and engages mechanically when power is removed~\cite{yaskawa_manual}. This fail-safe design ensures that in the event of a power failure, the brake automatically applies and prevents uncontrolled movement, which is particularly critical for the Z-axis where gravity acts continuously on the suspended payload.
+
+The brake coil behaves as a resistive-inductive (RL) load. Upon de-energisation, the collapsing magnetic field generates a back-EMF transient that can damage the switching element driving the brake. To suppress this, a Zener-based surge absorber (Z15D121, rated for 24\,V supply as specified in the Yaskawa wiring guide) is installed in parallel with each brake coil~\cite{yaskawa_manual}.
+
+Typical holding brake current for Yaskawa motors in the 200--400\,W power class ranges from 0.3\,A to 0.6\,A per motor~\cite{yaskawa_catalog}. For a conservative worst-case estimate across all six motors:
+\[
+I_\text{total} = 0.6\,\text{A} \times 6 = 3.6\,\text{A}
+\]
+
+A Meanwell DRP-240-24 DIN-rail power supply (24\,VDC, 10\,A, 240\,W) was selected to supply all brake coils, the solenoid valve, and the buck converter for the STM32, providing significant headroom above the calculated demand.
+
+\subsection{STM32F3 Microcontroller}
+
+The STM32F3 Discovery board operates from a regulated 5\,VDC supply, with current consumption in the range of 50--150\,mA in active mode with peripherals enabled~\cite{stm32_manual}. The MCU is powered from the 24\,VDC rail through a buck converter stepping 24\,VDC to 5\,VDC.
+
+\subsection{Solenoid Valve}
+
+The solenoid valve for the vacuum end-effector operates at 24\,VDC and is powered from the same Meanwell DRP-240-24 supply. Solenoid valves exhibit an inductive load characteristic with a high inrush-to-holding current ratio (typically 6:1 to 10:1 during actuation). A flyback diode is installed in parallel with the solenoid coil to provide a freewheeling path for the back-EMF transient upon de-energisation, protecting the driving output of the microcontroller.
+
+\section{Protective Device Sizing}
+
+Protection was designed in accordance with IEC~60364-4-43 (protection against overcurrent)~\cite{iec60364} and IEC~60947-2 (low-voltage circuit breakers)~\cite{iec60947}. The protection philosophy follows a coordinated discrimination approach: a main MCCB provides upstream fault isolation for the entire panel, while individual branch fuses provide downstream discrimination, ensuring that a fault on one branch does not interrupt supply to other branches.
+
+\subsection{Branch Protection}
+
+Fast-acting G-type fuses conforming to IEC~60269-1~\cite{iec60269} were selected for branch-level phase protection of each SERVOPACK. The G fuse characteristic provides protection for both sustained overload and short-circuit conditions. Fuse ratings were set at 1.5$\times$ the rated input current, rounded up to the next commercially available standard value, to provide margin for startup transients while maintaining effective overload protection. The branch protection sizing is summarised in Table~\ref{tab:fuse_sizing}.
+
+\begin{table}[H]
+    \centering
+    \caption{Per-branch fuse and protective device sizing summary.}
+    \label{tab:fuse_sizing}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Load} & \textbf{Input Current} & \textbf{Fuse Rating} & \textbf{Fuse Type} \\
+        \midrule
+        400\,W SERVOPACK ($\times 3$) & 1\,A/phase & 2\,A & G fast-blow, 10$\times$38\,mm \\
+        200\,W SERVOPACK ($\times 3$) & 0.5\,A/phase & 1\,A & G fast-blow, 10$\times$38\,mm \\
+        24\,VDC PSU (Meanwell) & 1.1\,A & 10\,A & G, 10$\times$38\,mm \\
+        Industrial PC (65\,W) & 0.3\,A & 6\,A & MCB 1P, Curve C \\
+        STM32F3 MCU & $<0.5$\,A total & 1\,A & G fast-blow \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Main MCCB Sizing}
+
+The main Moulded Case Circuit Breaker (MCCB) must carry the total connected load current with margin and must have a breaking capacity exceeding the prospective short-circuit current (PSCC) at the point of installation. The PSCC at a typical industrial assembly line supply point in Pakistan can reach 10\,kA; accordingly, a minimum breaking capacity ($I_{cu}$) of 10\,kA was specified~\cite{iec60364}. Table~\ref{tab:mccb_sizing} summarises the total load current calculation.
+
+\begin{table}[H]
+    \centering
+    \caption{Total load current calculation and MCCB sizing.}
+    \label{tab:mccb_sizing}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Load Group} & \textbf{Qty} & \textbf{Current Each} & \textbf{Subtotal} \\
+        \midrule
+        400\,W SERVOPACK main input & 3 & 2\,A & 6\,A \\
+        200\,W SERVOPACK main input & 3 & 1\,A & 3\,A \\
+        Control circuits (all packs) & 6 & 0.2\,A & 1.2\,A \\
+        \midrule
+        Total running current & & & 10.2\,A \\
+        With 25\% safety margin & & $\times 1.25$ & 12.75\,A $\rightarrow$ \textbf{20\,A MCCB} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+A 3-pole + neutral MCCB rated at 20\,A with a minimum breaking capacity of 10\,kA was selected, compliant with IEC~60947-2. The MCCB is positioned immediately after the incoming supply terminals and before the distribution busbars, ensuring that any downstream fault is cleared at the panel level.
+
+\section{Distribution Architecture}
+
+The complete distribution architecture is organised as follows. An emergency stop button is placed immediately after the MCCB, allowing all downstream power to be disconnected in a single action independent of the software controller, in compliance with the safety requirements of Section~2.4.1.
+
+From the single-phase 230\,V supply downstream of the emergency stop:
+\begin{itemize}
+    \item Each of the three 400\,W SERVOPACKs receives a single-phase 230\,V supply through an individual 2\,A fuse.
+    \item Each of the three 200\,W SERVOPACKs receives a single-phase 230\,V supply through an individual 1\,A fuse.
+    \item The Meanwell DRP-240-24 DC power supply receives single-phase 230\,V through a 10\,A fuse.
+    \item Two utility switches, each with a 16\,A fuse, supply the industrial PC and the vacuum pump.
+\end{itemize}
+
+The 24\,VDC output of the Meanwell supply is distributed via two DIN-rail busbars (+24\,V and 0\,V). From these busbars:
+\begin{itemize}
+    \item Six connections supply the electromagnetic holding brakes (one per motor), each with a surge absorber.
+    \item A buck converter steps 24\,VDC to 5\,VDC for the STM32 microcontroller.
+    \item A second buck converter provides 12\,VDC for the solenoid valve and pressure sensor.
+\end{itemize}
+
+A separate earth busbar adjacent to the MCCB connects the mains protective earth to the earth terminals of all SERVOPACKs, the DC power supply, and the utility switches. A voltmeter and current transformer are installed to monitor supply voltage and current drawn from the mains.
+
+\section{Wiring Specification}
+
+The wiring for the system was specified based on the current capacity requirements and the distances involved on the $4 \times 4 \times 2$\,m gantry frame. A maximum resistance of 1\,m$\Omega$/m was specified for all conductors to ensure that voltage drop over the longest cable runs remains within acceptable limits for the servo drive inputs.
+
+The wiring specification is summarised in Table~\ref{tab:wiring}.
+
+\begin{table}[H]
+    \centering
+    \caption{Wiring specification for the gantry system.}
+    \label{tab:wiring}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}llcl@{}}
+        \toprule
+        \textbf{Application} & \textbf{Type} & \textbf{Length (m)} & \textbf{Notes} \\
+        \midrule
+        Motor power & 4-core, 2\,mm & 35 & Per-motor three-phase + earth \\
+        Brake wiring & 2-core, 1.5\,mm & 35 & 24\,VDC brake coil supply \\
+        Encoder cable & 4-core, 1\,mm & 35 & Twisted pair, shielded against EMI \\
+        Limit switches & 1-core, 0.5\,mm & 70 & DC signal wiring \\
+        Camera cable & 5-core, 0.5\,mm & 9 & USB + power, shielded \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The shielded cables for encoder and camera connections are necessary to mitigate electromagnetic interference from the high-frequency PWM switching of the servo drives, which is conducted along the motor power cables running in close proximity on the gantry frame.

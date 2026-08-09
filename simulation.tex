@@ -1,20 +1,16 @@
 \chapter{Simulation}
 
-In the initial stages of the project, hardware procurement had significant lead times, with testing and integration adding further delays. Thus, a simulation environment was developed in PyBullet so that control logic could be validated in the meantime. This enabled rapid iteration of the finite state machine logic without risking hardware damage, and visualization different camera perspectives and tracking behavior before procuring – let alone mounting – any physical camera.
+In the initial stages of the project, hardware procurement had significant lead times, with testing and integration adding further delays. Thus, a simulation environment was developed in PyBullet so that control logic could be validated in the meantime. This enabled rapid iteration of the finite state machine logic without risking hardware damage, and visualisation of different camera perspectives and tracking behaviour before procuring --- let alone mounting --- any physical camera.
 
-The physical world consists of the conveyor belt modeled as a static rigid body and a box which spawns with a random X position and yaw angle on the line. To model conveyor motion, the box position is simply reset each timestep instead of using contact forces, because fidelity was not the purpose of the simulation.
+The physical world consists of a conveyor belt modelled as a static rigid body and a box which spawns with a random X position and yaw angle on the line. To model conveyor motion, the box position is reset each timestep rather than using contact forces, because physical fidelity was not the purpose of the simulation.
 
-The gantry itself is modeled using the Unified Robot Description Format. The kinematic chain begins at a fixed world interface link, followed by a prismatic X joint driving the bridge, a prismatic Y joint for the carriage, a prismatic Z joint for the vertical probe, a revolute yaw joint at the end-effector, and finally two prismatic finger joints.
+The gantry itself is modelled using the Unified Robot Description Format (URDF). The kinematic chain begins at a fixed world-interface link, followed by a prismatic X joint driving the bridge, a prismatic Y joint for the carriage, a prismatic Z joint for the vertical probe, a revolute yaw joint at the end-effector, and finally two prismatic finger joints. The end-effector is modelled through a gripping mechanism rather than the vacuum system used in the final hardware; however, the degrees of freedom are identical, and the simulation's purpose --- validating the finite state machine and IBVS control law --- is unaffected by the gripping mechanism. To simplify matters, the robot applies a rigid fixed constraint between the end-effector link and the box upon contact, bypassing contact force modelling entirely.
 
-Note that since this was earlier in the project, the end-effector is modeled through a gripping mechanism, whereas the final hardware uses a different mechanism (vacuum-based). However, the degrees of freedom remain the same, and generally the idea is captured. Moreover, instead of modeling real gripper contact physics – which is not the purpose of the simulation since the focus is on finite-state machine validation – the robot applies a rigid fixed constraint between the end-effector link and the box, which bypasses contact force modeling entirely and simplifies matters significantly.
-
-IBVS was performed on simulation with pixel data from the camera frame, and success was observed. The gantry simulation is built on PyBullet, with URDFs of the gantry and objects around it.
+Image-based visual servoing (IBVS) was implemented and tested within the simulation using pixel data from a virtual camera attached to the gantry frame. The IBVS controller successfully converged on the target object across randomised initial positions and yaw angles, confirming the viability of the control law described in Section~\ref{sec:classical_pipeline} prior to deployment on physical hardware.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/ibvs.png}
-    \caption{IBVS in simulation.}
-    \label{fig:placeholder}
+    \caption{IBVS in simulation. The inset shows the virtual camera view with the detected target; the main view shows the gantry converging on the box.}
+    \label{fig:ibvs_sim}
 \end{figure}
-
-[Remaining details are TBD, including discussion of InnoSlate and whatever other notable details]

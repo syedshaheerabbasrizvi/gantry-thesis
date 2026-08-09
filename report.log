@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.5)  18 MAY 2026 21:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.10)  10 AUG 2026 03:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -211,6 +211,24 @@ Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@cntb=\count317
 \multirow@dima=\skip57
 \bigstrutjot=\dimen185
+) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+ (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+ (/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (/usr/share/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 ) (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
  (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
@@ -452,16 +470,6 @@ Package biblatex Info: ... file 'blx-compat.def' found.
  (/usr/share/texmf-dist/tex/latex/biblatex/blx-compat.def
 File: blx-compat.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
 )
-Package biblatex Info: Trying to load BibTeX backend compatibility...
-Package biblatex Info: ... file 'blx-bibtex.def' found.
- (/usr/share/texmf-dist/tex/latex/biblatex/blx-bibtex.def
-File: blx-bibtex.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
-
-
-Package biblatex Warning: Using fall-back bibtex backend:
-(biblatex)                functionality may be reduced/unavailable.
-
-)
 Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
  (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
@@ -637,27 +645,6 @@ Package: rotating 2025/01/14 v2.16e rotated objects in LaTeX
 \ULC@box=\box71
 Package: ulem 2019/11/18
 \ULdepth=\dimen261
-) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
- (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
-)
-
-Package xcolor Warning: Package option `usenames' is obsolete and ignored on input line 265.
-
-Package xcolor Info: Driver file: pdftex.def on input line 274.
-(/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
-Package xcolor Info: Model `RGB' extended on input line 1365.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
-) (/usr/share/texmf-dist/tex/latex/graphics/dvipsnam.def
-File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 )
 Package translations Info: No language package found. I am going to use `english' as default language. on input line 62.
 \@quotelevel=\count466
@@ -665,32 +652,7 @@ Package translations Info: No language package found. I am going to use `english
 LaTeX Font Info:    Trying to load font information for T1+ptm on input line 62.
  (/usr/share/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
-) (./report.aux
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-
-LaTeX Warning: Label `fig:placeholder' multiply defined.
-
-)
+) (./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
@@ -793,25 +755,11 @@ File: english.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-Package biblatex Info: Input encoding 'utf8' detected.
-Package biblatex Info: Data encoding 'utf8' specified.
-(biblatex)             No need to reencode data.
-\openout3 = `report-blx.bib'.
+\openout3 = `report.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'report.bbl' found.
- (./report.bbl
-
-Package biblatex Warning: BibTeX reported the following issues
-(biblatex)                with 'megapk':
-(biblatex)                - Invalid format of field 'month'.
-
-
-Package biblatex Warning: BibTeX reported the following issues
-(biblatex)                with 'niosh2024':
-(biblatex)                - Invalid format of field 'month'.
-
-)
+ (./report.bbl)
 Package biblatex Info: Reference section=0 on input line 62.
 Package biblatex Info: Reference segment=0 on input line 62.
 Package hyperref Info: Link coloring OFF on input line 62.
@@ -820,7 +768,7 @@ Package hyperref Info: Link coloring OFF on input line 62.
 \openout4 = `report.out'.
 
  (./titlePage.tex
-<Golden_Logo.png, id=389, 381.1038pt x 410.9754pt>
+<Golden_Logo.png, id=623, 381.1038pt x 410.9754pt>
 File: Golden_Logo.png Graphic file (type png)
 <use Golden_Logo.png>
 Package pdftex.def Info: Golden_Logo.png  used on input line 28.
@@ -836,15 +784,19 @@ l.53 \clearpage
 
 ]
 Package epstopdf Info: Source file: <figures/by.eps>
-(epstopdf)                    date: 2026-05-17 11:22:10
-(epstopdf)                    size: 59921 bytes
+(epstopdf)                    date: 2026-05-18 22:11:21
+(epstopdf)                    size: 59927 bytes
 (epstopdf)             Output file: <figures/by-eps-converted-to.pdf>
 (epstopdf)                    date: 2026-05-17 11:22:10
 (epstopdf)                    size: 4856 bytes
 (epstopdf)             Command: <repstopdf --outfile=figures/by-eps-converted-to.pdf figures/by.eps>
 (epstopdf)             \includegraphics on input line 98.
-Package epstopdf Info: Output file is already uptodate.
-<figures/by-eps-converted-to.pdf, id=401, 121.45375pt x 43.16125pt>
+runsystem(repstopdf --outfile=figures/by-eps-converted-to.pdf figures/by.eps)...executed safely (allowed).
+
+Package epstopdf Info: Result file: <figures/by-eps-converted-to.pdf>
+(epstopdf)                    date: 2026-05-17 11:22:10
+(epstopdf)                    size: 4856 bytes.
+<figures/by-eps-converted-to.pdf, id=635, 121.45375pt x 43.16125pt>
 File: figures/by-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/by-eps-converted-to.pdf>
 Package pdftex.def Info: figures/by-eps-converted-to.pdf  used on input line 98.
@@ -865,11 +817,6 @@ l.108 \end{titlepage}
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.11 \begin{titlepage}
-                       [1]
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
 l.20 \end{titlepage}
                      [1]) (./dedication.tex
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has been already used, duplicate ignored
@@ -881,38 +828,43 @@ l.18 \end{titlepage}
 ]) (./report.toc [6
 
 
-] [7]
-Overfull \hbox (0.9356pt too wide) detected at line 65
+] [7] [8] [9]
+Overfull \hbox (0.9356pt too wide) detected at line 97
 \T1/ptm/b/n/12 Chapter 10: 
  []
 
 
-Overfull \hbox (0.9356pt too wide) detected at line 66
+Overfull \hbox (0.9356pt too wide) detected at line 114
 \T1/ptm/b/n/12 Chapter 11: 
  []
 
-
-Overfull \hbox (0.9356pt too wide) detected at line 67
+[10]
+Overfull \hbox (0.9356pt too wide) detected at line 117
 \T1/ptm/b/n/12 Chapter 12: 
  []
 
-[8]
-Overfull \hbox (0.9356pt too wide) detected at line 85
+
+Overfull \hbox (0.9356pt too wide) detected at line 118
 \T1/ptm/b/n/12 Chapter 13: 
  []
 
-[9])
+
+Overfull \hbox (0.9356pt too wide) detected at line 136
+\T1/ptm/b/n/12 Chapter 14: 
+ []
+
+[11])
 \tf@toc=\write5
 \openout5 = `report.toc'.
 
- [10] (./report.lot)
+ [12] (./report.lot [13
+
+
+])
 \tf@lot=\write6
 \openout6 = `report.lot'.
 
- [11
-
-
-] (./report.lof [12
+ [14] (./report.lof [15
 
 
 ]
@@ -924,246 +876,314 @@ Overfull \hbox (28.26624pt too wide) in paragraph at lines 30--30
 \tf@lof=\write7
 \openout7 = `report.lof'.
 
- [13] (./summary.tex
+ [16] (./summary.tex
 Underfull \hbox (badness 10000) in paragraph at lines 15--17
 
  []
 
-) [14
+) [17
 
 
 ] (./chapter1.tex
 Chapter 1.
-<figures/process.png, id=654, 1236.62pt x 661.47125pt>
+<figures/process.png, id=1010, 1236.62pt x 661.47125pt>
 File: figures/process.png Graphic file (type png)
 <use figures/process.png>
 Package pdftex.def Info: figures/process.png  used on input line 8.
 (pdftex.def)             Requested size: 416.83289pt x 222.95935pt.
-[1
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 16.
+(/usr/share/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [1
 
 
  <./figures/process.png>] [2]
-<figures/articulated_robot.png, id=675, 1023.825pt x 702.625pt>
+<figures/articulated_robot.png, id=1028, 1023.825pt x 702.625pt>
 File: figures/articulated_robot.png Graphic file (type png)
 <use figures/articulated_robot.png>
-Package pdftex.def Info: figures/articulated_robot.png  used on input line 33.
+Package pdftex.def Info: figures/articulated_robot.png  used on input line 45.
 (pdftex.def)             Requested size: 187.57352pt x 128.71849pt.
-<figures/gantry_robot.jpg, id=676, 241.70569pt x 241.70569pt>
+<figures/gantry_robot.jpg, id=1029, 241.70569pt x 241.70569pt>
 File: figures/gantry_robot.jpg Graphic file (type jpg)
 <use figures/gantry_robot.jpg>
-Package pdftex.def Info: figures/gantry_robot.jpg  used on input line 35.
+Package pdftex.def Info: figures/gantry_robot.jpg  used on input line 47.
 (pdftex.def)             Requested size: 187.57352pt x 187.57445pt.
- [3 <./figures/articulated_robot.png> <./figures/gantry_robot.jpg>]
-Overfull \hbox (5.89528pt too wide) in paragraph at lines 48--49
+ [3] [4 <./figures/articulated_robot.png> <./figures/gantry_robot.jpg>]
+Overfull \hbox (5.89528pt too wide) in paragraph at lines 60--61
 []\T1/ptm/m/n/12 To fur-ther sys-tem-at-i-cally eval-u-ate these tech-nolo-gies for the con-straints of the project,
  []
 
 
-Underfull \hbox (badness 6110) in paragraph at lines 59--59
+Underfull \hbox (badness 6110) in paragraph at lines 71--71
 []|\T1/ptm/m/n/12 Spherical/Cylindrical; lim-ited
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--61
+Underfull \hbox (badness 10000) in paragraph at lines 73--73
 []|\T1/ptm/b/n/12 Payload
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--61
+Underfull \hbox (badness 10000) in paragraph at lines 73--73
 \T1/ptm/b/n/12 Ca-pac-ity &
  []
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 61--61
+Underfull \hbox (badness 1122) in paragraph at lines 73--73
 []|\T1/ptm/m/n/12 Variable (Jacobian-dependent);
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--62
+Underfull \hbox (badness 10000) in paragraph at lines 73--74
 []|\T1/ptm/m/n/12 Constant across workspace;
  []
 
 
-Underfull \hbox (badness 3312) in paragraph at lines 65--65
+Underfull \hbox (badness 3312) in paragraph at lines 77--77
 []|\T1/ptm/m/n/12 High (6-DoF); can ap-proach
  []
 
 
-Overfull \hbox (3.48518pt too wide) in paragraph at lines 69--69
+Overfull \hbox (3.48518pt too wide) in paragraph at lines 81--81
 []|\T1/ptm/b/n/12 Programming
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--69
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
 \T1/ptm/b/n/12 & Com-mis-
  []
 
 
-Underfull \hbox (badness 2591) in paragraph at lines 69--69
+Underfull \hbox (badness 2591) in paragraph at lines 81--81
 \T1/ptm/m/n/12 dants and in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 6300) in paragraph at lines 69--70
+Underfull \hbox (badness 6300) in paragraph at lines 81--82
 \T1/ptm/m/n/12 com-pat-i-ble with open-source
  []
 
-[4]
-Overfull \hbox (19.66269pt too wide) in paragraph at lines 78--79
-\T1/ptm/m/n/12 workspace due to its dual-rail frame sup-port, whereas ar-tic-u-lated arms ex-hibit configuration-
- []
-
-[5] [6]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 95.
- (/usr/share/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)) (./chapter2.tex [7]
+[5] [6] [7]) (./chapter2.tex [8]
 Chapter 2.
 
-Underfull \hbox (badness 2189) in paragraph at lines 21--22
-[]|\T1/ptm/m/n/12 Significant re-duc-tion in phys-i-cal
+Underfull \hbox (badness 1755) in paragraph at lines 19--20
+[]|\T1/ptm/m/n/12 Increased safety, re-li-a-bil-ity,
  []
 
 
-Underfull \hbox (badness 1577) in paragraph at lines 23--23
-[]|\T1/ptm/m/n/12 Collaborating in-sti-tu-tion of-fer-
+Underfull \hbox (badness 1132) in paragraph at lines 25--26
+[]|\T1/ptm/m/n/12 Milestone achieve-ment, po-
  []
 
 
-Underfull \hbox (badness 2318) in paragraph at lines 25--26
-[]|\T1/ptm/m/n/12 Milestone achieve-ment, po-ten-tial
+Underfull \hbox (badness 5711) in paragraph at lines 27--27
+[]|\T1/ptm/m/n/12 Participants in project re-
  []
 
 
-Overfull \hbox (22.47675pt too wide) in paragraph at lines 15--30
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+\T1/ptm/m/n/12 search, de-vel-op-ment, and
  []
 
-[8
 
-] [9] [10] [11] [12] [13] [14] [15] [16]
+Underfull \hbox (badness 2635) in paragraph at lines 27--28
+\T1/ptm/m/n/12 skill de-vel-op-ment, and re-
+ []
+
+[9
+
+] [10] [11] [12] [13] [14] [15] [16] [17]
 Overfull \hbox (2.58817pt too wide) in paragraph at lines 179--180
 []\T1/ptm/b/n/12 Metric: \T1/ptm/m/n/12 Num-ber of Dawlance mi-crowave mod-els suc-cess-fully han-dled with-
  []
 
-[17] [18]) (./chapter3.tex [19]
+[18] [19]) (./chapter3.tex [20]
 Chapter 3.
-<system_diagram.pdf, id=814, 554.07pt x 601.28638pt>
+<system_diagram.pdf, id=1173, 554.07pt x 601.28638pt>
 File: system_diagram.pdf Graphic file (type pdf)
 <use system_diagram.pdf>
 Package pdftex.def Info: system_diagram.pdf  used on input line 25.
 (pdftex.def)             Requested size: 416.83289pt x 452.35825pt.
-[20
+[21
 
-] [21 <./system_diagram.pdf>] [22]) (./mechanical.tex [23]
+] [22 <./system_diagram.pdf>] [23]) (./mechanical.tex [24]
 Chapter 4.
-<figures/result_1.png, id=846, 314.17375pt x 406.51875pt>
+<figures/result_1.png, id=1206, 314.17375pt x 406.51875pt>
 File: figures/result_1.png Graphic file (type png)
 <use figures/result_1.png>
-Package pdftex.def Info: figures/result_1.png  used on input line 18.
+Package pdftex.def Info: figures/result_1.png  used on input line 19.
 (pdftex.def)             Requested size: 312.62466pt x 404.53279pt.
-[24
+[25
 
 ]
-<figures/result_2.png, id=851, 609.27625pt x 247.92625pt>
+<figures/result_2.png, id=1211, 609.27625pt x 247.92625pt>
 File: figures/result_2.png Graphic file (type png)
 <use figures/result_2.png>
-Package pdftex.def Info: figures/result_2.png  used on input line 25.
+Package pdftex.def Info: figures/result_2.png  used on input line 26.
 (pdftex.def)             Requested size: 416.83289pt x 169.62418pt.
-<figures/result_3.png, id=852, 343.2825pt x 446.66875pt>
+<figures/result_3.png, id=1212, 343.2825pt x 446.66875pt>
 File: figures/result_3.png Graphic file (type png)
 <use figures/result_3.png>
-Package pdftex.def Info: figures/result_3.png  used on input line 32.
+Package pdftex.def Info: figures/result_3.png  used on input line 33.
 (pdftex.def)             Requested size: 312.62466pt x 406.7759pt.
- [25 <./figures/result_1.png> <./figures/result_2.png>]
-<figures/result_4.png, id=857, 617.30624pt x 167.62625pt>
+ [26 <./figures/result_1.png> <./figures/result_2.png>]
+<figures/result_4.png, id=1217, 617.30624pt x 167.62625pt>
 File: figures/result_4.png Graphic file (type png)
 <use figures/result_4.png>
-Package pdftex.def Info: figures/result_4.png  used on input line 39.
+Package pdftex.def Info: figures/result_4.png  used on input line 40.
 (pdftex.def)             Requested size: 416.83289pt x 113.19142pt.
- [26 <./figures/result_3.png> <./figures/result_4.png>]
-<figures/plant_driving.png, id=863, 622.325pt x 458.71375pt>
+ [27 <./figures/result_3.png> <./figures/result_4.png>] [28]
+<figures/plant_driving.png, id=1228, 622.325pt x 458.71375pt>
 File: figures/plant_driving.png Graphic file (type png)
 <use figures/plant_driving.png>
-Package pdftex.def Info: figures/plant_driving.png  used on input line 56.
+Package pdftex.def Info: figures/plant_driving.png  used on input line 82.
 (pdftex.def)             Requested size: 312.62466pt x 230.43422pt.
- [27]
-<figures/possibilities.png, id=868, 542.025pt x 501.875pt>
+<figures/possibilities.png, id=1230, 542.025pt x 501.875pt>
 File: figures/possibilities.png Graphic file (type png)
 <use figures/possibilities.png>
-Package pdftex.def Info: figures/possibilities.png  used on input line 65.
+Package pdftex.def Info: figures/possibilities.png  used on input line 93.
 (pdftex.def)             Requested size: 312.62466pt x 289.47952pt.
- [28 <./figures/plant_driving.png> <./figures/possibilities.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 Includes 40kg pay-load,
+ [29 <./figures/plant_driving.png>] [30 <./figures/possibilities.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+[]|\T1/ptm/m/n/10.95 Safety height to clear
  []
 
 
-Underfull \hbox (badness 5288) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 Safety height re-quired to
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+\T1/ptm/m/n/10.95 workspace ob-sta-cles (Fig-
  []
 
 
-Underfull \hbox (badness 2119) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 Chosen for high pre-ci-sion
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+[]|\T1/ptm/m/n/10.95 Selected for bend-ing re-
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 Car-like lay-out to neu-tral-
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+\T1/ptm/m/n/10.95 sis-tance; C-channel as
  []
 
 
-Underfull \hbox (badness 2005) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 Selected for anti-backdrive
+Underfull \hbox (badness 2073) in paragraph at lines 154--154
+\T1/ptm/m/n/10.95 cost-dependent backup (Ta-
  []
 
 
-Underfull \hbox (badness 3471) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 Requires fi-nal in-er-tia cal-
+Underfull \hbox (badness 1072) in paragraph at lines 154--154
+\T1/ptm/m/n/10.95 pre-ci-sion and load ca-pac-ity
  []
 
 
-Underfull \hbox (badness 1603) in paragraph at lines 140--140
-\T1/ptm/m/n/10.95 cu-la-tion based on se-lected
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+[]|\T1/ptm/m/n/10.95 Neutralises rolling/pitching
  []
 
-
-Underfull \hbox (badness 2735) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 Dependent on fi-nal mo-tor
- []
-
-
-Underfull \hbox (badness 6078) in paragraph at lines 140--140
-[]|\T1/ptm/m/n/10.95 To be de-ter-mined dur-ing
- []
-
-[29]
-<figures/gantry_image.jpeg, id=877, 1284.8pt x 722.7pt>
+[31]
+<figures/gantry_image.jpeg, id=1261, 1284.8pt x 722.7pt>
 File: figures/gantry_image.jpeg Graphic file (type jpg)
 <use figures/gantry_image.jpeg>
-Package pdftex.def Info: figures/gantry_image.jpeg  used on input line 148.
+Package pdftex.def Info: figures/gantry_image.jpeg  used on input line 163.
 (pdftex.def)             Requested size: 416.83289pt x 234.46669pt.
- [30]) (./drive_mechanisms.tex [31 <./figures/gantry_image.jpeg>]
+ [32]) (./drive_mechanisms.tex [33 <./figures/gantry_image.jpeg>]
 Chapter 5.
-[32
 
-] [33]) (./motor_actuation.tex [34]
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+[]|\T1/ptm/b/n/12 Travel dis-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+[]|\T1/ptm/m/n/12 Excellent; lim-ited
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+[]|\T1/ptm/m/n/12 Excellent; lim-ited
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--32
+[]|\T1/ptm/m/n/12 High; mo-tor can
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--32
+\T1/ptm/m/n/12 re-main sta-tion-ary
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+\T1/ptm/m/n/12 me-chan-i-cal whip-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+[]|\T1/ptm/b/n/12 Load ca-pac-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+[]|\T1/ptm/m/n/12 High; rigid gear
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+[]|\T1/ptm/m/n/12 High; in-her-ently
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+[]|\T1/ptm/m/n/12 High; fric-tion in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+\T1/ptm/m/n/12 tion-ary, only belt
+ []
+
+
+Underfull \hbox (badness 2762) in paragraph at lines 38--38
+[]|\T1/ptm/m/n/12 Moderate; rack or
+ []
+
+
+Underfull \hbox (badness 3492) in paragraph at lines 40--40
+\T1/ptm/m/n/12 pul-leys are widely
+ []
+
+
+Underfull \hbox (badness 1466) in paragraph at lines 40--40
+[]|\T1/ptm/m/n/12 Moderate; stan-dard
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--40
+\T1/ptm/m/n/12 mod-ules avail-able
+ []
+
+
+Underfull \hbox (badness 5374) in paragraph at lines 40--41
+[]|\T1/ptm/m/n/12 Moderate to high;
+ []
+
+[34
+
+] [35] [36]) (./motor_actuation.tex [37]
 Chapter 6.
-<figures/motors_gearboxes.png, id=907, 774.895pt x 605.26125pt>
+<figures/motors_gearboxes.png, id=1292, 774.895pt x 605.26125pt>
 File: figures/motors_gearboxes.png Graphic file (type png)
 <use figures/motors_gearboxes.png>
-Package pdftex.def Info: figures/motors_gearboxes.png  used on input line 9.
+Package pdftex.def Info: figures/motors_gearboxes.png  used on input line 7.
 (pdftex.def)             Requested size: 333.46758pt x 260.46967pt.
-[35
+[38
 
  <./figures/motors_gearboxes.png>]
-<figures/motor_sizing_graphs.png, id=913, 897.3525pt x 499.8675pt>
+<figures/motor_sizing_graphs.png, id=1298, 897.3525pt x 499.8675pt>
 File: figures/motor_sizing_graphs.png Graphic file (type png)
 <use figures/motor_sizing_graphs.png>
 Package pdftex.def Info: figures/motor_sizing_graphs.png  used on input line 35.
 (pdftex.def)             Requested size: 395.98996pt x 220.58307pt.
- [36]
+ [39]
 Underfull \hbox (badness 4608) in paragraph at lines 63--64
 []|\T1/ptm/m/n/12 Two 200W Sigma-5 +
  []
@@ -1183,136 +1203,259 @@ Underfull \hbox (badness 10000) in paragraph at lines 70--71
 []|\T1/ptm/m/n/12 Dawlance spec., with
  []
 
-[37 <./figures/motor_sizing_graphs.png>] [38] [39]
-<figures/x_sigma.png, id=935, 738.76pt x 607.26875pt>
+[40 <./figures/motor_sizing_graphs.png>] [41] [42]
+Overfull \hbox (1.58829pt too wide) in paragraph at lines 104--105
+[]\T1/ptm/m/n/12 For the Z-axis rack-and-pinion, Mod-ule 2 was se-lected for its ad-e-quate tooth strength
+ []
+
+[43]
+<figures/x_sigma.png, id=1325, 738.76pt x 607.26875pt>
 File: figures/x_sigma.png Graphic file (type png)
 <use figures/x_sigma.png>
-Package pdftex.def Info: figures/x_sigma.png  used on input line 99.
+Package pdftex.def Info: figures/x_sigma.png  used on input line 114.
 (pdftex.def)             Requested size: 333.46758pt x 274.11163pt.
-<figures/y_sigma.png, id=936, 730.73pt x 610.28pt>
+<figures/y_sigma.png, id=1326, 730.73pt x 610.28pt>
 File: figures/y_sigma.png Graphic file (type png)
 <use figures/y_sigma.png>
-Package pdftex.def Info: figures/y_sigma.png  used on input line 106.
+Package pdftex.def Info: figures/y_sigma.png  used on input line 121.
 (pdftex.def)             Requested size: 333.46758pt x 278.4973pt.
- [40 <./figures/x_sigma.png>]
-<figures/z_sigma.png, id=942, 707.64375pt x 602.25pt>
+ [44 <./figures/x_sigma.png>]
+<figures/z_sigma.png, id=1332, 707.64375pt x 602.25pt>
 File: figures/z_sigma.png Graphic file (type png)
 <use figures/z_sigma.png>
-Package pdftex.def Info: figures/z_sigma.png  used on input line 117.
+Package pdftex.def Info: figures/z_sigma.png  used on input line 132.
 (pdftex.def)             Requested size: 333.46758pt x 283.8019pt.
- [41 <./figures/y_sigma.png>]
-<figures/yaw_sigma.png, id=948, 722.7pt x 598.235pt>
+ [45 <./figures/y_sigma.png>]
+<figures/yaw_sigma.png, id=1338, 722.7pt x 598.235pt>
 File: figures/yaw_sigma.png Graphic file (type png)
 <use figures/yaw_sigma.png>
-Package pdftex.def Info: figures/yaw_sigma.png  used on input line 128.
+Package pdftex.def Info: figures/yaw_sigma.png  used on input line 144.
 (pdftex.def)             Requested size: 333.46758pt x 276.04037pt.
- [42 <./figures/z_sigma.png>]
-Overfull \hbox (15.97327pt too wide) in paragraph at lines 139--150
+ [46 <./figures/z_sigma.png>]) (./power_electronics.tex [47 <./figures/yaw_sigma.png>]
+Chapter 7.
+[48
+
+]
+Overfull \hbox (9.51897pt too wide) in paragraph at lines 34--35
+\T1/ptm/m/n/12 The rec-ti-fier con-verts the in-com-ing AC to a high-voltage DC bus (ap-prox-i-mately 320VDC
+ []
+
+[49] [50] [51] [52]
+Overfull \hbox (4.92325pt too wide) in paragraph at lines 115--126
  [][] 
  []
 
-) (./power_electronics.tex [43 <./figures/yaw_sigma.png>]
-Chapter 7.
-) (./end_effector.tex [44
+[53]
+Overfull \hbox (4.21405pt too wide) in paragraph at lines 161--162
+[]\T1/ptm/m/n/12 The Mean-well DRP-240-24 DC power sup-ply re-ceives single-phase 230V through
+ []
 
-]
+[54]) (./end_effector.tex [55]
 Chapter 8.
 
 Overfull \hbox (0.24638pt too wide) in paragraph at lines 11--13
 []\T1/ptm/b/n/12 Purely Me-chan-i-cal: \T1/ptm/m/n/12 Side-gripping or form-closure fin-gers ap-ply-ing nor-mal force
  []
 
+[56
 
-LaTeX Warning: Citation 'rudowska2024' on page 45 undefined on input line 33.
-
-[45
-
-] [46] [47]
-Overfull \hbox (17.012pt too wide) in paragraph at lines 167--192
+] [57]
+Overfull \hbox (30.60403pt too wide) in paragraph at lines 109--127
  [][] 
  []
 
-[48] [49]
-Overfull \hbox (25.64453pt too wide) in paragraph at lines 240--256
+[58] [59]
+Overfull \hbox (2.38698pt too wide) in paragraph at lines 205--207
+[]\T1/ptm/b/n/12 Small Suc-tion Cups: $\OT1/cmr/m/n/12 4 \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 50$\T1/ptm/m/n/12 mm bel-lows at ap-prox-i-mately 32cm$[]$ each $\OT1/cmr/m/n/12 = 128$\T1/ptm/m/n/12 cm$[]$ 
+ []
+
+[60]
+Overfull \hbox (1.9632pt too wide) in paragraph at lines 245--261
  [][] 
  []
 
 
-Overfull \hbox (32.99263pt too wide) in paragraph at lines 276--294
+Overfull \hbox (32.99263pt too wide) in paragraph at lines 281--299
  [][] 
  []
 
-[50]
-<EE_CAD.png, id=999, 491.8375pt x 574.145pt>
+[61] [62]
+<EE_CAD.png, id=1447, 491.8375pt x 574.145pt>
 File: EE_CAD.png Graphic file (type png)
 <use EE_CAD.png>
-Package pdftex.def Info: EE_CAD.png  used on input line 348.
-(pdftex.def)             Requested size: 416.83289pt x 486.60632pt.
- [51]
-<EE_Simulation.png, id=1004, 566.115pt x 289.08pt>
+Package pdftex.def Info: EE_CAD.png  used on input line 350.
+(pdftex.def)             Requested size: 333.46758pt x 389.2833pt.
+<EE_Simulation.png, id=1448, 566.115pt x 289.08pt>
 File: EE_Simulation.png Graphic file (type png)
 <use EE_Simulation.png>
-Package pdftex.def Info: EE_Simulation.png  used on input line 356.
-(pdftex.def)             Requested size: 333.46758pt x 170.28664pt.
- [52 <./EE_CAD.png>]) (./control.tex [53 <./EE_Simulation.png>]
+Package pdftex.def Info: EE_Simulation.png  used on input line 358.
+(pdftex.def)             Requested size: 375.14705pt x 191.56972pt.
+ [63 <./EE_CAD.png>]) (./control.tex [64 <./EE_Simulation.png>]
 Chapter 9.
-[54
 
-] [55] [56] [57] [58]
-<motor_test_bench.jpeg, id=1048, 2168.1pt x 3854.4pt>
-File: motor_test_bench.jpeg Graphic file (type jpg)
-<use motor_test_bench.jpeg>
-Package pdftex.def Info: motor_test_bench.jpeg  used on input line 74.
-(pdftex.def)             Requested size: 250.10226pt x 444.56998pt.
- [59]) (./vision.tex [60 <./motor_test_bench.jpeg>]
-Chapter 10.
-<figures/vision_pipeline.png, id=1059, 1423.3175pt x 751.80875pt>
-File: figures/vision_pipeline.png Graphic file (type png)
-<use figures/vision_pipeline.png>
-Package pdftex.def Info: figures/vision_pipeline.png  used on input line 16.
-(pdftex.def)             Requested size: 416.83289pt x 220.16415pt.
-[61
-
-]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 25.
- (/usr/share/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-) [62 <./figures/vision_pipeline.png>] [63]
-<figures/image_processing.png, id=1075, 967.615pt x 993.7125pt>
-File: figures/image_processing.png Graphic file (type png)
-<use figures/image_processing.png>
-Package pdftex.def Info: figures/image_processing.png  used on input line 57.
-(pdftex.def)             Requested size: 250.10226pt x 256.84286pt.
-) (./simulation.tex [64 <./figures/image_processing.png>]
-Chapter 11.
-<figures/ibvs.png, id=1081, 1017.8025pt x 788.9475pt>
-File: figures/ibvs.png Graphic file (type png)
-<use figures/ibvs.png>
-Package pdftex.def Info: figures/ibvs.png  used on input line 15.
-(pdftex.def)             Requested size: 375.14705pt x 290.79846pt.
-[65
-
-]) (./chapter4.tex [66 <./figures/ibvs.png>]
-Chapter 12.
-
-Overfull \hbox (3.11557pt too wide) in paragraph at lines 12--13
-\T1/ptm/m/n/12 The wooden frame was as-sem-bled us-ing out-sourced car-pen-try to the spec-i-fied workspace
+Overfull \hbox (6.97707pt too wide) in paragraph at lines 9--10
+\T1/ptm/m/n/12 IEC 61131-3 pro-gram-ming en-vi-ron-ments. How-ever, these units cost Rs300,000--500,000
  []
 
-[67
+
+Overfull \hbox (32.10805pt too wide) in paragraph at lines 18--32
+ [][] 
+ []
+
+[65
+
+] [66] [67] [68]
+Overfull \hbox (0.96405pt too wide) in paragraph at lines 114--115
+[]\T1/ptm/m/n/12 Since de-lay is in-versely pro-por-tional to ve-loc-ity (shorter de-lay be-tween pulses means
+ []
+
+[69]
+<motor_test_bench.jpeg, id=1488, 2168.1pt x 3854.4pt>
+File: motor_test_bench.jpeg Graphic file (type jpg)
+<use motor_test_bench.jpeg>
+Package pdftex.def Info: motor_test_bench.jpeg  used on input line 134.
+(pdftex.def)             Requested size: 250.10226pt x 444.56998pt.
+ [70] [71 <./motor_test_bench.jpeg>]) (./vision.tex [72]
+Chapter 10.
+<figures/vision_pipeline.png, id=1506, 1423.3175pt x 751.80875pt>
+File: figures/vision_pipeline.png Graphic file (type png)
+<use figures/vision_pipeline.png>
+Package pdftex.def Info: figures/vision_pipeline.png  used on input line 15.
+(pdftex.def)             Requested size: 416.83289pt x 220.16415pt.
+[73
 
 ]
-<figures/prototype_assembled.jpg, id=1095, 1218.80344pt x 569.87906pt>
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 24.
+ (/usr/share/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+Overfull \hbox (25.02667pt too wide) in paragraph at lines 24--25
+[]\T1/ptm/m/n/12 External con-tours are found us-ing \T1/pcr/m/n/12 cv2.findContours(..., RETR_EXTERNAL)\T1/ptm/m/n/12 .
+ []
+
+[74 <./figures/vision_pipeline.png>] [75]
+<figures/image_processing.png, id=1521, 967.615pt x 993.7125pt>
+File: figures/image_processing.png Graphic file (type png)
+<use figures/image_processing.png>
+Package pdftex.def Info: figures/image_processing.png  used on input line 59.
+(pdftex.def)             Requested size: 250.10226pt x 256.84286pt.
+ [76 <./figures/image_processing.png>]
+<figures/dl_vision_pipeline_flowchart.pdf, id=1532, 511.9125pt x 421.575pt>
+File: figures/dl_vision_pipeline_flowchart.pdf Graphic file (type pdf)
+<use figures/dl_vision_pipeline_flowchart.pdf>
+Package pdftex.def Info: figures/dl_vision_pipeline_flowchart.pdf  used on input line 85.
+(pdftex.def)             Requested size: 416.83289pt x 343.27502pt.
+ [77] [78 <./figures/dl_vision_pipeline_flowchart.pdf>]
+<figures/key-points.png, id=1552, 971.63pt x 657.45625pt>
+File: figures/key-points.png Graphic file (type png)
+<use figures/key-points.png>
+Package pdftex.def Info: figures/key-points.png  used on input line 106.
+(pdftex.def)             Requested size: 312.62466pt x 211.53394pt.
+ [79 <./figures/key-points.png>]
+Overfull \hbox (0.58235pt too wide) in paragraph at lines 123--124
+[]\T1/ptm/b/n/12 New dataset: \T1/ptm/m/n/12 4-keypoint YOLO-format an-no-ta-tions with two classes: mi-crowave
+ []
+
+
+Overfull \hbox (14.14084pt too wide) in paragraph at lines 126--127
+\T1/ptm/m/n/12 from the old dataset by in-dex, \T1/ptm/m/it/12 (ii) \T1/ptm/m/n/12 con-vert bound-ing boxes from COCO ab-so-lute $\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x; y; w; h\OT1/cmr/m/n/12 )$
+ []
+
+<figures/dataset_merge_pipeline.pdf, id=1562, 511.9125pt x 391.4625pt>
+File: figures/dataset_merge_pipeline.pdf Graphic file (type pdf)
+<use figures/dataset_merge_pipeline.pdf>
+Package pdftex.def Info: figures/dataset_merge_pipeline.pdf  used on input line 130.
+(pdftex.def)             Requested size: 354.31049pt x 270.94566pt.
+[80] [81 <./figures/dataset_merge_pipeline.pdf>]
+<figures/vision-curves.png, id=1591, 1589.94pt x 433.62pt>
+File: figures/vision-curves.png Graphic file (type png)
+<use figures/vision-curves.png>
+Package pdftex.def Info: figures/vision-curves.png  used on input line 181.
+(pdftex.def)             Requested size: 416.83289pt x 113.67809pt.
+ [82] [83 <./figures/vision-curves.png>] [84]
+Overfull \hbox (3.66356pt too wide) in paragraph at lines 238--239
+[]\T1/ptm/b/n/12 Distance to ob-ject cen-tre: \T1/ptm/m/n/12 The 3D cen-tre of the top face, $\OT1/cmr/bx/n/12 p[] \OT1/cmr/m/n/12 = [\OML/cmm/m/it/12 W=\OT1/cmr/m/n/12 2\OML/cmm/m/it/12 ;  D=\OT1/cmr/m/n/12 2\OML/cmm/m/it/12 ;  \OT1/cmr/m/n/12 0][]$\T1/ptm/m/n/12 ,
+ []
+
+<figures/pnp-pose.png, id=1608, 573.14125pt x 672.5125pt>
+File: figures/pnp-pose.png Graphic file (type png)
+<use figures/pnp-pose.png>
+Package pdftex.def Info: figures/pnp-pose.png  used on input line 255.
+(pdftex.def)             Requested size: 291.78174pt x 342.37138pt.
+[85] [86 <./figures/pnp-pose.png>]
+Overfull \hbox (1.22798pt too wide) in paragraph at lines 277--278
+[]\T1/ptm/m/n/12 The prin-ci-pal ad-van-tage of this ap-proach is its zero-shot ca-pa-bil-ity: be-cause Ground-
+ []
+
+) (./supervisory_interface.tex [87]
+Chapter 11.
+<figures/gantry_project_cli.png, id=1635, 698.61pt x 720.6925pt>
+File: figures/gantry_project_cli.png Graphic file (type png)
+<use figures/gantry_project_cli.png>
+Package pdftex.def Info: figures/gantry_project_cli.png  used on input line 21.
+(pdftex.def)             Requested size: 354.31049pt x 365.5139pt.
+[88
+
+]
+Underfull \hbox (badness 6758) in paragraph at lines 42--43
+[]|\T1/ptm/m/n/10.95 Streams frames from the
+ []
+
+
+Underfull \hbox (badness 4001) in paragraph at lines 43--44
+\T1/ptm/m/n/10.95 es-ti-ma-tion pipeline (Chap-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--45
+[]|\T1/ptm/m/n/10.95 Computes pick-and-place
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+[]|\T1/pcr/m/n/10.95 /trajectory\T1/ptm/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 2486) in paragraph at lines 45--46
+[]|\T1/ptm/m/n/10.95 Tracks the planned tra-jec-
+ []
+
+
+Underfull \hbox (badness 1320) in paragraph at lines 47--48
+[]|\T1/ptm/m/n/10.95 Toggles the solenoid valve
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/pcr/m/n/10.95 /target_pose\T1/ptm/m/n/10.95 ,
+ []
+
+
+Overfull \hbox (16.52258pt too wide) in paragraph at lines 38--51
+ [][] 
+ []
+
+[89 <./figures/gantry_project_cli.png>]) (./simulation.tex [90]
+Chapter 12.
+<figures/ibvs.png, id=1654, 1017.8025pt x 788.9475pt>
+File: figures/ibvs.png Graphic file (type png)
+<use figures/ibvs.png>
+Package pdftex.def Info: figures/ibvs.png  used on input line 13.
+(pdftex.def)             Requested size: 375.14705pt x 290.79846pt.
+) [91
+
+] (./chapter4.tex [92 <./figures/ibvs.png>]
+Chapter 13.
+[93
+
+]
+<figures/prototype_assembled.jpg, id=1669, 1218.80344pt x 569.87906pt>
 File: figures/prototype_assembled.jpg Graphic file (type jpg)
 <use figures/prototype_assembled.jpg>
 Package pdftex.def Info: figures/prototype_assembled.jpg  used on input line 20.
-(pdftex.def)             Requested size: 333.46758pt x 155.92157pt.
- [68 <./figures/prototype_assembled.jpg>]
-Overfull \hbox (0.4841pt too wide) in paragraph at lines 43--44
-\T1/ptm/m/n/12 The vac-uum end-effector was fully as-sem-bled on the pro-to-type, com-pris-ing two 125mm
- []
-
-[69] [70] [71]
+(pdftex.def)             Requested size: 375.14705pt x 175.40851pt.
+ [94 <./figures/prototype_assembled.jpg>] [95] [96] [97]
 Underfull \hbox (badness 10000) in paragraph at lines 112--112
 []|\T1/ptm/m/n/12 Static lift test with
  []
@@ -1380,30 +1523,25 @@ Underfull \hbox (badness 2591) in paragraph at lines 112--112
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./chapter5.tex) (./chapter6.tex [72] [73]
-Chapter 13.
+) (./chapter5.tex) (./chapter6.tex [98] [99]
+Chapter 14.
 
 Overfull \hbox (2.19101pt too wide) in paragraph at lines 5--6
 \T1/ptm/m/n/12 In this the-sis, the risks of man-ual pack-ag-ing and pal-letiz-ing of mi-crowaves at Dawlance's
  []
 
-[74
+[100
 
-] [75] [76]
-Overfull \hbox (3.18697pt too wide) in paragraph at lines 78--79
-\T1/ptm/m/n/12 suc-tion cups can con-form to sur-face height vari-a-tions, while the com-puter vi-sion pipeline
- []
-
-[77] [78]) (./appendix.tex [79] [80
+] [101] [102] [103] [104] [105]) (./appendix.tex [106] [107
 
 ]
 Appendix A.
-<figures/gantt_chart.png, id=1156, 1549.79pt x 603.25375pt>
+<figures/gantt_chart.png, id=1739, 1549.79pt x 603.25375pt>
 File: figures/gantt_chart.png Graphic file (type png)
 <use figures/gantt_chart.png>
 Package pdftex.def Info: figures/gantt_chart.png  used on input line 27.
 (pdftex.def)             Requested size: 416.83289pt x 162.24554pt.
-[81
+[108
 
  <./figures/gantt_chart.png>]
 Appendix B.
@@ -1412,64 +1550,67 @@ Overfull \hbox (8.73204pt too wide) in paragraph at lines 52--87
  [][] 
  []
 
-) [82
+) [109
 
 ]
-Overfull \hbox (13.83734pt too wide) in paragraph at lines 250--250
+Overfull \hbox (13.83734pt too wide) in paragraph at lines 252--252
 \T1/ptm/m/n/12 human-centric and re-silient eu-ro-pean in-dus-try,'' Eu-ro-pean Com-mis-sion, Directorate-
  []
 
 
 Package biblatex Warning: No driver for 'standard'.
-(biblatex)                Using fallback driver on input line 250.
+(biblatex)                Using fallback driver on input line 252.
 
-[83
+[110
 
 ]
-Overfull \hbox (2.77208pt too wide) in paragraph at lines 250--250
+Overfull \hbox (52.59596pt too wide) in paragraph at lines 252--252
+[]\T1/ptm/m/n/12 Mega.pk, \T1/ptm/m/it/12 Dawlance mi-crowave ovens\T1/ptm/m/n/12 , []$\T1/pcr/m/n/12 https : / / www . mega . pk / microwaveovens -[]
+ []
+
+
+Overfull \hbox (11.70236pt too wide) in paragraph at lines 252--252
+\T1/ptm/m/n/12 critical com-pli-ant con-trol for robot-environment in-ter-ac-tion.'' arXiv: []$\T1/pcr/m/n/12 2405 . 04859$
+ []
+
+
+Overfull \hbox (2.77208pt too wide) in paragraph at lines 252--252
 \T1/ptm/m/n/12 min-i-miza-tion,'' in \T1/ptm/m/it/12 2015 3rd RSI In-ter-na-tional Con-fer-ence on Robotics and Mecha-
  []
 
-(./vita.tex [84]) [85
+[111]
+Overfull \hbox (7.02267pt too wide) in paragraph at lines 252--252
+[]\T1/ptm/m/n/12 International Elec-trotech-ni-cal Com-mis-sion, \T1/ptm/m/it/12 IEC 60947-2: Low-voltage switchgear
+ []
 
-] [86
+(./vita.tex [112]) [113
+
+] [114
 
 ] (./report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: DFCCC3C9E9265C09A7D79A7BF500CEA1;14949.
-
-Package biblatex Warning: Please (re)run BibTeX on the file(s):
-(biblatex)                report
-(biblatex)                and rerun LaTeX afterwards.
-
+(rerunfilecheck)             Checksum: C603E87295B64B62C9184B5A2CC8696D;25522.
 Package logreq Info: Writing requests to 'report.run.xml'.
 \openout1 = `report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 24108 strings out of 469515
- 470155 string characters out of 5470808
- 1072383 words of memory out of 5000000
- 52146 multiletter control sequences out of 15000+600000
- 671712 words of font info for 89 fonts, out of 8000000 for 9000
+ 24327 strings out of 469515
+ 474166 string characters out of 5470807
+ 1286965 words of memory out of 5000000
+ 52238 multiletter control sequences out of 15000+600000
+ 676935 words of font info for 99 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 73i,16n,103p,1928b,2095s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (103 pages, 10180068 bytes).
+ 73i,16n,103p,1336b,2097s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (133 pages, 13021604 bytes).
 PDF statistics:
- 1304 PDF objects out of 1440 (max. 8388607)
- 1119 compressed objects within 12 object streams
- 283 named destinations out of 1000 (max. 500000)
- 904 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1930 PDF objects out of 2073 (max. 8388607)
+ 1682 compressed objects within 17 object streams
+ 405 named destinations out of 1000 (max. 500000)
+ 1398 words of extra memory for PDF output out of 10000 (max. 10000000)
 

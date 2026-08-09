@@ -1,105 +1,145 @@
 \chapter{Low-Level Control}
 
-\section{Control Architecture}
+\section{Controller Selection}
 
-During early prototyping, the low level controller for the motors was an Arduino Uno, based on the ATmega328P microcontroller. While this allows for swift validation, there were multiple disadvantages that made this inappropriate for final deployment. For one, this is an 8-bit RISC architecture, which means that for high step counts or floating-point mathematics, the CPU must perform multiple cycles of software-emulated mathematics because it cannot store the number. Moreover, since there is no hardware math co-processor, every calculation of a trigonometric function (required for S-curves) takes hundreds of clock cycles, which will cause issues in synchronization in the pulse train. And since the Arduino communicates with the PC using Serial, the CPU must stop and wait for the text every time it is used. Considering the precision and timing requirements of the task at hand, these cons amalgamate into major concerns.
+The low-level controller is responsible for generating precisely timed pulse trains to command the servo drives, parsing commands from the high-level PC, implementing motion profiles, and handling safety-critical interrupts such as limit switches and emergency stops. Two classes of controller were evaluated: embedded microcontrollers and industrial programmable logic controllers (PLCs).
 
-Hence, the project shifted to the STM32 ecosystem, particularly the STM32F303 Discovery Kit that was available in the University. There are many advantages of this architectural shift:
+\subsection{Microcontroller vs.\ PLC}
 
-\begin{enumerate}
-    \item The board uses the ARM Cortex-M4 core, which handles 32-bit integers in a single clock cycle. Hence, conversion of steps to distance, which can easily exceed the 16-bit integer limit (65535), can be completed without risking overflow errors.
-    \item There is a Hardware Floating Point Unit (FPU) present, which can calculate transcendental functions (such as sine and cosine) for S-curve profiles in a fraction of the time required on the ATmega328P, so that time between pulses can remain consistent and operation of motors smooth.
-    \item The STM32 has a Nested Vectored Interrupt Controller (NVIC), which essentially allows priorities to be set to interrupts. For example, the limit switch interrupt can be set to the highest priority, so that there would be no delay in responding to an axis hitting a limit, no matter what task the CPU is busy with. 
-    \item There is useful variety in timers, with features such as Auto-Reload Registers and Prescalers. One example of a mode that can be utilized is Output Compare, where the pulse train can be generated entirely in hardware after timer configuration, so that the CPU does not need to toggle the pin manually. Hence, the processor is freed up to handle other tasks. For S-curves, though, the ARR/CRR register would need to be updated every time period since the inter-pulse interval changes every step.
-    \item To address the blocking nature of Serial communication, the STM32 uses Direct Memory Access, where the UART can receive JSON commands and store them directly into a RAM buffer without CPU involvement, so that the STM32 does not experience lag in other critical tasks. The CPU still needs a flag to know when the entire JSON has arrived, but this is far less involvement than on an Arduino.
-    \item Finally, the STM32 supports the usage of Real Time Operating Systems, particularly FreeRTOS, so that the firmware can be split into high-priority and low-priority tasks, which allows for more sophisticated management and allocation of resources to accomplishing low-level control.
-\end{enumerate}
+Industrial automation conventionally uses PLCs for multi-axis servo control. PLCs capable of coordinated multi-axis pulse output, such as the Siemens S7-1500 or Allen-Bradley ControlLogix, provide deterministic scan cycles, built-in motion libraries, and IEC~61131-3 programming environments. However, these units cost Rs\,300,000--500,000 for a configuration supporting six axes with high-speed pulse outputs, which represents a significant fraction of the total project budget of Rs\,1.8\,million. The STM32F303 microcontroller provides equivalent pulse-generation capability through hardware timer peripherals at a cost under Rs\,5,000, with the trade-off of requiring custom firmware development rather than using pre-built motion function blocks.
+
+Given the project's emphasis on affordability and open-source control (Section~2.6), the microcontroller approach was selected. The Arduino Uno (ATmega328P) was used during early prototyping for rapid validation, before transitioning to the STM32F303 Discovery Kit for final deployment. Table~\ref{tab:mcu_comparison} compares the two microcontrollers.
+
+\begin{table}[H]
+    \centering
+    \caption{Microcontroller comparison for low-level motor control.}
+    \label{tab:mcu_comparison}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Feature} & \textbf{ATmega328P (Arduino Uno)} & \textbf{STM32F303 (Discovery Kit)} \\
+        \midrule
+        Architecture & 8-bit AVR RISC & 32-bit ARM Cortex-M4 \\
+        Hardware FPU & None & Single-precision \\
+        Native integer width & 16-bit & 32-bit \\
+        DMA & No & Yes \\
+        Timer features & Basic PWM & ARR/CCR, Output Compare \\
+        Interrupt controller & Flat priority & NVIC with configurable priorities \\
+        RTOS support & Limited & FreeRTOS \\
+        UART handling & Blocking (polling) & Non-blocking (DMA to RAM buffer) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The STM32F303 was selected for final deployment for the following reasons. Its 32-bit native integer width eliminates overflow risk when computing step counts that routinely exceed the 16-bit limit of 65,535. The hardware FPU computes the trigonometric functions required for S-curve profiles in a fraction of the time required by software emulation on the ATmega328P, ensuring consistent inter-pulse timing. The NVIC allows the limit switch interrupt to be assigned the highest priority, guaranteeing immediate response regardless of what other task the CPU is executing. The DMA controller allows UART reception of JSON commands from the PC into a RAM buffer without CPU involvement, eliminating the blocking serial communication that caused timing jitter on the Arduino. Finally, hardware timer Output Compare mode can generate the pulse train entirely in hardware, freeing the CPU for other tasks during the cruise region of the motion profile.
 
 \section{Drive Interfacing}
 
-The STM32 interfaces with the SGDV drive using a pulse/direction protocol, similar to commanding a stepper motor. Each rising edge on the PULS pin increments an internal counter on the drive by one, or decrements if SIGN is LOW (opposite direction). With this information, the control loop drives the shaft until the encoder feedback confirms that the shaft has reached the intended position.
+The Yaskawa Sigma-5 SGDV servo drives (introduced in Chapter~6 as the selected drive for all axes) are commanded using a pulse/direction protocol, analogous to stepper motor control. Each rising edge on the PULS pin increments an internal position counter on the drive, or decrements it if SIGN is LOW. The drive's internal PID controller then generates the motor torque required to move the shaft to the commanded position, using encoder feedback for closed-loop correction.
 
-However, the motor encoder has a 20-bit resolution corresponding to $2^{20}$ = 1048576 counts per revolution, which is an awkward number for firmware mathematics. Hence, the drive has an electronic gear ratio parameter, where registers Pn20E is set to 1048576 and Pn210 to 10000, so that one full revolution is exactly 10000 pulses. Each pulse therefore commands $\approx 104.86$ encoder counts of shaft displacement. This has been experimentally verified on the test bench by sending exactly 10000 pulses and visually confirming a single motor revolution on the motor shaft, as well as reading the number of pulses received on the drive itself.
+\subsection{Electronic Gear Ratio}
 
-Table~\ref{tab:cn1_wiring} summarizes the CN1 pin – the connector that allows interfacing with a microcontroller -- assignments used in this project. \begin{table}[h] \centering \caption{Yaskawa SGDV CN1 Wiring Summary} \label{tab:cn1_wiring} \begin{tabular}{|c|l|l|l|} \hline \textbf{Pin} & \textbf{Signal} & \textbf{Connection} & \textbf{Function} \\ \hline 47 & +24VIN & +24V PSU & Sequence input common power \\ 42 & P-OT & 24V PSU GND & Bypass forward overtravel limit \\ 43 & N-OT & 24V PSU GND & Bypass reverse overtravel limit \\ 40 & /S-ON & MCU GPIO & Active-low drive enable \\ 7 & PULS & MCU GPIO / AM26LS31 & Step pulse command \\ 8 & /PULS & MCU GND / AM26LS31 & Step pulse return / complement \\ 11 & SIGN & MCU GPIO / AM26LS31 & Direction command \\ 12 & /SIGN & MCU GND / AM26LS31 & Direction return / complement \\ \hline \end{tabular} \end{table}
+The motor encoder has a 20-bit resolution of $2^{20} = 1{,}048{,}576$ counts per revolution, which is inconvenient for firmware arithmetic. The drive's electronic gear ratio feature maps this to a user-defined pulse count: register Pn20E is set to 1,048,576 and Pn210 to 10,000, so that one full revolution corresponds to exactly 10,000 command pulses. Each pulse therefore commands approximately 104.86 encoder counts of shaft displacement. This was experimentally verified on the test bench by sending exactly 10,000 pulses and confirming a single revolution both visually on the motor shaft and through the pulse count displayed on the drive.
 
-During prototyping, an open-collector topology was employed, where the current path starts from the MCU pin, goes through a resistor and into the CN1 optocoupler. Because of this, grounding is critical, as if the MCU ground and 24V PSU ground are at slightly different potentials, then the current flowing through the optocoupler is no longer reliable due to losing predictability. With grounding, an MCU’s GPIO LOW being drawn to 0V is the same reference as the cathode return path of the optocoupler.
+\subsection{CN1 Connector Wiring}
 
-While this worked, this is not the best choice for industry deployment, because this signal is single-ended; that is, there is only one wire whose voltage is measured relative to ground. Hence, if any noise occurs in the signal – particularly from electromagnetic interference from the power wires nearby – the receiver can no longer distinguish between it and the genuine signal. This noise grows with pulse rate and long cable runs, which will be experienced in the final deployment, so open-collector topology can eventually lead to poor position control.
+The CN1 connector is the primary interface between the microcontroller and the servo drive. Table~\ref{tab:cn1_wiring} summarises the pin assignments used in this project.
 
-To address this, the solution implements a differential line driver, where two wires send inverted signals. For example, if the signal is a +3.3V/0V differential and experiences +0.5V noise on both from electromagnetic interference, then the difference between the wires is unaffected and remains to be 3.3V. This is known as common-mode rejection, since the noise is experienced by both wires and hence is cancelled out through subtraction. For this to function, the noise needs to affect both wires equally, which is why the wires need to be twisted to see nearly identical electromagnetic environments along the cable. To address this, the solution utilizes shielded twisted pair cabling for the PULS and SIGN pins.
+% TODO (Fix 9.5): Add a photo/diagram of the CN1 connector and a schematic 
+% of the differential line driver circuit (AM26LS31 → STP → CN1).
 
-This topology has another advantage. Open-collector topology is passive, so it can only pull the line low, which leads to a weak drive strength for pulling high and therefore susceptibility to parasitic capacitance. In contrast, the differential line driver is active, so it pushes the line to high and pulls to low with controlled output impedance; no matter how long the cable is, the driver ensures sharp and fast edges.
+\begin{table}[H]
+    \centering
+    \caption{Yaskawa SGDV CN1 wiring summary.}
+    \label{tab:cn1_wiring}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}clll@{}}
+        \toprule
+        \textbf{Pin} & \textbf{Signal} & \textbf{Connection} & \textbf{Function} \\
+        \midrule
+        47 & +24VIN & +24\,V PSU & Sequence input common power \\
+        42 & P-OT & 24\,V PSU GND & Bypass forward overtravel limit \\
+        43 & N-OT & 24\,V PSU GND & Bypass reverse overtravel limit \\
+        40 & /S-ON & MCU GPIO & Active-low drive enable \\
+        7  & PULS  & MCU GPIO / AM26LS31 & Step pulse command \\
+        8  & /PULS & MCU GND / AM26LS31 & Step pulse return / complement \\
+        11 & SIGN  & MCU GPIO / AM26LS31 & Direction command \\
+        12 & /SIGN & MCU GND / AM26LS31 & Direction return / complement \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
-Finally, within differential line driver topology, there are multiple input pulse modes supported by the SGDV, each with different trade-offs in complexity and noise immunity.
+\subsection{Signal Topology: Open-Collector vs.\ Differential}
+
+During prototyping, an open-collector topology was employed, where the MCU GPIO drives current through a resistor into the CN1 optocoupler. This topology is single-ended: only one wire carries the signal, measured relative to ground. While functional on the bench with short cable runs, this approach is unsuitable for deployment on the full-scale gantry for two reasons. First, electromagnetic interference (EMI) from the high-frequency PWM switching in the motor power cables can corrupt the single-ended signal, and the noise amplitude grows with cable length and pulse rate. Second, the open-collector output is passive --- it can only pull the line low, leading to weak drive strength and susceptibility to parasitic capacitance on long runs.
+
+To address both concerns, the final design implements a differential line driver (AM26LS31) for the PULS and SIGN signals. In this topology, two wires carry inverted copies of the same signal. Common-mode noise (such as EMI) affects both wires equally and is rejected by the differential receiver at the drive input. For effective common-mode rejection, the two conductors must experience the same electromagnetic environment, which is ensured by using shielded twisted pair (STP) cabling.
+
+The differential topology also provides active drive in both directions (push-pull), ensuring sharp signal edges regardless of cable length and parasitic load.
+
+\subsection{Pulse Mode Selection}
+
+The SGDV supports three input pulse modes within the differential topology:
 
 \begin{enumerate}
-
-\item Sign + pulse mode. Here, one pair sends a pulse train corresponding to position increments, while the other pair simply sends a HIGH or LOW depending on the direction. This is simple to generate and debug, but needs settling time for changing direction before issuing the next pulse.
-\item Clockwise + Counter-Clockwise, where only one pair sends a pulse train at a time, of which one pair corresponds to forward motion (clockwise), and one pair backward (counter-clockwise). There is no settling time for direction, but is more complex and has undefined behavior when both pairs send pulse trains.
-\item Quadrature (2-phase), where both pairs send signals, 90 degrees out of phase. The direction is decided depending on which pair is leading. This quadruples the resolution, since now rising and falling edges can be counter on both pairs, and is highly immune to noise. However, this is non-trivial to generate, and is normally utilized on proprietary hardware.
+    \item \textbf{Sign + pulse:} One pair sends a pulse train for position increments; the other pair sends a static HIGH or LOW for direction. Simple to generate and debug, but requires settling time when changing direction.
+    \item \textbf{CW + CCW:} Separate pulse pairs for forward and reverse motion. No settling time for direction changes, but has undefined behaviour if both pairs are active simultaneously.
+    \item \textbf{Quadrature (2-phase):} Both pairs send signals 90$\degree$ out of phase; direction is determined by which pair leads. Quadruples effective resolution by counting both rising and falling edges on both pairs. However, this is non-trivial to generate in firmware and is typically used with proprietary motion controllers.
 \end{enumerate}
-Considering the use case, the solution selects sign + pulse mode, as the required pulse rate is relatively low, and shielded twisted cabling addresses concerns of noise immunity.
+
+Sign + pulse mode was selected, as the required pulse rate is relatively low (under 10\,kHz at maximum traversal speed) and the shielded twisted pair cabling provides adequate noise immunity without the complexity of quadrature generation.
 
 \section{Command Trajectory}
 
-The SGDV has an internal feedback control system with auto-tuned PID parameters, so that the torque can be controlled to correct position error. However, the command it receives cannot be smoothened, so if a rapid succession of pulses is received, then the drive sees an immediate and enormous position error, so it demands maximum torque instantaneously. This can lead to mechanical shock and significant vibration, which in turn can cause faults (most notably the A.d00 following error fault) and wear on the belt/rack. 
+The SGDV's internal PID controller corrects position error by modulating motor torque. However, it cannot smooth the incoming command stream: if a rapid burst of pulses arrives, the drive sees an instantaneous position error and demands maximum torque, causing mechanical shock, vibration, and potentially the A.d00 following error fault. A motion profile is therefore required at the command level, upstream of the drive, to ensure that the pulse rate ramps smoothly.
 
-Thus, distinct from the PID, the solution requires a motion profile. In particular, the command trajectory needs its acceleration and jerk to be continuous, so that transitions can be smoother. One rudimentary example is the trapezoidal profile, where the velocity graph follows a trapezoidal shape. While this is better than a step input, this means that the acceleration graph has sudden jumps at the corners, which leads to infinite jerk. For the project, this is insufficient.
+\subsection{S-Curve Profile}
 
-To ensure a finite and controlled jerk, a known method is the S-curve. Here, the acceleration itself is ramped, so that the velocity follows a smooth S-shape instead of straight lines, and the acceleration graph itself becomes continuous. As a result, jerk is now finite and controlled.
+A trapezoidal velocity profile --- where velocity ramps linearly during acceleration and deceleration --- is an improvement over a step input, but produces discontinuous acceleration at the ramp corners, resulting in theoretically infinite jerk. For the gantry, where belt compliance and frame flexibility amplify jerk-induced vibrations, this is insufficient.
 
-The STM32, in the project's case, approximates this using a sinusoidal ease function. The equation is:
+The S-curve profile addresses this by ramping the acceleration itself, so that the velocity transitions follow a smooth S-shape and jerk remains finite throughout the motion. The STM32 firmware approximates the S-curve using a sinusoidal ease function:
+
 \begin{equation}
-    t = \frac{i}{N_{accel}}, \tilde{t} = \frac{1}{2}(1-\cos{(\pi t)}) 
+    t = \frac{i}{N_\text{accel}}, \qquad \tilde{t} = \frac{1}{2}\left(1 - \cos(\pi t)\right)
 \end{equation}
 
-where $i$ is the current step index inside the acceleration region, $N_{accel}$ is the total number of acceleration steps, $t$ is the normalized linear progress through the ramp (akin to time), and $\tilde{t}$ is the shaped version. 
+where $i$ is the current step index within the acceleration region and $N_\text{accel}$ is the total number of acceleration steps --- that is, the number of motor pulses over which the inter-pulse delay transitions from $d_\text{max}$ (slowest speed) to $d_\text{min}$ (fastest speed). The normalised variable $t$ represents linear progress through the ramp, and the shaped variable $\tilde{t}$ maps this to a smooth curve whose derivative is zero at both endpoints, ensuring zero jerk at the transitions into and out of the acceleration region.
 
-The cosine is a good option for the S-curve because it naturally starts at 1 and ends at -1, with a smooth S-shaped profile in between 0 and $\pi$. After the transformation defined in the equation, this goes from 0 to 1, which is what is required. And more importantly, the rate of change of $\tilde{t}$ is 0 at the beginning and end of the ramp, so there is zero jerk at the transitions.
+The inter-pulse delay is then interpolated:
 
-Then the delay  interpolation:
 \begin{equation}
-    d(i) = d_{min}+(d_{max}-d_{min})(1-\tilde{t})
+    d(i) = d_\text{min} + (d_\text{max} - d_\text{min})(1 - \tilde{t})
 \end{equation}
-where $d_{min}$ is the slow delay and $d_{max}$ is the maximum delay; since delay is inversely proportional to velocity (time between pulses decreases leading to faster movement), $\tilde{t}=0$ gives minimum speed and $\tilde{t}=1$ gives maximum speed. 
 
-Now, there are three regions in the S-curve: acceleration, cruise, and deceleration. Deceleration mirrors acceleration by indexing from the end of the move instead of the beginning, which creates a constraint. If the acceleration region were longer than half the graph, it would overlap with the deceleration region, which is geometrically impossible within the available steps. Because of this, the acceleration length needs to be capped at half the total step count. Meanwhile, the cruise region has no acceleration, so the delay value is now constant and the velocity curve is flat.
+Since delay is inversely proportional to velocity (shorter delay between pulses means faster motion), $\tilde{t} = 0$ corresponds to minimum speed and $\tilde{t} = 1$ to maximum speed.
 
-This discussion, so far, has focused on a single axis. For simultaneous multi-axis movement, all axes must share a single delay curve depending on the axis with the greatest count of steps. What this means is that if one axis needs to move 1000 steps and another 500 steps, then to ensure that they start and stop together in, say, 1000 iterations, the second axis must skip pulse opportunities relative to the dominant axis. This way, all axes reach the required positions simultaneously, and the end-effector can follow an approximately linear path.
+\subsection{Profile Regions}
 
-Currently, this has been implemented on the Arduino prototype firmware, and will be migrated to the STM32, where the FPU can more efficiently compute the sinusoidal ease function in real-time. 
+The complete motion profile consists of three regions: acceleration, cruise, and deceleration. The deceleration region mirrors the acceleration region by indexing from the end of the move rather than the beginning. This symmetry imposes a geometric constraint: the acceleration region cannot exceed half the total step count, because beyond that point it would overlap with the deceleration region. Hence:
+
+\[
+N_\text{accel} = \min\left(N_\text{accel,\,desired},\; \frac{N_\text{total}}{2}\right)
+\]
+
+If the total move is short enough that the acceleration and deceleration regions consume all available steps, no cruise region exists and the motion consists of a symmetric ramp up and down. During the cruise region, the delay is constant at $d_\text{min}$ and the velocity is flat at its peak value.
+
+\subsection{Multi-Axis Coordination}
+
+For simultaneous multi-axis movement, all axes must start and stop together to produce an approximately linear path of the end-effector. This is achieved by synchronising all axes to the delay curve of the dominant axis --- the axis with the greatest step count. If the X-axis requires 1,000 steps and the Y-axis requires 500 steps, both axes execute 1,000 delay iterations, but the Y-axis only issues a pulse on every second iteration. This pulse-skipping ensures that all axes complete their respective distances simultaneously, without requiring each axis to have its own independent timing source.
+
+The S-curve firmware has been implemented and validated on the Arduino prototype (Figure~\ref{fig:motor_bench}) and is being migrated to the STM32, where the hardware FPU computes the sinusoidal ease function more efficiently.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{motor_test_bench.jpeg}
-    \caption{Motor test bench using the Arduino Uno.}
-    \label{fig:placeholder}
+    \caption{Motor test bench using the Arduino Uno for initial S-curve profile validation.}
+    \label{fig:motor_bench}
 \end{figure}
 
-Moreover, a homing mechanism has been implemented in the X and Y-axes on the smaller wooden prototype using limit switches. The axis moves towards the switch at high speed until it triggers, after which is backs off slowly to release the trigger. The final location reached is the coordinate reference (home), so that all subsequent moves are relative to that known position.
-% 1. Motivation (~2 paragraphs)
+\section{Homing Routine}
 
-% Why infinite jerk is mechanically harmful — frame around your three consequences (shock/vibration, following error fault, mechanical wear)
-% Why a motion profile solves this — the idea of shaping the command trajectory as distinct from the drive's PID
+A homing routine establishes a known coordinate reference for each axis at power-on. Without homing, the servo drives maintain only relative position from the point at which they were last energised, and any accumulated drift or physical disturbance during power-off would propagate as a systematic offset in all subsequent moves.
 
-% 2. Profile Comparison (~1 paragraph)
+The homing procedure, implemented on the X and Y axes of the prototype, operates in two phases. In the first phase, the axis moves toward the limit switch at moderate speed until the switch triggers, at which point the axis halts immediately via the NVIC high-priority interrupt. In the second phase, the axis reverses at low speed until the switch releases. The position at which the switch releases is registered as the axis origin (home position), and all subsequent motion commands are referenced to this coordinate.
 
-% Trapezoidal: what it is, where jerk is still infinite (the corners), why it's insufficient
-% S-curve: what it adds over trapezoidal — finite jerk, smooth acceleration transitions
-
-% 3. Mathematical Implementation (~2 paragraphs)
-
-% The sinusoidal ease function — write out the equation, explain what t and smoothT represent physically
-% How smoothT maps to inter-pulse delay — the interpolation between minDelay and maxDelay, and why shorter delay = higher velocity
-
-% 4. Acceleration Region Geometry (~1 paragraph)
-
-% The three regions: accel, cruise, decel
-% Why accel = min(accelSteps, maxSteps/2) — the overlap argument
-% What accelSteps controls physically and consequences of tuning it too aggressively
-
-% 5. Multi-Axis Coordination (~1 paragraph)
-
-% How all axes share the same delay curve
-% Why maxSteps drives the profile — the axis with most steps sets the pace
-% What this achieves mechanically: all axes start and stop together
+Homing is performed once at power-on. During normal operation, the servo drives' internal 20-bit encoders maintain absolute position; re-homing is only required after a fault recovery, an emergency stop event, or a physical disturbance that may have displaced the carriage while the drives were de-energised.

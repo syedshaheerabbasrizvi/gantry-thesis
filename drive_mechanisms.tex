@@ -1,34 +1,76 @@
 \chapter{Drive Mechanisms}
 
-Drive mechanisms are an important part of any automatic mechanical system as they are responsible for the transformation of motor action into linear or rotary movement. In gantry systems, drive mechanisms determine not only how motion is provided, but also influence the accuracy of positioning, load applied to the structure, efficiency of the system, as well as the reliability of its operation. Consequently, choosing an appropriate drive involves numerous factors, which include the carrying capacity, accuracy, speed, complexity of design, installation, and maintenance.
+The drive mechanism on each axis converts the rotary output of the servo motor into the linear or rotary motion required by the gantry. The selection of drive mechanism directly affects positioning accuracy, dynamic load capacity, speed, and system reliability. This chapter presents the requirements for each axis, evaluates candidate mechanisms against those requirements, and justifies the final selection.
 
-The choice of a drive mechanism is especially crucial when designing industrial material handling systems such as automated packaging or palletizing machines as they require efficient transmission of movement for relatively long distances and precise positioning. Moreover, the actuator system has to withstand constantly changing dynamic loads that arise due to acceleration, deceleration, and transfer of cargo. Hence, choosing a proper drive directly affects the operation and lifespan of the machinery.
+\section{Drive Selection Requirements}
 
-This chapter covers the drive systems that have been studied in relation to the gantry system, especially the belt pulley and rack \& pinion drive system for horizontal and vertical movements.
+The key requirements governing the drive selection are derived from the system specifications in Table~\ref{tab:specs} and the motor sizing in Chapter~6:
 
-\subsubsection{X-Axis Actuation Design}
-For actuation of the X-axis, a belt and pulley mechanism system was selected over Rack and Pinion. The details of a belt and pulley mechanism are given below:
-
-Belt and pulley systems are among the most commonly used transmission mechanisms in industrial machinery. These kind of  systems transmit mechanical power between rotating shafts using a flexible belt that runs over pulleys mounted on the shafts. The basic working principle involves transferring motion from the driving pulley, which is connected to a motor, to the driven pulley through the tensile forces developed in the belt. Due to their simplicity and versatility, belt drives are commonly used in machines requiring smooth motion transmission over moderate to long distances.  
-
-The advantages of using the belt and pulley system are:
 \begin{itemize}
-    \item They are ideal for motion systems that require extended travel distances along an axis with precision
-    \item The driving motor can remain stationary while the belt transmits motion along the axis. This reduces the mass of moving components and increase accelaration capabilty.
-\item Belts can be installed and replacd relatively easily
-\item Belts are also generally less expensive in terms of component cost and manufacturing complexity.
-
-The system consist of timing belts routed over the  pulleys across the axis and the pulleys have long shaft connected to the one of the pulleys at one end for better motion. Also, a dual motor configuration was considered for the X-axis, allowing symmetric actuation across both sides of the structure.
+    \item \textbf{Travel distance:} Up to \qty{4.0}{m} on the X and Y axes; up to \qty{2.0}{m} on the Z-axis.
+    \item \textbf{Speed:} A peak linear velocity of approximately \qty{0.33}{m/s} (derived from the motion profile in Section~6.1) on all linear axes.
+    \item \textbf{Payload:} The combined moving mass, including payload, is up to \qty{170}{kg} (with safety factor; see Table~6.1).
+    \item \textbf{Anti-backdrive (Z-axis):} The vertical axis must not allow the payload to free-fall in the event of power loss. This is a safety-critical requirement.
+    \item \textbf{Local availability and cost:} Components must be procurable through local suppliers within the project budget.
 \end{itemize}
 
-\subsubsection{Z-Axis Lifting Mechanism}
-The Z-Axis provides vertical lifting capability of the for the end-effector and the payload.
+\section{Candidate Mechanisms}
 
-A rack and pinion mechanism is selected for the vertical actuation due to it's robustness. Rack-and-pinion systems also better resistance to slippage.
-when lifting loads vertically.
+Three drive mechanisms were evaluated for the linear axes: belt-and-pulley, rack-and-pinion, and lead screw. Table~\ref{tab:drive_comparison} summarises their characteristics in the context of this project's requirements.
 
-During the design process, both helical and spur gear configurations were evaluated. However, spur gear were ultimately selected because they provide more reliable engagement and alignment for the vertical drive systems due to their straight teeths parallel to axis.
+\begin{table}[H]
+    \centering
+    \caption{Comparison of candidate drive mechanisms for the gantry axes.}
+    \label{tab:drive_comparison}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{@{}p{2.5cm} p{3.5cm} p{3.5cm} p{3.5cm}@{}}
+        \toprule
+        \textbf{Criterion} & \textbf{Belt \& Pulley} & \textbf{Rack \& Pinion} & \textbf{Lead Screw} \\
+        \midrule
+        \textbf{Travel distance} & Excellent; limited only by belt length. & Excellent; limited only by rack length. & Poor for long spans; critical speed limits length. \\
+        \hline
+        \textbf{Speed} & High; motor can remain stationary while belt transmits motion. & High; pinion drives directly along rack. & Limited; high RPM at long travel causes mechanical whipping. \\
+        \hline
+        \textbf{Load capacity} & Moderate; belt tension limits payload. Timing belts reduce slip. & High; rigid gear mesh transfers load directly. & High; inherently rigid. \\
+        \hline
+        \textbf{Backdrive resistance} & Low; belt is freely backdrivable. & Low; gear mesh is backdrivable. & High; friction in thread resists backdrive. \\
+        \hline
+        \textbf{Moving mass} & Low; motor is stationary, only belt and carriage move. & Moderate; rack or motor adds mass to moving assembly. & High; screw or nut adds mass. \\
+        \hline
+        \textbf{Cost \& availability} & Low; HTD belts and pulleys are widely available locally. & Moderate; standard modules available locally. & Moderate to high; precision screws less common locally. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
-The motor is mounted with the motor housing, and couplers are used to connect the motor shaft, and the couplers are used to connect the motor shaft to the pinion gear which is driving the rack.
+% TODO (Fix 5.1): Add a figure showing a belt-and-pulley system and a rack-and-pinion system, 
+% ideally photos or CAD of the actual setups used in the project.
 
-Additionally, to improve the stability and prevent lateral movements during lifting, linear guide channels were incorporated along the z-axis. Custom mounts were designed and fabricated using 3d printing to securely attached the linear guides and maintain allignment during operations.
+\section{X and Y Axes: Belt-and-Pulley Drive}
+
+For the X and Y axes, the primary requirements are long travel (\qty{4.0}{m}), moderate speed, and low moving mass to maximise acceleration capability. Lead screws were eliminated immediately: at the required travel distance and speed, the rotational speed would exceed the critical speed of the screw, causing resonant whipping and potential catastrophic failure. Between the remaining candidates, the belt-and-pulley system was selected over rack-and-pinion for three reasons.
+
+First, the belt drive allows the motor to remain stationary on the frame while the belt transmits motion along the axis. This significantly reduces the moving mass of the carriage, which in turn reduces the torque required for acceleration and permits a smaller, less expensive motor. In contrast, a rack-and-pinion system requires either the motor to travel with the carriage (adding to moving mass) or the rack to move (adding dead weight to the structure).
+
+Second, belts are straightforward to install, tension, and replace, which supports the project's goal of long-term maintainability by Dawlance's engineering staff without specialised expertise.
+
+Third, HTD\,8M synchronous timing belts --- selected for their availability in the local market and their rated load capacity exceeding the peak belt tension for these axes --- effectively eliminate slip through positive tooth engagement, addressing the primary concern with belt drives under heavy loads.
+
+The trade-off is that belt drives are backdrivable, meaning the axes can move freely when unpowered. On the horizontal X and Y axes, this is acceptable because gravity does not act along the direction of travel; the electromagnetic brakes on the servo motors provide holding torque when the system is stationary.
+
+The system uses a 20-tooth drive pulley on each axis, yielding a pitch diameter of $\frac{P \times Z}{\pi} = \frac{8 \times 20}{\pi} \approx \qty{50.9}{mm}$. A dual-motor configuration is used on the X-axis, with one motor on each side of the bridge, to provide symmetric actuation and prevent racking of the Y-axis bridge under load.
+
+\section{Z-Axis: Rack-and-Pinion Drive}
+
+The Z-axis has a fundamentally different requirement: it must support the suspended mass (payload, end-effector, and vertical structure) against gravity at all times, including during power loss. This makes the backdrive characteristic the decisive selection criterion.
+
+Lead screws offer inherent backdrive resistance through thread friction, but were rejected for the Z-axis for the same reason as the horizontal axes: the travel distance of \qty{2.0}{m} at the required speed would approach the critical speed limit. Furthermore, precision ball screws --- which would resolve the speed issue --- are significantly more expensive and less available locally than standard rack-and-pinion components.
+
+The rack-and-pinion mechanism was selected for the Z-axis because it provides the required rigidity and load capacity for vertical operation, and the backdrive concern is addressed by the electromagnetic brakes integrated into the Yaskawa Sigma-5 servo motors. When power is removed, the brakes engage automatically (they are spring-applied, electrically released), locking the Z-axis in place and preventing the payload from free-falling. This satisfies the safety requirement defined in Section~2.4.1.
+
+A spur gear configuration (Module~2, 20~teeth, $20\degree$ pressure angle) was selected over helical gears because the straight teeth provide simpler engagement and alignment for the vertical drive, and do not introduce axial thrust loads that would need to be accommodated by the bearing arrangement. Two synchronised motors are used on the Z-axis, one driving each of two parallel racks, to distribute the load symmetrically and prevent binding.
+
+Linear guide channels are incorporated along the Z-axis to bear lateral loads and maintain alignment during vertical traversal.
+
+\section{Yaw Axis: Direct Drive}
+
+The yaw axis rotates the end-effector to orient the microwave for placement. Unlike the linear axes, no transmission mechanism is required between the motor and the output; the motor is coupled directly to the yaw shaft through a 160:1 planetary drive reducer (discussed in Section~6.7). This high reduction ratio is necessary to manage the large rotational inertia of the payload and provide the orientation accuracy specified in Table~\ref{tab:specs}.

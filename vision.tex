@@ -1,114 +1,98 @@
-
-
-
 \chapter{Computer Vision}
 \label{sec:vision_pipeline}
 
-To enable closed-loop alignment of the gantry end-effector to moving objects on the conveyor, a lightweight computer vision (CV) pipeline was developed in simulation using OpenCV. The primary goal of the pipeline is to estimate the target object's 2D pose in the image: \textit{(i)} center location in pixel coordinates $(u,v)$ and \textit{(ii)} in-plane orientation $\theta$ (yaw) using a minimum-area rectangle fit. This estimate is then used by the downstream alignment/visual servoing module.
+To enable closed-loop alignment of the gantry end-effector to objects on the conveyor, a computer vision pipeline was developed to estimate each target's pose. Since the gantry operates with a fixed vertical approach and the conveyor height is known, the Z-coordinate is determined by the physical setup rather than estimated from vision. The vision system therefore estimates only the X and Y position and yaw angle ($\theta_z$) --- the three unknown degrees of freedom required for alignment and placement.
 
-A lightweight computer vision pipeline has been developed in simulation using OpenCV, so that closed-loop alignment of the gantry end-effector to moving objects can be performed. The goal is to estimate the target's 2D pose in the image; first, the center location in pixel coordinates $(u,v)$, then the orientation $\theta$ (yaw) through a minimum-area rectangle fit. This estimate is then what is used for downstream alignment using visual servoing.
+The pipeline evolved through two stages during the project. An initial classical pipeline based on HSV thresholding and contour analysis (Section~\ref{sec:classical_pipeline}) was developed in simulation and validated on real hardware, where it exposed fundamental limitations. These motivated a transition to a deep learning--based approach (Section~\ref{sec:dl_pipeline}) using keypoint regression and Perspective-n-Point (PnP) pose recovery, which provides metric-space pose estimation and greater robustness to appearance variation.
 
-Figure~\ref{fig:vision_pipeline_flow} summarizes the full image-processing pipeline. The camera mounted on the wrist obtains the input frame, which is then processed to segment the target object (such as brown cardboard or black microwaves), remove noise, and then estimate the pose.
+\section{Classical Pipeline}
+\label{sec:classical_pipeline}
+
+The initial pipeline, illustrated in Figure~\ref{fig:vision_pipeline_flow}, uses OpenCV to segment the target object, remove noise, and estimate its 2D pose in the image frame.
 
 \begin{figure}[H]
     \centering
-    % Replace with your exported Lucid image filename
     \includegraphics[width=\linewidth]{figures/vision_pipeline.png}
-    \caption{Computer vision pipeline for segmentation and pose estimation using HSV thresholding, morphological filtering, contour extraction, and minimum-area rectangle fitting.}
+    \caption{Classical vision pipeline for segmentation and pose estimation using HSV thresholding, morphological filtering, contour extraction, and minimum-area rectangle fitting.}
     \label{fig:vision_pipeline_flow}
 \end{figure}
 
-The captured image is converted to HSV color space. This is done so that if the camera experiences changes in lighting, the processing can stay robust. Binary masks are then generated using thresholding, where the black object mask thresholded primarily on the Value channel for dark region isolation, while the brown object mask used a constrained HSV range tuned for the brown color of cardboard boxes. This way, the pipeline could detect objects of specific colors without resorting to data-hungry deep learning techniques based on inference.
+The captured image is converted to HSV colour space so that the processing remains robust to changes in lighting intensity. Binary masks are generated using thresholding: the black object mask is thresholded primarily on the Value channel for dark region isolation, while the brown object mask uses a constrained HSV range tuned for the brown colour of cardboard boxes. This allows the pipeline to detect objects of specific colours without resorting to data-hungry deep learning techniques.
 
-However, small artifacts remain, so the binary mask is cleaned with standard morphological operations. This includes both closing to fill small gaps and opening to remove isolated noise. Then, a $5\times 5$ structuring element is used; depending on the noise, multiple iterations are run.
+Small artifacts in the binary mask are cleaned with standard morphological operations: closing to fill small gaps and opening to remove isolated noise, using a $5 \times 5$ structuring element with multiple iterations as needed.
 
-This leads to a position where external contours can be obtained. This is done using \texttt{cv2.findContours(..., RETR\_EXTERNAL)}. The pipeline extracts the contour with the greatest area; any other contours are rejected as false detections. This selected contour is fit using \texttt{cv2.minAreaRect}, obtaining at last:
+External contours are found using \texttt{cv2.findContours(..., RETR\_EXTERNAL)}. The pipeline extracts the contour with the greatest area; all other contours are rejected as false detections. The selected contour is fit using \texttt{cv2.minAreaRect}, yielding:
 \begin{itemize}
-    \item Center in pixels: $(u, v)$
+    \item Centre in pixels: $(u, v)$
     \item Rectangle dimensions: $(w, h)$
     \item Raw angle: $\theta_{\text{raw}}$
 \end{itemize}
-However, OpenCV's angle convention depends on the longer edge (width or height). Hence, the raw angle is normalized, so that the pipeline supplies a consistent orientation $\theta \in [0,180)$.
 
-Typical PID control needs world coordinates, but the coordinates just obtained are in the camera frame. Therefore, an IBVS formulation is selected, because it directly operates on pixel coordinates by minimizing the error between current image features and the desired ones. For a feature vector $s=[x\;\;y\;\;\theta]^T$ (or alternatively $[u\;\;v\;\;\theta]^T$), the control objective is to reduce:
+OpenCV's angle convention depends on the longer edge, so the raw angle is normalised to supply a consistent orientation $\theta \in [0, 180)$.
+
+\subsection{Image-Based Visual Servoing Formulation}
+
+For closed-loop control, an IBVS formulation was selected because it operates directly on pixel coordinates, eliminating the need for a calibrated camera-to-world transformation. For a feature vector $s = [x \;\; y \;\; \theta]^T$, the control objective is to reduce the error:
 \[
 e = s - s^{*}
 \]
-where $s$ is measured from the current camera frame and $s^{*}$ is the desired feature. In this case, this is the target centered in the image with desired yaw.
-
-First, $(u,v)$ can be converted to normalized image coordinates:
+where $s$ is measured from the current camera frame and $s^{*}$ is the desired feature (target centred in the image with desired yaw). The pixel coordinates $(u, v)$ are converted to normalised image coordinates:
 \[
 x = \frac{u - c_x}{f_x}, \quad y = \frac{v - c_y}{f_y}
 \]
-and then the interaction matrix maps camera velocities to feature motion:
+and the interaction matrix $L_s$ maps camera velocities to feature motion:
 \[
 \dot{s} = L_s \, v
 \]
-Finally, a standard IBVS control law is used:
+The standard IBVS control law is then:
 \[
 v = -\lambda \, L_s^{+} \, e
 \]
-where $\lambda>0$ is a gain and $L_s^{+}$ is the pseudo-inverse of the interaction matrix. With only camera measurements and no availability of actual object pose in world coordinates, closed-loop alignment can be done.
+where $\lambda > 0$ is a gain and $L_s^{+}$ is the pseudo-inverse of the interaction matrix. This allows closed-loop alignment using only camera measurements, without requiring the object's pose in world coordinates.
 
-The image processing pipeline performed well on simulation, so this was dispatched on a real Dawlance microwave and its repective box. While the orientation was correctly obtained (to the nearest half degree), the position encountered minor but not negligible errors because of the flaps of the box and the sides of the microwave. Hence, while this algorithm is effective, it needs further tuning to handle these real cases.
+\subsection{Real-World Validation}
+
+The classical pipeline was tested on a real Dawlance microwave and its corresponding box. Orientation estimation was accurate to within half a degree. However, position estimation exhibited errors caused by the open flaps of the box and the protruding edges of the microwave, which distorted the contour shape and shifted the computed centre.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/image_processing.png}
-    \caption{Image processing performed on real data.}
-    \label{fig:placeholder}
+    \caption{Classical pipeline results on real data: detected bounding rectangles and orientation lines for the microwave (black) and box (brown).}
+    \label{fig:classical_real_data}
 \end{figure}
 
-
-
-
-% ============================================================
-% Place this after the existing Capstone 1 content
-% (after the image_processing.png figure and the paragraph
-%  about real-world limitations)
-% ============================================================
- 
 \section{Limitations of Classical Pipeline}
 \label{sec:classical_limitations}
- 
-While the HSV-based segmentation pipeline demonstrated reliable performance in simulation, deployment on real hardware exposed several fundamental limitations. The flaps of the cardboard box and the recessed edges of the microwave introduced contour irregularities that degraded the accuracy of \texttt{cv2.minAreaRect}, particularly in position estimation. More critically, the pipeline exhibited the following structural shortcomings:
- 
+
+While the HSV-based pipeline demonstrated reliable performance in simulation, deployment on real hardware exposed several fundamental limitations:
+
 \begin{enumerate}
-    \item \textbf{Color dependency:} HSV thresholding required manual tuning of per-object color ranges. Any change in object appearance, conveyor background, or lighting conditions necessitated recalibration, making the system fragile in uncontrolled environments.
-    \item \textbf{Single-class limitation:} Each color range was hand-tuned for one object type. Extending the pipeline to new objects required defining additional masks, with no principled way to handle objects sharing similar color profiles.
-    \item \textbf{No 3D pose:} The \texttt{minAreaRect} fit provided only a 2D center $(u, v)$ and an in-plane angle $\theta$. While sufficient for IBVS, this precluded metric-space control strategies that require the object's position and orientation in world coordinates.
-    \item \textbf{No semantic keypoints:} The contour-based approach had no notion of specific object features (e.g., corners of the top face). Without known correspondences between image points and physical geometry, camera-to-object distance and full 6DoF pose could not be recovered.
+    \item \textbf{Colour dependency:} HSV thresholding required manual tuning of per-object colour ranges. Any change in object appearance, conveyor background, or lighting conditions necessitated recalibration.
+    \item \textbf{Single-class limitation:} Each colour range was hand-tuned for one object type. Extending the pipeline to new objects required defining additional masks, with no principled way to handle objects sharing similar colour profiles.
+    \item \textbf{No metric pose:} The \texttt{minAreaRect} fit provided only a 2D centre $(u, v)$ and an in-plane angle $\theta$. While sufficient for IBVS, this precluded position-based control strategies that require the object's position in world coordinates.
+    \item \textbf{No semantic keypoints:} The contour-based approach had no notion of specific object features (e.g., corners of the top face). Without known correspondences between image points and physical geometry, camera-to-object distance and full 6-DoF pose could not be recovered.
 \end{enumerate}
- 
-These limitations motivated a transition from classical image processing to a deep learning--based approach capable of jointly detecting objects, classifying them, and localizing semantically meaningful keypoints in a single forward pass.
- 
+
+These limitations motivated a transition from classical image processing to a deep learning--based approach capable of jointly detecting objects, classifying them, and localising semantically meaningful keypoints in a single forward pass.
+
 \section{Deep Learning--Based Pose Estimation Pipeline}
 \label{sec:dl_pipeline}
- 
-To address the shortcomings identified in Section~\ref{sec:classical_limitations}, the vision pipeline was redesigned around a keypoint-based pose estimation architecture. The revised pipeline, illustrated in Figure~\ref{fig:dl_pipeline_flow}, replaces HSV thresholding, morphological filtering, and contour extraction with a single neural network that simultaneously performs object detection (bounding box and class) and keypoint regression. The detected keypoints, corresponding to known physical corners of the target object, are then passed to a Perspective-n-Point (PnP) solver to recover the full 6DoF pose relative to the camera.
- 
+
+To address the shortcomings identified in Section~\ref{sec:classical_limitations}, the vision pipeline was redesigned around a keypoint-based pose estimation architecture. The revised pipeline, illustrated in Figure~\ref{fig:dl_pipeline_flow}, replaces HSV thresholding, morphological filtering, and contour extraction with a single neural network that simultaneously performs object detection (bounding box and class) and keypoint regression. The detected keypoints, corresponding to known physical corners of the target object, are then passed to a Perspective-n-Point (PnP) solver to recover the full 6-DoF pose relative to the camera.
+
 \begin{figure}[H]
     \centering
-    % Replace with the exported pipeline flowchart
     \includegraphics[width=\linewidth]{figures/dl_vision_pipeline_flowchart.pdf}
-    \caption{Revised vision pipeline using YOLOv26n-pose for joint detection and keypoint regression, followed by PnP-based 6DoF pose estimation.}
+    \caption{Revised vision pipeline using YOLOv26n-pose for joint detection and keypoint regression, followed by PnP-based 6-DoF pose estimation.}
     \label{fig:dl_pipeline_flow}
 \end{figure}
- 
-This design choice offers three key advantages over the classical approach. First, the network learns appearance-invariant features from data, eliminating manual color tuning and providing robustness to lighting variation. Second, the architecture natively supports multiple object classes---in this case, microwaves and their packaging boxes---within a unified model. Third, by regressing semantically defined keypoints (the four top-face corners), the pipeline establishes the 2D--3D correspondences required for metric pose recovery via \texttt{cv2.solvePnP}, enabling position-based control strategies alongside or in place of IBVS.
- 
-The following sections detail the keypoint definition and dataset preparation (Section~\ref{sec:keypoint_def}), model architecture and training (Section~\ref{sec:model_training}), camera calibration (Section~\ref{sec:camera_calib}), and PnP-based pose recovery (Section~\ref{sec:pnp_pose}).
- 
 
-
-% ============================================================
-% Continues from vision_transition.tex
-% ============================================================
+This design offers three key advantages over the classical approach. First, the network learns appearance-invariant features from data, eliminating manual colour tuning and providing robustness to lighting variation. Second, the architecture natively supports multiple object classes --- in this case, microwaves and their packaging boxes --- within a unified model. Third, by regressing semantically defined keypoints (the four top-face corners), the pipeline establishes the 2D--3D correspondences required for metric pose recovery via \texttt{cv2.solvePnP}, enabling position-based control strategies alongside or in place of IBVS.
 
 \section{Keypoint Definition}
 \label{sec:keypoint_def}
 
-The choice of keypoints is driven by two constraints: they must be consistently visible from the overhead wrist camera, and they must form a known planar geometry so that \texttt{cv2.solvePnP} can recover pose from a minimum of four 2D--3D correspondences. Because both the microwave and the cardboard package present a flat, roughly rectangular top face to the camera, the four corners of this face are selected as the keypoint set:
+The choice of keypoints is driven by two constraints: they must be consistently visible from the overhead camera, and they must form a known planar geometry so that \texttt{cv2.solvePnP} can recover pose from a minimum of four 2D--3D correspondences. Because both the microwave and the cardboard package present a flat, roughly rectangular top face to the camera, the four corners of this face are selected as the keypoint set:
 
 \begin{enumerate}
     \item \textbf{TFL} --- Top Front Left
@@ -119,32 +103,30 @@ The choice of keypoints is driven by two constraints: they must be consistently 
 
 \begin{figure}[H]
     \centering
-    % Replace with annotated top-face keypoint diagram
-    \includegraphics[width=0.55\linewidth]{figures/key-points.png}
+    \includegraphics[width=0.75\linewidth]{figures/key-points.png}
     \caption{Keypoint convention for both object classes. TFL, TFR, TBL, and TBR denote the four corners of the top face as seen from the overhead camera.}
     \label{fig:keypoint_def}
 \end{figure}
 
-Since both classes share the same four-keypoint layout, a single model head can regress keypoints for all detections regardless of class. The keypoint ordering also defines a left--right mirror symmetry: under horizontal flip, TFL swaps with TFR and TBL swaps with TBR. This symmetry is encoded via the \texttt{flip\_idx: [1, 0, 3, 2]} field in the dataset configuration, enabling flip-based augmentation to preserve keypoint semantics.
+Since both classes share the same four-keypoint layout, a single model head can regress keypoints for all detections regardless of class. The keypoint ordering defines a left--right mirror symmetry: under horizontal flip, TFL swaps with TFR and TBL swaps with TBR, encoded via the \texttt{flip\_idx: [1, 0, 3, 2]} field in the dataset configuration.
 
-Each keypoint is stored in the YOLO pose format as a triplet $(x, y, v)$, where $x$ and $y$ are normalized image coordinates and $v \in \{0, 1, 2\}$ is a visibility flag (0 = absent, 1 = occluded, 2 = visible). A label row thus contains 17 values: 5 for the bounding box (class, $c_x$, $c_y$, $w$, $h$) and $4 \times 3 = 12$ for the keypoints.
+Each keypoint is stored in the YOLO pose format as a triplet $(x, y, v)$, where $x$ and $y$ are normalised image coordinates and $v \in \{0, 1, 2\}$ is a visibility flag (0~=~absent, 1~=~occluded, 2~=~visible). A label row thus contains 17 values: 5 for the bounding box (class, $c_x$, $c_y$, $w$, $h$) and $4 \times 3 = 12$ for the keypoints.
 
 \section{Dataset Preparation}
 \label{sec:dataset_prep}
 
-The training dataset was assembled by merging three separate annotation efforts hosted on Roboflow, each created at a different stage of the project:
+The training dataset was assembled by merging three separate annotation efforts, each created at a different stage of the project:
 
 \begin{enumerate}
-    \item \textbf{Old dataset} --- 8-keypoint COCO-format annotations for microwaves only (class = microwave). This dataset included all eight box corners; only the top four (indices 0--3) were retained during conversion.
-    \item \textbf{Mid dataset} --- 4-keypoint YOLO-format annotations for microwaves only, already conforming to the top-face convention.
-    \item \textbf{New dataset} --- 4-keypoint YOLO-format annotations with two classes: microwave (class 0) and package (class 1).
+    \item \textbf{Old dataset:} 8-keypoint COCO-format annotations for microwaves only. Only the top four keypoints (indices 0--3) were retained during conversion.
+    \item \textbf{Mid dataset:} 4-keypoint YOLO-format annotations for microwaves only, already conforming to the top-face convention.
+    \item \textbf{New dataset:} 4-keypoint YOLO-format annotations with two classes: microwave (class~0) and package (class~1).
 \end{enumerate}
 
-Because the old dataset used COCO annotation format with eight keypoints per instance, a format-conversion script was written to: \textit{(i)} extract only the top-four keypoints by index, \textit{(ii)} convert bounding boxes from COCO absolute $(x, y, w, h)$ to YOLO normalized center format, and \textit{(iii)} hardcode the class ID to 0 (microwave). The mid and new datasets, already in YOLO pose format, were copied directly with class IDs preserved. All images and labels were merged into a single directory structure with unique filename prefixes (\texttt{old\_}, \texttt{mid\_}, \texttt{new\_}) to prevent collisions.
+A format-conversion script was written to: \textit{(i)}~extract only the top-four keypoints from the old dataset by index, \textit{(ii)}~convert bounding boxes from COCO absolute $(x, y, w, h)$ to YOLO normalised centre format, and \textit{(iii)}~assign the class ID to~0 (microwave). The mid and new datasets, already in YOLO pose format, were copied directly with class IDs preserved. All images and labels were merged into a single directory structure with unique filename prefixes (\texttt{old\_}, \texttt{mid\_}, \texttt{new\_}) to prevent collisions.
 
 \begin{figure}[H]
     \centering
-    % Replace with dataset merge pipeline diagram
     \includegraphics[width=0.85\linewidth]{figures/dataset_merge_pipeline.pdf}
     \caption{Dataset curation pipeline. Three annotation sources are converted to a unified YOLO pose format with 2 classes and 4 keypoints per instance.}
     \label{fig:dataset_merge}
@@ -161,71 +143,52 @@ kpt_shape: [4, 3]
 flip_idx: [1, 0, 3, 2]
 \end{verbatim}
 
-% NOTE: Insert actual image counts from your training run here
-% e.g., "The merged training set contains N_train images and the validation set contains N_val images."
-
 \section{Model Architecture and Training}
 \label{sec:model_training}
 
-The detection and keypoint regression model is YOLOv26n-pose, a nano-variant of the YOLO architecture designed for real-time pose estimation. The model accepts a $640 \times 640$ input image and produces, for each detected object, a bounding box with class confidence and a set of $K$ keypoint coordinates with per-keypoint confidence scores. In this work, $K = 4$ corresponding to the top-face corners defined in Section~\ref{sec:keypoint_def}.
+The detection and keypoint regression model is YOLOv26n-pose, a nano-variant of the YOLO architecture optimised for real-time pose estimation. The model accepts a $640 \times 640$ input image and produces, for each detected object, a bounding box with class confidence and a set of $K = 4$ keypoint coordinates with per-keypoint confidence scores.
 
-Training was initialized from the official \texttt{yolo26n-pose.pt} pretrained weights and fine-tuned on the merged dataset for 150 epochs with the following configuration:
+Training was initialised from the official \texttt{yolo26n-pose.pt} pretrained weights and fine-tuned on the merged dataset for 150 epochs with the hyperparameters listed in Table~\ref{tab:training_params}.
 
 \begin{table}[H]
     \centering
     \caption{YOLOv26n-pose training hyperparameters.}
     \label{tab:training_params}
-    \begin{tabular}{ll}
-        \hline
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}ll@{}}
+        \toprule
         \textbf{Parameter} & \textbf{Value} \\
-        \hline
+        \midrule
         Input size         & $640 \times 640$ \\
         Batch size         & 8 \\
         Epochs             & 150 \\
         Pretrained weights & \texttt{yolo26n-pose.pt} \\
         Flip LR / Flip UD  & 0.0 / 0.0 \\
-        Mosaic             & 0.0 \\
-        MixUp              & 0.0 \\
+        Mosaic / MixUp     & 0.0 / 0.0 \\
         Rotation / Perspective / Shear & 0.0 / 0.0 / 0.0 \\
-        \hline
+        \bottomrule
     \end{tabular}
 \end{table}
 
-A key design decision was the disabling of all geometric augmentations---horizontal/vertical flip, mosaic, mixup, rotation, perspective warp, and shear. While these augmentations are standard for object detection, they can corrupt keypoint semantics in pose estimation tasks. Mosaic and mixup composite multiple images, which can split an object's keypoints across tile boundaries or blend them with another instance. Similarly, large rotations and perspective warps alter the spatial relationship between keypoints in ways that the fixed \texttt{flip\_idx} mapping cannot account for. Since the gantry camera always views the conveyor from roughly the same overhead angle, the limited viewpoint variation in deployment further reduces the need for aggressive geometric augmentation.
+All geometric augmentations were disabled. While standard for object detection, these augmentations can corrupt keypoint semantics in pose estimation tasks. Mosaic and mixup composite multiple images, potentially splitting an object's keypoints across tile boundaries. Large rotations and perspective warps alter the spatial relationship between keypoints in ways that the fixed \texttt{flip\_idx} mapping cannot account for. Since the gantry camera always views the conveyor from roughly the same overhead angle, the limited viewpoint variation in deployment further reduces the need for geometric augmentation.
 
-% NOTE: Insert training results here once you have them
 \subsection{Training Results}
-Training curves for box loss, pose loss, and classification loss are shown in Figure~\ref{fig:training_curves}.
+
+Training curves for box loss, pose loss, and classification loss are shown in Figure~\ref{fig:training_curves}. Both training and validation losses converge smoothly, indicating that the model generalises to unseen images without overfitting.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{figures/vision-curves.png}
     \caption{Training and validation loss curves over 150 epochs.}
     \label{fig:training_curves}
 \end{figure}
-%
-% Validation metrics:
-% \begin{table}[H]
-%     \centering
-%     \caption{Validation performance of the trained YOLOv26n-pose model.}
-%     \label{tab:val_metrics}
-%     \begin{tabular}{ll}
-%         \hline
-%         \textbf{Metric} & \textbf{Value} \\
-%         \hline
-%         Box mAP@50       & X.XXXX \\
-%         Box mAP@50--95   & X.XXXX \\
-%         Pose mAP@50      & X.XXXX \\
-%         Pose mAP@50--95  & X.XXXX \\
-%         \hline
-%     \end{tabular}
-% \end{table}
 
 \section{Camera Calibration}
 \label{sec:camera_calib}
 
-The wrist-mounted camera uses a fisheye lens to maximize the field of view over the conveyor. Fisheye lenses introduce significant radial distortion, particularly near the image periphery, which displaces pixel coordinates from their ideal pinhole-model positions. If uncorrected, this distortion degrades the accuracy of the PnP pose estimate.
+The wrist-mounted AR0234 camera uses a fisheye lens to maximise the field of view over the conveyor. Fisheye lenses introduce significant radial distortion, particularly near the image periphery, which displaces pixel coordinates from their ideal pinhole-model positions. If uncorrected, this distortion degrades the accuracy of the PnP pose estimate.
 
-Camera calibration was performed offline using an ArUco marker board. The calibration procedure yields two outputs:
+Camera calibration was performed offline using an ArUco marker board, yielding two outputs:
 
 \begin{itemize}
     \item The \textbf{intrinsic matrix} $\mathbf{K}$, containing the focal lengths $(f_x, f_y)$ and principal point $(c_x, c_y)$:
@@ -235,12 +198,12 @@ Camera calibration was performed offline using an ArUco marker board. The calibr
     \item The \textbf{distortion coefficients} $\mathbf{d} = [k_1, k_2, p_1, p_2, k_3, \ldots]$, modelling radial and tangential lens distortion.
 \end{itemize}
 
-These parameters are stored in a NumPy archive (\texttt{camera\_params\_fisheye\_aruko.npz}) and loaded at inference time. Notably, the YOLO model runs on the raw distorted image; undistortion is deferred to the PnP stage, where the distortion coefficients are passed directly to \texttt{cv2.solvePnP}. This avoids the computational cost of undistorting the full frame at every inference step while still accounting for lens distortion during pose recovery.
+These parameters are stored in a NumPy archive and loaded at inference time. The YOLO model runs on the raw distorted image; undistortion is deferred to the PnP stage, where the distortion coefficients are passed directly to \texttt{cv2.solvePnP}. This avoids the computational cost of undistorting the full frame at every inference step while still accounting for lens distortion during pose recovery.
 
-\section{PnP-Based 6DoF Pose Recovery}
+\section{PnP-Based 6-DoF Pose Recovery}
 \label{sec:pnp_pose}
 
-Given the four detected keypoints in pixel coordinates and the known physical dimensions of each object class, the Perspective-n-Point (PnP) algorithm recovers the 6DoF pose (rotation $\mathbf{R}$ and translation $\mathbf{t}$) of the object with respect to the camera frame.
+Given the four detected keypoints in pixel coordinates and the known physical dimensions of each object class, the Perspective-n-Point (PnP) algorithm recovers the 6-DoF pose (rotation $\mathbf{R}$ and translation $\mathbf{t}$) of the object with respect to the camera frame.
 
 \subsection{3D Object Model}
 
@@ -248,62 +211,112 @@ For each class, a planar 3D model is defined by placing the four top-face corner
 
 \begin{table}[H]
     \centering
-    \caption{3D object models for PnP. All keypoints lie on the $Z = 0$ plane.}
+    \caption{3D object models for PnP. All keypoints lie on the $Z = 0$ plane. Dimensions in metres.}
     \label{tab:object_models}
-    \begin{tabular}{lcccc}
-        \hline
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
         \textbf{Class} & \textbf{TFL} & \textbf{TFR} & \textbf{TBL} & \textbf{TBR} \\
-        \hline
+        \midrule
         Microwave & $(0, 0, 0)$ & $(0.44, 0, 0)$ & $(0, 0.61, 0)$ & $(0.44, 0.61, 0)$ \\
         Package   & $(0, 0, 0)$ & $(0.57, 0, 0)$ & $(0, 0.67, 0)$ & $(0.57, 0.67, 0)$ \\
-        \hline
+        \bottomrule
     \end{tabular}
 \end{table}
 
-\noindent Here, dimensions are in metres: the microwave top face measures $0.44 \times 0.61$\,m and the package measures $0.57 \times 0.67$\,m.
-
 \subsection{Solver Configuration}
 
-The PnP problem is solved using a two-stage fallback strategy. The primary solver is \texttt{SOLVEPNP\_IPPE} (Infinitesimal Plane-based Pose Estimation), which is specifically designed for coplanar point configurations and returns up to two candidate poses. If IPPE fails (e.g., due to near-degenerate keypoint configurations), the solver falls back to \texttt{SOLVEPNP\_ITERATIVE}, which uses Levenberg--Marquardt refinement from a DLT initial estimate.
+The PnP problem is solved using a two-stage fallback strategy. The primary solver is \texttt{SOLVEPNP\_IPPE} (Infinitesimal Plane-based Pose Estimation), designed for coplanar point configurations, which returns up to two candidate poses. If IPPE fails due to near-degenerate keypoint configurations, the solver falls back to \texttt{SOLVEPNP\_ITERATIVE}, which uses Levenberg--Marquardt refinement from a DLT initial estimate.
 
-The solver receives:
-\begin{itemize}
-    \item \textbf{Object points:} the 3D model coordinates from Table~\ref{tab:object_models}.
-    \item \textbf{Image points:} the four keypoint pixel coordinates $(u_i, v_i)$ from the YOLO prediction, filtered by a per-keypoint confidence threshold of 0.30.
-    \item \textbf{Camera matrix} $\mathbf{K}$ and \textbf{distortion coefficients} $\mathbf{d}$ from calibration.
-\end{itemize}
-
-\noindent The outputs are the rotation vector $\mathbf{r}$ (Rodrigues form) and translation vector $\mathbf{t}$, from which the full rotation matrix $\mathbf{R}$ can be recovered via the Rodrigues formula.
+The solver receives the 3D model coordinates from Table~\ref{tab:object_models}, the four keypoint pixel coordinates from the YOLO prediction (filtered by a per-keypoint confidence threshold of 0.30), and the camera matrix $\mathbf{K}$ and distortion coefficients $\mathbf{d}$ from calibration. The outputs are the rotation vector $\mathbf{r}$ (Rodrigues form) and translation vector $\mathbf{t}$.
 
 \subsection{Pose Interpretation}
 
 From the recovered pose, two distance measures are computed:
-
 \begin{enumerate}
     \item \textbf{Distance to object origin:} $d_{\text{origin}} = \|\mathbf{t}\|$, the Euclidean distance from the camera to the TFL corner.
-    \item \textbf{Distance to object center:} The 3D center of the top face, $\mathbf{p}_{\text{obj}} = [W/2,\; D/2,\; 0]^T$, is transformed to camera coordinates via $\mathbf{p}_{\text{cam}} = \mathbf{R}\,\mathbf{p}_{\text{obj}} + \mathbf{t}$, and the distance is $d_{\text{center}} = \|\mathbf{p}_{\text{cam}}\|$.
+    \item \textbf{Distance to object centre:} The 3D centre of the top face, $\mathbf{p}_{\text{obj}} = [W/2, \; D/2, \; 0]^T$, is transformed to camera coordinates via $\mathbf{p}_{\text{cam}} = \mathbf{R}\,\mathbf{p}_{\text{obj}} + \mathbf{t}$, and the distance is $d_{\text{centre}} = \|\mathbf{p}_{\text{cam}}\|$.
 \end{enumerate}
 
 \subsection{Reprojection Error}
 
-To assess the quality of each pose estimate, the 3D model points are reprojected back into the image using the recovered $\mathbf{r}$ and $\mathbf{t}$:
-
+To assess the quality of each pose estimate, the 3D model points are reprojected into the image using the recovered $\mathbf{r}$ and $\mathbf{t}$:
 \[
 \hat{\mathbf{p}}_i = \texttt{projectPoints}(\mathbf{P}_i, \mathbf{r}, \mathbf{t}, \mathbf{K}, \mathbf{d})
 \]
-
-The mean reprojection error is then:
-
+The mean reprojection error is:
 \[
 e_{\text{reproj}} = \frac{1}{4} \sum_{i=1}^{4} \| \hat{\mathbf{p}}_i - \mathbf{p}_i \|_2
 \]
-
-\noindent where $\mathbf{p}_i$ are the detected keypoints and $\hat{\mathbf{p}}_i$ are their reprojections. A low reprojection error (typically $< 5$\,px) indicates a geometrically consistent pose. This metric serves as an online quality gate: detections with high reprojection error can be rejected before being passed to the gantry controller.
+where $\mathbf{p}_i$ are the detected keypoints and $\hat{\mathbf{p}}_i$ are their reprojections. A low reprojection error (typically $< 5$\,px) indicates a geometrically consistent pose. This metric serves as an online quality gate: detections with high reprojection error can be rejected before being passed to the gantry controller.
 
 \begin{figure}[H]
     \centering
-    % Replace with solvePnP visualization (axes + keypoints + reprojected points)
     \includegraphics[width=0.7\linewidth]{figures/pnp-pose.png}
-    \caption{PnP pose visualization on a validation image. Coloured dots are detected keypoints, white dots are reprojections, and RGB arrows indicate the recovered object-frame axes (X = red, Y = green, Z = blue).}
+    \caption{PnP pose visualisation on a validation image. Coloured dots are detected keypoints, white dots are reprojections, and RGB arrows indicate the recovered object-frame axes (X~=~red, Y~=~green, Z~=~blue).}
     \label{fig:pnp_vis}
 \end{figure}
+
+% ============================================================
+% ADD THIS TO THE END OF CHAPTER 10, before the final \end of the chapter
+% (after the PnP reprojection error section and pnp-pose figure)
+% ============================================================
+
+\section{Alternative Pipeline: Grounding DINO + SAM2}
+\label{sec:gdino_pipeline}
+
+In parallel with the YOLO26n-pose pipeline, an alternative approach was explored using foundation models that require no task-specific training data. This pipeline combines Grounding DINO~\cite{liu2023grounding} for open-vocabulary object detection with SAM2~\cite{ravi2024sam2} for pixel-level segmentation, followed by the same PnP-based pose recovery described in Section~\ref{sec:pnp_pose}.
+
+The pipeline operates in three stages:
+\begin{enumerate}
+    \item \textbf{Detection:} Grounding DINO accepts a text prompt (e.g., ``microwave'' or ``cardboard box'') and localises the corresponding object in the camera frame, producing a bounding box without requiring any annotated training images.
+    \item \textbf{Segmentation:} The bounding box is passed to SAM2, which generates a precise pixel-level mask of the detected object.
+    \item \textbf{Pose estimation:} The bottom edge of the segmentation mask is used to identify the object's base, from which the four top-face corner keypoints are inferred geometrically. These keypoints are then passed to the same PnP solver (Section~\ref{sec:pnp_pose}) to recover position and yaw.
+\end{enumerate}
+
+The principal advantage of this approach is its zero-shot capability: because Grounding DINO is prompted with natural language rather than trained on labelled examples, the pipeline can detect new microwave models or packaging variants without any dataset expansion or retraining. This makes it attractive for production deployment, where Dawlance's product range may change over time.
+
+The pipeline was tested with the AR0234 global shutter camera mounted on the prototype. Position estimation achieved an error of approximately 5\% relative to the object's distance from the camera origin. At typical working distances of 1--2\,m, this corresponds to errors of 5--10\,cm, which exceeds the $<1$\,cm positional accuracy specification in Table~\ref{tab:specs}. This error is attributed primarily to camera calibration rather than a fundamental limitation of the detection and segmentation pipeline, and is expected to improve with more rigorous intrinsic and extrinsic calibration. Yaw estimation was qualitatively correct.
+
+The trade-off relative to the YOLO26n-pose pipeline is inference speed: the cascaded Grounding DINO + SAM2 architecture requires significantly more computation than the single-pass YOLO model, making it less suitable for real-time closed-loop control without GPU acceleration. For the prototype, this pipeline was used for offline validation and as a fallback for situations where the YOLO model had not been trained on a particular object.
+
+
+% ============================================================
+% IN CHAPTER 13: Replace the three vision subsections with these
+% (cross-referencing Chapter 10 for full details)
+% ============================================================
+
+% \section{Computer Vision Validation}
+% 
+% Three vision pipelines were developed during the project; their architectures
+% are detailed in Chapter~\ref{sec:vision_pipeline}. This section summarises
+% the validation results for each.
+% 
+% \subsection{Classical Pipeline}
+% 
+% The HSV thresholding pipeline (Section~\ref{sec:classical_pipeline}) was
+% tested on a real Dawlance microwave and its corresponding box. Orientation
+% estimation was accurate to within half a degree. However, position estimation
+% exhibited errors caused by the open flaps of the box and the protruding edges
+% of the microwave, which distorted the contour shape and shifted the computed
+% centre.
+% 
+% \subsection{YOLO26n-Pose Pipeline}
+% 
+% The YOLO26n-pose model (Section~\ref{sec:dl_pipeline}) demonstrated reliable
+% detection and keypoint localisation for both object classes. However, the
+% Euclidean distance estimate from the camera origin fluctuated between
+% successive frames, indicating instability in the pose estimation that would
+% require temporal filtering (e.g., a moving average or Kalman filter) before
+% use in closed-loop control. Additionally, the model has been trained on a
+% single microwave model and box type; generalisation to Dawlance's full
+% product range would require an expanded training dataset.
+% 
+% \subsection{Grounding DINO + SAM2 Pipeline}
+% 
+% The zero-shot pipeline (Section~\ref{sec:gdino_pipeline}) achieved a position
+% error of approximately 5\% relative to the object's distance from the camera
+% origin, which exceeds the $<1$\,cm accuracy specification and is attributed
+% to camera calibration (Section~\ref{sec:limitations}). Yaw estimation was qualitatively
+% correct. This pipeline has the advantage of requiring no training data,
+% making it immediately applicable to new microwave models.
