@@ -1,43 +1,42 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {1.1}{\ignorespaces Comparative Analysis of Articulated vs. Gantry Robots \blx@tocontentsinit {0}\cite {siciliano2016robotics, groover2016automation}}}{5}{table.1.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Stakeholder Analysis}}{9}{table.2.1}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Key Design Specifications}}{12}{table.2.2}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Stakeholder Analysis}}{8}{table.2.1}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Key Design Specifications}}{11}{table.2.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Comparison of candidate frame profiles.}}{28}{table.4.1}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Linear guide service life estimation under different loading scenarios.}}{31}{table.4.2}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Mechanical structure design parameters.}}{32}{table.4.3}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Comparison of candidate frame profiles.}}{26}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Linear guide service life estimation under different loading scenarios.}}{29}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Mechanical structure design parameters.}}{29}{table.4.3}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Comparison of candidate drive mechanisms for the gantry axes.}}{35}{table.5.1}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Comparison of candidate drive mechanisms for the gantry axes.}}{32}{table.5.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Moving mass budget.}}{41}{table.6.1}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces Final motor and transmission selection across all gantry axes.}}{47}{table.6.2}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Moving mass budget.}}{38}{table.6.1}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Final motor and transmission selection across all gantry axes.}}{44}{table.6.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {7.1}{\ignorespaces Yaskawa Sigma-5 SERVOPACK input/output specifications~\blx@tocontentsinit {0}\cite {yaskawa_manual}.}}{50}{table.7.1}%
-\contentsline {table}{\numberline {7.2}{\ignorespaces Per-branch fuse and protective device sizing summary.}}{53}{table.7.2}%
-\contentsline {table}{\numberline {7.3}{\ignorespaces Total load current calculation and MCCB sizing.}}{53}{table.7.3}%
-\contentsline {table}{\numberline {7.4}{\ignorespaces Wiring specification for the gantry system.}}{55}{table.7.4}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces Yaskawa Sigma-5 SERVOPACK input/output specifications~\blx@tocontentsinit {0}\cite {yaskawa_manual}.}}{47}{table.7.1}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces Per-branch fuse and protective device sizing summary.}}{50}{table.7.2}%
+\contentsline {table}{\numberline {7.3}{\ignorespaces Total load current calculation and MCCB sizing.}}{50}{table.7.3}%
+\contentsline {table}{\numberline {7.4}{\ignorespaces Wiring specification for the gantry system.}}{52}{table.7.4}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {8.1}{\ignorespaces Comparative Analysis of End-Effector Design Approaches}}{58}{table.8.1}%
-\contentsline {table}{\numberline {8.2}{\ignorespaces Suction Cup Design Comparison}}{58}{table.8.2}%
-\contentsline {table}{\numberline {8.3}{\ignorespaces Vacuum Generation Method Comparison}}{59}{table.8.3}%
-\contentsline {table}{\numberline {8.4}{\ignorespaces Shaft Design Comparison for Yaw Axis}}{61}{table.8.4}%
-\contentsline {table}{\numberline {8.5}{\ignorespaces Bearing Retention Method Comparison}}{62}{table.8.5}%
-\contentsline {table}{\numberline {8.6}{\ignorespaces Bearing Configuration Comparison}}{62}{table.8.6}%
+\contentsline {table}{\numberline {8.1}{\ignorespaces Comparative Analysis of End-Effector Design Approaches}}{55}{table.8.1}%
+\contentsline {table}{\numberline {8.2}{\ignorespaces Suction Cup Design Comparison}}{55}{table.8.2}%
+\contentsline {table}{\numberline {8.3}{\ignorespaces Vacuum Generation Method Comparison}}{56}{table.8.3}%
+\contentsline {table}{\numberline {8.4}{\ignorespaces Shaft Design Comparison for Yaw Axis}}{58}{table.8.4}%
+\contentsline {table}{\numberline {8.5}{\ignorespaces Bearing Retention Method Comparison}}{59}{table.8.5}%
+\contentsline {table}{\numberline {8.6}{\ignorespaces Bearing Configuration Comparison}}{59}{table.8.6}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {9.1}{\ignorespaces Microcontroller comparison for low-level motor control.}}{66}{table.9.1}%
-\contentsline {table}{\numberline {9.2}{\ignorespaces Yaskawa SGDV CN1 wiring summary.}}{67}{table.9.2}%
+\contentsline {table}{\numberline {9.1}{\ignorespaces Microcontroller comparison for low-level motor control.}}{63}{table.9.1}%
+\contentsline {table}{\numberline {9.2}{\ignorespaces Yaskawa SGDV CN1 wiring summary.}}{64}{table.9.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {10.1}{\ignorespaces YOLOv26n-pose training hyperparameters.}}{82}{table.10.1}%
-\contentsline {table}{\numberline {10.2}{\ignorespaces 3D object models for PnP. All keypoints lie on the $Z = 0$ plane. Dimensions in metres.}}{84}{table.10.2}%
+\contentsline {table}{\numberline {10.1}{\ignorespaces YOLOv26n-pose training hyperparameters.}}{78}{table.10.1}%
+\contentsline {table}{\numberline {10.2}{\ignorespaces 3D object models for PnP. All keypoints lie on the $Z = 0$ plane. Dimensions in metres.}}{80}{table.10.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {11.1}{\ignorespaces Planned ROS2 node architecture for production deployment.}}{90}{table.11.1}%
+\contentsline {table}{\numberline {11.1}{\ignorespaces Planned ROS2 node architecture for production deployment.}}{86}{table.11.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {12.1}{\ignorespaces Validation status of key design specifications.}}{95}{table.12.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {13.1}{\ignorespaces Cost comparison with commercial palletizing systems.}}{98}{table.13.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {13.1}{\ignorespaces Validation status of key design specifications.}}{99}{table.13.1}%
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {14.1}{\ignorespaces Cost comparison with commercial palletizing systems.}}{102}{table.14.1}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {B.1}{\ignorespaces Estimated Bill of Materials (BOM) and Budget}}{109}{table.1.B.1}%
+\contentsline {table}{\numberline {B.1}{\ignorespaces Estimated Bill of Materials (BOM) and Budget}}{105}{table.1.B.1}%

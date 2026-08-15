@@ -55,7 +55,7 @@ According to academic literature, the primary advantage of articulated robots is
 
 A second solution in academic literature is gantry robots, also known as Cartesian robots. These systems contain a structural frame where the motion of the end-effector is controlled by rotary motors driving linear transmission mechanisms such as belts, screws, or rack-and-pinion systems. Moreover, unlike articulated robots, which are cantilevered and must compensate for inertia and gravity, gantry carriages are supported at both ends on the frame. Because of this structural difference, gantry robots have a naturally high stiffness-to-weight ratio and superior stability over large workspaces \cite{groover2016automation}; however, gantry robots have significantly lesser dexterity as a trade-off.
 
-Recent comparisons in industrial automation suggest that for applications requiring transfer of heavy payloads over extensive areas, gantry systems are more appropriate. Articulated arms demand large motors for greater reach due to their cantilevered design; in contrast, gantry workspaces can be expanded simply by an extension of the rail length, rendering them highly modular and scalable for packaging and palletizing operations \cite{bostelman2016survey}.
+Recent comparisons in industrial automation suggest that for applications requiring transfer of heavy payloads over extensive areas, gantry systems are more appropriate. Articulated arms demand large motors for greater reach due to their cantilevered design; in contrast, gantry workspaces can be expanded simply by an extension of the rail length, rendering them highly modular and scalable for such operations \cite{bostelman2016survey}.
 
 To further systematically evaluate these technologies for the constraints of the project, a comparison of key parameters is presented in Table \ref{tab:robot_comparison}.
 
@@ -96,18 +96,18 @@ From an economic and logistic perspective, the feasibility of articulated robots
 
 Following selection of mechanical architecture, the operational paradigm must be defined. While Industry 4.0 recommended total automation of industrial tasks, recent trends have shifted towards a new industrial movement: Industry 5.0. This paradigm is defined by the European Commission as one that ``places the wellbeing of the worker at the centre of the production process'', with technology serving to assist humans, instead of replacing them \cite{breque2021industry5}.
 
-This project adopts this human-centric approach. As automating dexterous tasks (wrapping plastic, inserting EPS blocks, minor positional adjustments, etc.) remains costly and offers poor returns compared to human labor, the system is designed for human-robot collaboration (HRC), where the robot handles hazardous heavy lifting, while assembly line workers (referred to as ``team members'' in Dawlance's terminology) carry out the remaining dexterous tasks. To ensure safety in this environment, the system design follows international standards: ISO 10218-1/2 lists the foundational safety requirements that industrial robots must adhere to, whereas ISO/TS 15066 provides the specifications for collaborative operations, such as limiting force and monitoring speed \cite{iso15066}. Thus, interaction between the gantry system and workers is ensured to be safe.
+This project adopts this human-centric approach. As automating dexterous tasks (wrapping plastic, inserting EPS blocks, minor positional adjustments, etc.) remains costly and offers poor returns compared to human labor, the system is designed for human-robot collaboration (HRC), where the robot handles hazardous heavy lifting, while assembly line workers (referred to as ``team members'' in Dawlance's terminology) carry out the remaining dexterous tasks. To ensure safety in this environment, the system design follows international standards: ISO 10218-1/2 lists the foundational safety requirements that industrial robots must adhere to, whereas ISO/TS 15066 provides the specifications for collaborative operations, such as limiting force and monitoring speed \cite{iso15066}. Thus, interaction between the gantry and workers is would be safe.
 
 \section{Problem Statement and Objectives}
-The main qualities identified to be addressed are worker safety, product quality, and process inefficiency. Hence, after deliberation with the Dawlance management, the project's problem statement is defined as: \textbf{``How can we protect product quality and improve worker ergonomics through automation of microwave packaging and palletizing?''}
+The main qualities identified to be addressed are worker safety, product quality, and process inefficiency. Hence, the project's problem statement is defined as: \textbf{``How can we protect product quality and improve worker ergonomics through automation of microwave packaging and palletizing?''}
 
-Within this problem statement lies the primary objective of designing, manufacturing, and testing a robotic system to perform the particularly physically demanding tasks to package and palletize microwaves at the end of an assembly line. Based on this, there are six secondary objectives:
+Within this problem statement lies the primary objective of designing, manufacturing, and testing a robotic system to perform the physically demanding tasks to package and palletize microwaves. Based on this, there are six secondary objectives:
 
 \begin{itemize}
     \item \textbf{Improve ergonomics.} In particular, bring the NIOSH Lifting Index value to a safe one below 1.0.
     \item \textbf{Maintain product quality.} As stated by the plant supervisor, the magnetron should be protected, and minor errors should be mitigated by the elimination of human mistakes due to fatigue.
     \item \textbf{Meet the production speed.} Currently, the takt time is 30\,s; the solution must be faster than this or at worst equal to the current takt time.
     \item \textbf{Be affordable.} Dawlance has requested that the project's Bill of Materials remains under Rs 1.8 million.
-    \item \textbf{Be flexible.} The system must accommodate all microwave models currently in production.
+    \item \textbf{Be flexible.} The system must process all microwave models in production.
     \item \textbf{Be reliable.} The system must perform consistently without failure across extended operational periods.
 \end{itemize}

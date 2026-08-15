@@ -40,11 +40,11 @@ Hence, the project is partitioned into the following subsystems.
     \item \textbf{Mechanical Structure (Chapter~4):} The frame contains two parallel X-axis beams, a Y-axis bridge spanning between them, a Z-axis mast hanging from the carriage, and an assembly incorporating both the yaw and the end-effector at the bottom. Linear bearings and guides bear the weight of the moving axes.
     \item \textbf{Drive Mechanisms (Chapter~5):} The X and Y-axes employ belt \& pulley systems, while the Z-axis is driven by a spur rack \& pinion mechanism. The yaw axis is directly driven through a high-ratio gearbox.
     \item \textbf{Motor Actuation (Chapter~6):} Yaskawa Sigma-5 AC servos provide closed-loop position control, each paired with planetary gearboxes sized to handle the payload inertia while meeting speed requirements.
-    \item \textbf{Power Electronics (Chapter~7):} The electrical subsystem partitions the factory 400V three-phase supply into drive power, single-phase logic supply, 24V DC for brakes and solenoids, and 5V/3.3V logic rails.
-    \item \textbf{End-Effector (Chapter~8):} A vacuum-based lifting mechanism using six suction cups (two large, four small) with a yaw axis consisting of a motor coupled via a shaft and angular contact bearings.
+    \item \textbf{Power System (Chapter~7):} The electrical subsystem partitions the factory 400V three-phase supply into drive power, single-phase logic supply, 24V DC for brakes and solenoids, and 5V/3.3V logic rails.
+    \item \textbf{End-Effector Design (Chapter~8):} A vacuum-based lifting mechanism using six suction cups (two large, four small) with a yaw axis consisting of a motor coupled via a shaft and angular contact bearings.
     \item \textbf{Low-Level Control (Chapter~9):} The STM32F303 interfaces with the Yaskawa drives via a differential pulse/direction protocol, generates S-curve motion profiles, and implements homing routines using limit switches.
     \item \textbf{Computer Vision (Chapter~10):} An AR0234 global shutter camera feeds a detection and pose estimation pipeline to provide the X, Y, and yaw coordinates needed for alignment.
-    \item \textbf{High-Level Control (Chapter~\ref{ch:interface}):} A supervisory layer on the industrial PC communicates with the STM32 via UART over USB, providing teleoperation, trajectory planning, and state machine logic.
+    \item \textbf{Supervisory Interface (Chapter~\ref{ch:interface}):} A supervisory layer on the industrial PC communicates with the STM32 via UART over USB, providing teleoperation, trajectory planning, and state machine logic.
 \end{itemize}
 
 Each of the subsystems is explained in the following chapters.
